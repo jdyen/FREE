@@ -32,7 +32,7 @@ Object of class \code{FREEfit} with the following components:
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \examples{
   data <- FREEdataSim()
   data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))

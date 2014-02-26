@@ -1,7 +1,7 @@
 \name{FREEstan}
 \alias{FREEstan}
 \title{Bayesian function regression using MCMC}
-\description{This fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The stan approach is used, which is an MCMC approach different to the more traditional BUGS approaches, relying on their No-U-Turn Sampler, a variant of Hamiltonian Monte Carlo (see \url{http://mc-stan.org}). This method is relatively fast, due largely to its quick convergence, but relies on several settings that can affect model output.}
+\description{This fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The stan approach is used, which is an MCMC approach different to the more traditional BUGS approaches, relying on their No-U-Turn Sampler, a variant of Hamiltonian Monte Carlo (see \url{http://mc-stan.org/}). This method is relatively fast, due largely to its quick convergence, but relies on several settings that can affect model output.}
 \usage{
 FREEstan(y, x, bins, stan.file = NULL, stan.model = NA, Kt = 12, iid.er = FALSE, n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, verbose = FALSE, refresh = max(n.iters/10, 1))
 }
@@ -45,7 +45,7 @@ Object of class \code{FREEfit} with the following components:
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \section{Warning }{
 \code{FREEstan} will return a warning if the fitted model has Rhat values > 1.1 (if n.chains > 1). This indicates issues with convergence and should not be ignored.
 }

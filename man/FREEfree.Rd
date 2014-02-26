@@ -18,7 +18,7 @@ An error: NOT YET IMPLEMENTED
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{
 \code{\link{FREEfda}}
 \code{\link{FREEgamboost}}

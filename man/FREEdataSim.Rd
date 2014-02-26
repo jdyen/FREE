@@ -33,7 +33,7 @@ FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL, beta.
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \examples{
   data <- FREEdataSim()
   y.min <- min(data$y.iid[1, ], data$y.ar1[1, ], data$y.mvn[1, ], data$mean.real)

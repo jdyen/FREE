@@ -19,7 +19,7 @@ License: \tab GPL-3\cr
 \code{\link{FREEfitCV}} performs k-fold cross validation on models, fitted using \code{\link{FREEfit}}. This is useful for model validation and for assessment and tuning of model parameters.
 }
 \author{
-  Jian Yen
+  Jian Yen \cr
   Maintainer: Jian Yen \email{jdl.yen@gmail.com}
 }
 \references{

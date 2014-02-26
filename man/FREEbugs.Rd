@@ -34,7 +34,7 @@ Object of class \code{FREEfit} with the following components:
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \section{Warning }{
 \code{FREEbugs} will return a warning if the fitted model has Rhat values > 1.1 (if n.chains > 1). This indicates issues with convergence and should not be ignored.
 }

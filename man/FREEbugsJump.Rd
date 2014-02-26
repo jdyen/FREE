@@ -36,7 +36,7 @@ Object of class \code{FREEfit} with the following components:
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \note{
 WinBUGS 1.4 can be very slow. This method is faster than \code{\link{FREEbugs}}, but can still take an hour or more for n=100 functions observed at 20 argument values (under default settings: 5000 iterations and 3 chains). This method can perform very well if time is not an issue. If a spline coefficient method is required, methods \code{\link{FREEinla}} and \code{\link{FREEgamboost}} are quicker alternatives.
 }

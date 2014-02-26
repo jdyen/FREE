@@ -40,11 +40,13 @@ Object of class \code{FREEfit} with the following components:
 }
 \references{
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
+  \cr
   \cite{Rue, H. and Martino, S. and Chopin, N. (2009) Approximate Bayesian Inference for latent Gaussian models using Integrated Nested Laplace Approximations, JRSS-series B (with discussion), vol 71, no 2, pp 319-392.}
+  \cr
   \cite{Rue, H and Held, L. (2005) Gaussian Markov Random Fields - Theory and Applications Chapman and Hall}
 
 }
-\author{Jian Yen \email{jdl.yen@gmail.com>}}
+\author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{
 \code{\link{FREEfda}}
 \code{\link{FREEgamboost}}
