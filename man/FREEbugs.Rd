@@ -1,6 +1,6 @@
 \name{FREEbugs}
 \alias{FREEbugs}
-\title{FUNCTION REGRESSION USING WINBUGS}
+\title{Function regression using WinBUGS}
 \description{Fits a basis-function-type function regression model using WinBUGS (see references). Data are modelled over a b-spline basis and the coefficients from this basis are regressed on the predictor variables. These coefficients are assumed independent of one another.}
 \usage{
 FREEbugs(y, x, bins, bugs.file = NULL, Kt = 12, iid.er = FALSE, n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, debug = FALSE, bugs.dir = NULL)
@@ -32,11 +32,11 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \section{Warning }{
-Function FREEbugs will return a warning if the fitted model has Rhat values > 1.1 (if n.chains > 1). This indicates issues with convergence and should not be ignored.
+\code{FREEbugs} will return a warning if the fitted model has Rhat values > 1.1 (if n.chains > 1). This indicates issues with convergence and should not be ignored.
 }
 \seealso{
 \code{\link{FREEfda}}

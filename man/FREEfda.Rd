@@ -1,7 +1,7 @@
 \name{FREEfda}
 \alias{FREEfda}
-\title{FUNCTION REGRESSION USING PACKAGE fda}
-\description{This function uses package fda to perform function regression for a functional response variable. Wrapper functions are provided for a formula interface and for k-fold cross validation. Features of this function are already provided by the fRegress function in package fda, but this provides a convenient interface for ecological and evolutionary analyses and allows for direct comparison with alternative approaches. Plot, print, summary, fitted, predict, residuals, and coef methods are provided.}
+\title{Function regression using \pkg{fda}}
+\description{This function uses \pkg{fda} to perform function regression for a functional response variable. Wrapper functions are provided for a formula interface and for k-fold cross validation. Features of this function are already provided by \code{\link{fRegress}} in \pkg{fda}, but \code{FREEfda} provides a convenient interface for ecological and evolutionary analyses and allows for direct comparison with alternative approaches. Plot, print, summary, fitted, predict, residuals, and coef methods are provided.}
 \usage{
 FREEfda(y, x, bins, y.basis = "bspline", nbasis.y = 12, norder.y = 6, beta.basis = "bspline", nbasis.beta = 12, norder.beta = 6, loglam = NULL)
 }
@@ -17,7 +17,7 @@ FREEfda(y, x, bins, y.basis = "bspline", nbasis.y = 12, norder.y = 6, beta.basis
   \item{norder.beta}{Order of splines if beta.basis="bspline"}
   \item{loglam}{Value of penalty to be applied during fitting. See ?fRegress and ?fRegressCV for details.}
 }
-\details{This function is best called using FREEfit or FREEfitCV with method="fda". This method is extremely quick but the confidence intervals that are returned result from several assumptions about error structure and are not necessarily as reliable as the Bayesian alternatives (INLA, stan, BUGSjump). This method cannot be used for generalized error structures. See references for a comparison of performance among these different methods.}
+\details{This function is best called using \code{\link{FREEfit}} or \code{\link{FREEfitCV}} with method="fda". This method is extremely quick but the confidence intervals that are returned result from several assumptions about error structure and are not necessarily as reliable as the Bayesian alternatives (see \code{\link{FREEinla}}, \code{\link{FREEstan}} and \code{\link{FREEbugsJump}}). This method cannot be used for generalized error structures. See references for a comparison of performance among these different methods.}
 \value{
 Object of class \code{FREEfit} with the following components:
   \item{fitted}{fitted y values}
@@ -30,17 +30,15 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \examples{
-  \dontrun{
-    data <- FREEdataSim()
-    data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-    model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
-    summary(model)
-    plot(model)
-  }
+  data <- FREEdataSim()
+  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
+  summary(model)
+  plot(model)
 }
 \keyword{function regression}
 \keyword{fda}

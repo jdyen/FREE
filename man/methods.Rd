@@ -35,16 +35,16 @@
 Methods for \code{FREEfit} models. ADD DETAILS.
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen \email{jdl.yen@gmail.com}}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \seealso{
 \code{\link{FREEfit}}
 }
 \examples{
   data <- FREEdataSim()
   data.list <- list(y=data$y.iid, VAR1=data$x$VAR1, VAR2=data$x$VAR2)
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
+  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
   print(model)
   summary(model)
   plot(model)

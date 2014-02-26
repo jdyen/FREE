@@ -1,12 +1,5 @@
 MakeTridiag <-
 function(diagon, upper, lower, nrow=NULL){
-  # Function to make standard tridiagonal matrix from three vectors
-  #
-  # Args:
-  #   blah
-  #
-  # Returns:
-  #   blah
   if (is.null(nrow) & {length(diagon) == 1}) {
     stop("diagon must have length greater than 1 if nrow is not set.....", call.=FALSE)
   }

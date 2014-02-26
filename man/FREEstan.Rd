@@ -1,7 +1,7 @@
 \name{FREEstan}
 \alias{FREEstan}
-\title{BAYESIAN FUNCTIONAL REGRESSION USING MCMC}
-\description{This fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The stan approach is used, which is an MCMC approach different to the more traditional BUGS approaches, relying on their No-U-Turn Sampler, a variant of Hamiltonian Monte Carlo (see <http://mc-stan.org>). This method is relatively fast, due largely to its quick convergence, but relies on several settings that can affect model output.}
+\title{Bayesian function regression using MCMC}
+\description{This fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The stan approach is used, which is an MCMC approach different to the more traditional BUGS approaches, relying on their No-U-Turn Sampler, a variant of Hamiltonian Monte Carlo (see \url{http://mc-stan.org}). This method is relatively fast, due largely to its quick convergence, but relies on several settings that can affect model output.}
 \usage{
 FREEstan(y, x, bins, stan.file = NULL, stan.model = NA, Kt = 12, iid.er = FALSE, n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, verbose = FALSE, refresh = max(n.iters/10, 1))
 }
@@ -20,15 +20,15 @@ FREEstan(y, x, bins, stan.file = NULL, stan.model = NA, Kt = 12, iid.er = FALSE,
   \item{verbose}{Logical: should the stan model print details of fitting progress to the console? Defaults to FALSE, and even under this setting some information is printed to the console. Generally would only need to be set to TRUE if there are issues with compiling code.}
   \item{refresh}{Progress will be printed to the console every \code{refresh} iterations (even if verbose=FALSE). Default setting \code{n.iters/10} should be appropriate, but setting to zero or any negative integer will suppress printing if preferred.}
 }
-\details{The stan method is an alternative to the Gibbs and Metropolis sampling methods implemented in BUGS approaches (see <http://mc-stan.org/> for details). It generally is faster than BUGS approaches because it converges quickly. The method implemented here is a basis-function approach that models the functional responses as b-splines and regresses the b-spline coefficients against the predictor variables.
+\details{The stan method is an alternative to the Gibbs and Metropolis sampling methods implemented in BUGS approaches (see \url{http://mc-stan.org/} for details). It generally is faster than BUGS approaches because it converges quickly. The method implemented here is a basis-function approach that models the functional responses as b-splines and regresses the b-spline coefficients against the predictor variables.
 	
-Although faster than BUGS, this method still takes minutes to fit models with 100 replicates and 20 argument values (see examples). Progress is printed to the console so the user can assess running time. See also Yen et al. (references) for details of the relative performance of spline-based models and basis-function-based models.
+Although faster than BUGS, this method still takes minutes to fit models with 100 replicates and 20 argument values (see examples). Progress is printed to the console so the user can assess running time. See also \cite{Yen et al.} (below) for details of the relative performance of spline-based models and basis-function-based models.
 
 Errors currently are treated as IID within sites, but small changes to the stan.code file will allow other error structures (e.g., AR1 or multivariate normal errors).
 
 Several settings can be changed, and should be assessed using the cross validation methods provided (see \code{\link{FREEfitCV}} for details).
 
-To fit these model the package rstan must be installed. In principle this should work on all systems, but we are unable to run rstan on OSX successfully. This function has been tested and works on Windows systems using R 3.0.2.
+To fit these model the package rstan must be installed. In principle this should work on all systems, but we are unable to run rstan on OSX successfully.
 }
 \value{
 Object of class \code{FREEfit} with the following components:
@@ -43,11 +43,11 @@ Object of class \code{FREEfit} with the following components:
   \item{stan.model}{The fitted stan model, which can be passed to future model fittings to avoid re-compiling c++ code}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \section{Warning }{
-Function FREEbugs will return a warning if the fitted model has Rhat values > 1.1 (if n.chains > 1). This indicates issues with convergence and should not be ignored.
+\code{FREEstan} will return a warning if the fitted model has Rhat values > 1.1 (if n.chains > 1). This indicates issues with convergence and should not be ignored.
 }
 \seealso{
 \code{\link{FREEfda}}
@@ -67,7 +67,4 @@ Function FREEbugs will return a warning if the fitted model has Rhat values > 1.
     plot(model)
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{function regression}

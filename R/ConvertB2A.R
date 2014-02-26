@@ -1,19 +1,5 @@
 ConvertB2A <-
 function(y.matrix, X.matrix, bin.vector, coord.data=NULL){
-  # Converts matrix format functional (binned) data to vector format
-  #
-  # Args:
-  #  y.matrix: Response matrix with one row per site and one column per bin
-  #  X.matrix: Predictor variable matrix with one row per site and one column
-  #            per variable
-  #  bin.vector: Vector of the bin midpoints for data y.matrix
-  #
-  # Returns:
-  #  y.vector: Vector format y
-  #  X.vector: Matrix version of X.matrix with repeated entries corresponding
-  #            to site IDs
-  #  sites.vector: Vector of site IDs
-  #  bin.vector: Vector of bin values repeated for each site
   if (nrow(y.matrix) != nrow(X.matrix)) {
     stop("y.matrix and X.matrix must have the same number of rows.....",
          call.=FALSE)

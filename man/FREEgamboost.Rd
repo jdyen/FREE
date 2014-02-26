@@ -1,7 +1,7 @@
 \name{FREEgamboost}
 \alias{FREEgamboost}
-\title{FUNCTION REGRESSION USING MODEL-BASED BOOSTING}
-\description{Fits a functional regression model for functional response variables using the model-based boosting approach of package \code{gamboost}. One or more predictor varialbes is expected. This method is best called using the \code{FREEfit} formula interface and setting method = 'gamboost'.}
+\title{Function regression using model-based boosting}
+\description{Fits a functional regression model for functional response variables using the model-based boosting approach of \pkg{mboost}, in particular, \code{\link{gamboost}}. One or more predictor varialbes is expected. This method is best called using \code{\link{FREEfit}}  and setting method = 'gamboost'.}
 \usage{
 FREEgamboost(y, x, bins, coord.data = NULL, model.int = "bbs", model.pred = "bbs", model.site = "brandom", rand.eff = "bmrf", family = "Gaussian", spatial = FALSE, cvm.set = FALSE, weights = NULL, deg.m.int = 2, df.m.int = 8, diff.m.int = 2, deg.m.pred = 2, df.m.pred = 8, diff.m.pred = 2, df.spat = 6, df.mrf = 100, nu.m = 0.01, mstop = 1000, trace = FALSE, offset = 0)
 }
@@ -31,7 +31,7 @@ FREEgamboost(y, x, bins, coord.data = NULL, model.int = "bbs", model.pred = "bbs
   \item{trace}{Logical: trace=TRUE generates printout of status information to the console.}
   \item{offset}{sets model offset}
 }
-\details{The method \code{gamboost} does not generate estimates of uncertainty in parameters by default. We are currently working on a bootstrap method for generating these estimates, but this method performs quite slowly and may not be practicable.}
+\details{\code{\link{gamboost}} does not generate estimates of uncertainty in parameters by default. We are currently working on a bootstrap method for generating these estimates, but this method performs quite slowly and may not be practicable.}
 \value{
 Object of class \code{FREEfit} with the following components:
   \item{fitted}{fitted y values}
@@ -44,9 +44,9 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \seealso{
 \code{\link{FREEfda}}
 \code{\link{FREEinla}}

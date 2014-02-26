@@ -2,7 +2,7 @@
 \alias{FREEfitCV}
 \alias{FREEfitCV.formula}
 \alias{FREEfitCV.default}
-\title{CROSS VALIDATION FOR FUNCTION REGRESSION MODELS}
+\title{Cross validation for function regression models}
 \description{Main interface for cross validation for models of class \code{FREEfit}. Performs k-fold cross validation and returns an estimate of model predictive r2 as well as observed and predicted values. Plot, print and summary methods are available.}
 \usage{
 FREEfitCV(y, ...)
@@ -18,7 +18,7 @@ FREEfitCV(y, ...)
   \item{method}{String defining the method to be used. Seven options are available but only six of these are currently implemented. Defaults to gamboost. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
   \item{n.cv}{Number of folds for cross validation. Defaults to 10.}
   \item{verbose}{Logical: should progress be printed out? If TRUE the percentage complete will be printed to the console after each fold has been held out.}
-  \item{\dots}{Additional arguments to be passed to \code{FREEmethod}. See ?FREEfda, ?FREEgamboost, ?FREEinla, ?FREEstan, ?FREEbugs, ?FREEbugsJump and ?FREEfree for details.}
+  \item{\dots}{Additional arguments to be passed to \code{FREEmethod}. See \code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, \code{\link{FREEbugs}} and \code{\link{FREEbugsJump}} for details.}
 }
 \details{
 This is the main interface for cross validation for \code{FREEfit} models; typically the formula interface will be used via \code{FREEfitCV} (see \code{\link{FREEfitCV.formula}} and \code{\link{FREEfitCV}}).
@@ -33,9 +33,9 @@ An object of class \code{FREEfitCV}
 \item{formula}{the model formula}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \section{Warning}{BUGS and stan methods will return a warning if any Rhat values are greater than 1.1 (for models where n.chains > 1). This indicates that model convergence might be an issue and should not be ignored. Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing.}
 \seealso{
 \code{\link{FREEfitCV.default}}
@@ -50,12 +50,14 @@ An object of class \code{FREEfitCV}
 \code{\link{FREEfree}}
 }
 \examples{
+  data <- FREEdataSim()
+  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+  modelCV1 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
+  summary(modelCV1)
   \dontrun{
-    data <- FREEdataSim()
-    data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-    modelCV <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
-    summary(modelCV)
-    plot(modelCV)
+    modelCV2 <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
+    summary(modelCV2)
+    plot(modelCV2)
   }
 }
 \keyword{function regression}

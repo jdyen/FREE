@@ -6,6 +6,6 @@ Date: 2014-02-21
 Author: Jian D L Yen
 Maintainer: Jian Yen <jdl.yen@gmail.com>
 Description: Fits regression models where the response variable is a function rather than a scalar value. Predictor variables must be scalar but can be numeric or factors. A formula interface is provided for model fitting and for cross validation.
-Depends: R (>= 3.0.0)
-Imports: Rcpp, inline, sp, Matrix, lattice, splines, mboost, parallel, survival, fda, coda, boot, MASS, R2WinBUGS, rstan, INLA
+Depends: R (>= 3.0.0), splines
+Imports: Rcpp, inline, sp, lattice, Matrix, mboost, parallel, survival, fda, coda, boot, MASS, R2WinBUGS, rstan, INLA
 License: GPL-3

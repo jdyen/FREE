@@ -1,18 +1,5 @@
 FREEfda <-
 function(y, x, bins, y.basis="bspline", nbasis.y=12, norder.y=6, beta.basis="bspline", nbasis.beta=12, norder.beta=6, loglam=NULL){
-  # Fits a basis function model for regression where the response variable
-  #   is a function and there are one or more scalar predictor variables
-  #
-  # Dependencies:
-  #   fda
-  #   Matrix
-  #   lattice
-  #
-  # Args:
-  #   blah
-  #
-  # Returns
-  #   blah
   if (y.basis == "fourier") {
     y.basis <- create.fourier.basis(c(min(bins), max(bins)), nbasis=nbasis.y)
   } else {

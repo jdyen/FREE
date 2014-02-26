@@ -5,7 +5,7 @@ function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=20
     MakeBUGSsplineFile(filename="FREEbugsSplineTemp.txt", ARmod=!iid.er)
   }
   if (is.null(bugs.dir)) {
-    bugs.dir <- "C:/Users/jdyen/Documents/WinBUGS14"
+    bugs.dir <- "c:/Program Files/WinBUGS14/"
   }
   N <- nrow(y)
   p <- ncol(y)

@@ -1,20 +1,5 @@
 FREEgamboost <-
 function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="bmrf", family="Gaussian", spatial=FALSE, cvm.set=FALSE, weights=NULL, deg.m.int=2, df.m.int=8, diff.m.int=2, deg.m.pred=2, df.m.pred=8, diff.m.pred=2, df.spat=6, df.mrf=100, nu.m=0.01, mstop=1000, trace=FALSE, offset=0){
-  # Fits a spline model (using mboost) for regression
-  #   where the response variable is a function and there are one or more
-  #   scalar predictor variables
-  #
-  # Dependencies:
-  #   mboost
-  #   parallel
-  #   survival
-  #   BayesX
-  #
-  # Args:
-  #   blah
-  #
-  # Returns
-  #   blah
   if (spatial & is.null(coord.data)) {
     stop("Coordinates are required if spatial=TRUE...", call.=FALSE)
   }

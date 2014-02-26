@@ -1,7 +1,7 @@
 \name{FREEinla}
 \alias{FREEinla}
-\title{BAYESIAN FUNCTION REGRESSION USING INLA}
-\description{This fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The INLA approach is used, which is a numerical approximation to the Bayesian posterior distribution that avoids the need for MCMC. This method is fast, but relies on several numerical solvers and their associated settings, which can affect model output.}
+\title{Bayesian function regression using INLA}
+\description{\code{FREEinla} fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The INLA approach is used, which is a numerical approximation to the Bayesian posterior distribution that avoids the need for MCMC. This method is fast, but relies on several numerical solvers and their associated parameters, which can affect model output.}
 \usage{
 FREEinla(y, x, bins, model.int = "rw2", model.pred = "rw2", model.site = "iid", model.eij = "ar1", family.resp = "gaussian", order = NULL, diag.int = 1e-05, diag.pred = 0.01, prec.prior = c(0.1, 0.001), control.predictor.set = list(compute = T), control.compute.set = list(cpo = T, dic = TRUE), group.mean = FALSE, n.groups = 10, group.vars = FALSE, n.groups.var = 10, verbose = FALSE)
 }
@@ -26,7 +26,7 @@ FREEinla(y, x, bins, model.int = "rw2", model.pred = "rw2", model.site = "iid", 
   \item{n.groups.var}{If group.vars=TRUE, the number of groups to use.}
   \item{verbose}{Logical: passed directly to \code{\link{gamboost}}. Should model fitting details be printed directly to the console during model fitting?}
 }
-\details{The INLA approach to model fitting is discussed in detail in the Rue et al. references (see below) and at <r-inla.org/>. This approach is an alternative to MCMC for Bayesian models and is very effective and relatively quick (minutes rather than hours for complicated models). Several parameters do need to be adjusted for reliable model fitting and this is a work in progress from our end. We are trying to make this process as automatic as possible. Careful use of the model validation tools provided by the package \code{FREE} should avoid any major issues (see, e.g., \code{\link{FREEfitCV}})}
+\details{The INLA approach to model fitting is discussed in detail in the \cite{Rue et al.} references (see below) and at \url{r-inla.org/}. This approach is an alternative to MCMC for Bayesian models and is very effective and relatively quick (minutes rather than hours for complicated models). Several parameters do need to be adjusted for reliable model fitting and this is a work in progress from our end. We are trying to make this process as automatic as possible. Careful use of the model validation tools provided by the package \code{FREE} should avoid any major issues (see, e.g., \code{\link{FREEfitCV}})}
 \value{
 Object of class \code{FREEfit} with the following components:
   \item{fitted}{fitted y values}
@@ -39,12 +39,12 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
-  Rue, H. and Martino, S. and Chopin, N. (2009) Approximate Bayesian Inference for latent Gaussian models using Integrated Nested Laplace Approximations, JRSS-series B (with discussion), vol 71, no 2, pp 319-392.
-  Rue, H and Held, L. (2005) Gaussian Markov Random Fields - Theory and Applications Chapman and Hall
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
+  \cite{Rue, H. and Martino, S. and Chopin, N. (2009) Approximate Bayesian Inference for latent Gaussian models using Integrated Nested Laplace Approximations, JRSS-series B (with discussion), vol 71, no 2, pp 319-392.}
+  \cite{Rue, H and Held, L. (2005) Gaussian Markov Random Fields - Theory and Applications Chapman and Hall}
 
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \seealso{
 \code{\link{FREEfda}}
 \code{\link{FREEgamboost}}

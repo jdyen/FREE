@@ -1,17 +1,5 @@
 FREEinla <-
 function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model.eij="ar1", family.resp="gaussian", order=NULL, diag.int=1e-5, diag.pred=0.01, prec.prior=c(1e-1,1e-3), control.predictor.set=list(compute=T), control.compute.set=list(cpo=T, dic=TRUE), group.mean=FALSE, n.groups=10, group.vars=FALSE, n.groups.var=10, verbose=FALSE){
-  # Fits a spline model (using INLA) for regression where the response variable
-  #   is a function and there are one or more scalar predictor variables
-  #
-  # Dependencies:
-  #   INLA
-  #   sp
-  #
-  # Args:
-  #   blah
-  #
-  # Returns
-  #   blah
   data <- ConvertB2A(y, x, bins)
   y.data <- data$y.vector
   X.data <- data$X.vector

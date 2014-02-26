@@ -1,17 +1,5 @@
 MakeMboostFormula <-
 function(n.vars=2, var.names=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="bmrf", spatial=FALSE, deg.m.int=2, df.m.int=4, diff.m.int=2, deg.m.pred=2, df.m.pred=4, diff.m.pred=2, df.spat=6,  df.mrf=100, n.knots=25){
-  # Creates the formula for a mboost model for regression
-  #   where the response variable is a function and there are one or more
-  #   scalar predictor variables
-  #
-  # Dependencies:
-  #   <None>
-  #
-  # Args:
-  #   blah
-  #
-  # Returns
-  #   blah
   if (is.null(var.names)) {
     var.names <- NULL
     for (i in 1:n.vars) {

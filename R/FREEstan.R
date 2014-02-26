@@ -1,19 +1,5 @@
 FREEstan <-
 function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, verbose=FALSE, refresh=max(n.iters/10, 1)){
-  # Fits a fully Bayesian MCMC model (package rstan) for regression where the response variable
-  #   is a function and there are one or more scalar predictor variables
-  #
-  # Dependencies:
-  #   rstan
-  #   splines
-  #   Rcpp
-  #   inline
-  #
-  # Args:
-  #   blah
-  #
-  # Returns
-  #   blah
   if (get_cppo()$mode != "fast") {
     set_cppo("fast")
   }

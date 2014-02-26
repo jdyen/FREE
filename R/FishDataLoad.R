@@ -1,6 +1,4 @@
-FishDataLoad <-
-function(data.subset=NULL, log.scale=TRUE){
-  # Internal function for NAWQA data only - not for general use
+FishDataLoad <- function(data.subset=NULL, log.scale=TRUE){
   work.dir.store <- getwd()
   if (Sys.info()[["sysname"]] == "Windows") {
     setwd("C:/Users/jdyen/Dropbox/JianFiles")

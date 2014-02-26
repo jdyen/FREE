@@ -1,6 +1,6 @@
 \name{FREEbugsJump}
 \alias{FREEbugsJump}
-\title{FUNCTION REGRESSION USING WINBUGS}
+\title{Function regression using WinBUGS}
 \description{Fit a model where the response data are functions using WinBUGS 1.4. Regression coefficients are splines of arbitrary order and continuity and errors can be IID or AR1.}
 \usage{
 FREEbugsJump(y, x, bins, bugs.file = NULL, n.chains = 3, n.iters = 5000, n.burnin = n.iters/2, n.thin = 1, debug = FALSE, bugs.dir = NULL, order = 3, cont = order, ARmod = TRUE)
@@ -20,7 +20,7 @@ FREEbugsJump(y, x, bins, bugs.file = NULL, n.chains = 3, n.iters = 5000, n.burni
   \item{cont}{Degree of continuity for coefficient splines (1 is continuous first derivatives, 2 is continuous second derivatives, and so on). Defaults to the order of the spline.}
   \item{ARmod}{Logical: should AR1 errors be used? Defaults to TRUE, setting to FALSE uses IID errors.}
 }
-\details{FREEbugsJump uses WinBUGS 1.4 to fit a regression model where the response data are functions. This method uses reversible-jump MCMC to model coefficients as splines with a flexible number of knots and knot locations. The order and degree of continuity of these splines are set by the user. WinBUGS 1.4 and the jump add-in for reversible-jump MCMC must be installed locally for this function to work.
+\details{\code{FREEbugsJump} uses WinBUGS 1.4 to fit a regression model where the response data are functions. This method uses reversible-jump MCMC to model coefficients as splines with a flexible number of knots and knot locations. The order and degree of continuity of these splines are set by the user. WinBUGS 1.4 and the jump add-in for reversible-jump MCMC must be installed locally for this function to work.
 }
 \value{
 Object of class \code{FREEfit} with the following components:
@@ -34,13 +34,13 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  Yen et al. (in preparation) Functional regression in ecology and evolution
+  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
-\author{Jian Yen <jdl.yen@gmail.com>}
+\author{Jian Yen \email{jdl.yen@gmail.com>}}
 \note{
-WinBUGS 1.4 can be very slow. This method is faster than FREEbugs, but can still take an hour or more for n=100 functions observed at 20 argument values (under default settings: 5000 iterations and 3 chains). This method can perform very well if time is not an issue. If a spline coefficient method is required, methods INLA and gamboost are quicker alternatives.
+WinBUGS 1.4 can be very slow. This method is faster than \code{\link{FREEbugs}}, but can still take an hour or more for n=100 functions observed at 20 argument values (under default settings: 5000 iterations and 3 chains). This method can perform very well if time is not an issue. If a spline coefficient method is required, methods \code{\link{FREEinla}} and \code{\link{FREEgamboost}} are quicker alternatives.
 }
-\section{Warning}{FREEbugsJump returns a warning if any Rhat value are > 1.1 (if n.chains > 1). This means that there has been an issue with model convergence and should not be ignored. Increasing n.iters might improve convergence.}
+\section{Warning}{\code{FREEbugsJump} returns a warning if any Rhat value are > 1.1 (if n.chains > 1). This means that there has been an issue with model convergence and should not be ignored. Increasing n.iters might improve convergence.}
 \examples{
   \dontrun{
     data <- FREEdataSim()

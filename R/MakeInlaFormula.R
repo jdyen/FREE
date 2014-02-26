@@ -1,17 +1,5 @@
 MakeInlaFormula <-
 function(n.vars=2, var.names=NULL, model.int="rw2", model.pred="rw2", model.site="iid", model.eij="ar1", order=NULL, diag.int=1e-5, diag.pred=0.1, prec.prior=c(0.1,1e-3), group.mean=FALSE, n.groups=10, group.vars=FALSE, n.groups.var=10){
-  # Creates the formula for an INLA model for regression
-  #   where the response variable is a function and there are one or more
-  #   scalar predictor variables
-  #
-  # Dependencies:
-  #   <None>
-  #
-  # Args:
-  #   blah
-  #
-  # Returns
-  #   blah
   if (is.null(var.names)) {
     var.names <- NULL
     for (i in 1:n.vars) {

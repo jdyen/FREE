@@ -7,7 +7,7 @@ function(y, x, bins, bugs.file=NULL, n.chains=3, n.iters=5000, n.burnin=n.iters/
     bugs.switch <- FALSE
   }
   if (is.null(bugs.dir)) {
-    bugs.dir <- "C:/Users/jdyen/Documents/WinBUGS14"
+    bugs.dir <- "c:/Program Files/WinBUGS14/"
   }
   Nsites <- nrow(y)
   Nclasses <- ncol(y)
