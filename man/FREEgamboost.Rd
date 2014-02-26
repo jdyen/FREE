@@ -52,7 +52,7 @@ Object of class \code{FREEfit} with the following components:
 \code{\link{FREEinla}}
 \code{\link{FREEstan}}
 \code{\link{FREEbugs}}
-\code{\link{FREEbugsJUMP}}
+\code{\link{FREEbugsJump}}
 \code{\link{FREEfit}}
 }
 \examples{

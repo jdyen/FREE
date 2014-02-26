@@ -1,4 +1,4 @@
 FREEfit <-
-function(x, ...){
+function(y, ...){
   UseMethod("FREEfit")
 }

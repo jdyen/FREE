@@ -1,4 +1,4 @@
 FREEfitCV <-
-function(x, ...){
+function(y, ...){
   UseMethod("FREEfitCV")
 }

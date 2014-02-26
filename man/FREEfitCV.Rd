@@ -5,17 +5,14 @@
 \title{CROSS VALIDATION FOR FUNCTION REGRESSION MODELS}
 \description{Main interface for cross validation for models of class \code{FREEfit}. Performs k-fold cross validation and returns an estimate of model predictive r2 as well as observed and predicted values. Plot, print and summary methods are available.}
 \usage{
-FREEfitCV(xf, ...)
-## S3 method for class formula
-FREEfitCV.formula(formula, data = list(), bins = NULL, method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
-## S3 method for default class
-FREEfitCV.default(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
+FREEfitCV(y, ...)
+\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL, method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
+\method{FREEfitCV}{default}(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
 }
 \arguments{
-  \item{xf}{Formula or response variable to be passed to \code{FREEfitCV.method}}
+  \item{y}{Formula or response variable to be passed to \code{FREEfitCV.method}}
   \item{formula}{Model to be fitted. Of the form y ~ x1 + x2. Interactions are possible, but not tested extensively. Predictor variables can be factor or numeric.}
   \item{data}{Named list containing data for the model. The response variable must be a matrix, with sites in rows, while the predictor variables must be vectors. Predictor variables can be numeric or factors, and are prepared using model.frame().}
-  \item{y}{Matrix of response data, sites in rows.}
   \item{x}{Matrix of predictor variables, sites in rows}
   \item{bins}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
   \item{method}{String defining the method to be used. Seven options are available but only six of these are currently implemented. Defaults to gamboost. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
@@ -53,11 +50,13 @@ An object of class \code{FREEfitCV}
 \code{\link{FREEfree}}
 }
 \examples{
-  data <- FREEdataSim()
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  modelCV <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, method='fda')
-  summary(modelCV)
-  plot(modelCV)
+  \dontrun{
+    data <- FREEdataSim()
+    data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+    modelCV <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
+    summary(modelCV)
+    plot(modelCV)
+  }
 }
 \keyword{function regression}
 \keyword{cross validation}

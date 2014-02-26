@@ -1,6 +1,5 @@
 FREEdataSim <-
 function(n=100, n.vars=2, bins=NULL, y.mean=NULL, x.val=NULL, beta.mean=NULL, error.mean=0, error.sd=1, cov.mean=NULL, cov.sd=NULL){
-  library(MASS)
   if (!is.null(x.val)) {
     if (n.vars != ncol(x.val)) {
       warning("x.val does not define n.vars variables: some variables set to default values.....", call.=FALSE)

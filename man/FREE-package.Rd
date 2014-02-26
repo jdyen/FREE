@@ -29,9 +29,11 @@ Package FREE is centred around two main functions: FREEfit and FREEfitCV. FREEfi
 \keyword{ longitudinal data analysis }
 \keyword{ Bayesian }
 \examples{
-  data <- FREEdataSim()
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
-  summary(model)
-  plot(model)
+  \dontrun{
+    data <- FREEdataSim()
+    data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+    model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
+    summary(model)
+    plot(model)
+  }
 }

@@ -34,10 +34,13 @@ Object of class \code{FREEfit} with the following components:
 }
 \author{Jian Yen <jdl.yen@gmail.com>}
 \examples{
+  \dontrun{
+    data <- FREEdataSim()
     data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-    model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="BUGSjump", n.iters=1000)
+    model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
     summary(model)
     plot(model)
+  }
 }
 \keyword{function regression}
 \keyword{fda}

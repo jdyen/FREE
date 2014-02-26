@@ -24,7 +24,7 @@ FREEstan(y, x, bins, stan.file = NULL, stan.model = NA, Kt = 12, iid.er = FALSE,
 	
 Although faster than BUGS, this method still takes minutes to fit models with 100 replicates and 20 argument values (see examples). Progress is printed to the console so the user can assess running time. See also Yen et al. (references) for details of the relative performance of spline-based models and basis-function-based models.
 
-Errors currently are treated as IID within sites, but small changes to the stan.code file (or to \code{\link{stanCodeDefault}}) will allow other error structures (e.g., AR1 or multivariate normal errors).
+Errors currently are treated as IID within sites, but small changes to the stan.code file will allow other error structures (e.g., AR1 or multivariate normal errors).
 
 Several settings can be changed, and should be assessed using the cross validation methods provided (see \code{\link{FREEfitCV}} for details).
 

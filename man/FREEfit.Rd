@@ -4,19 +4,16 @@
 \alias{FREEfit.default}
 \title{FUNCTION REGRESSION FOR ECOLOGY AND EVOLUTION}
 \description{This is the main call for fitting a model of class \code{FREEfit}. Function \code{FREEfit} has a formula or default method. \code{FREEfit} fits a model where the response variable is a function and there are one or more scalar predictor variables. Parameters for the functional model are represented as continuous functions, so the model to be fitted is:
-y(x) = alpha(x) + Sigma_i beta_{i}(x) z_{i} + epsilon(x)}
+\deqn{y(x) = \alpha(x) + \Sigma \beta(x) z + \epsilon(x)}}
 \usage{
-FREEfit(xf, ...)
-## S3 method for class formula
-FREEfit.formula(formula, data, bins=NULL, method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...)
-## S3 default method
-FREEfit.default(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...)
+FREEfit(y, ...)
+\method{FREEfit}{formula}(formula, data, bins=NULL, method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...)
+\method{FREEfit}{default}(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...)
 }
 \arguments{
-  \item{xf}{Formula or response variable to be passed to \code{FREEfit.method}}
+  \item{y}{Formula or response variable to be passed to \code{FREEfit.method}}
   \item{formula}{Model to be fitted. Of the form y ~ x1 + x2. Interactions are possible, but not tested extensively. Predictor variables can be factor or numeric.}
   \item{data}{Named list containing data for the model. The response variable must be a matrix, with sites in rows, while the predictor variables must be vectors. Predictor variables can be numeric or factors, and are prepared using model.frame().}
-  \item{y}{Matrix of response data, sites in rows.}
   \item{x}{Matrix of predictor variables, sites in rows}
   \item{bins}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
   \item{method}{String defining the method to be used. Seven options are available but only six of these are currently implemented. Defaults to gamboost. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
@@ -59,14 +56,14 @@ Object of class \code{FREEfit} with the following components:
 \code{\link{FREEfitCV}}
 }
 \examples{
-  data <- FREEdataSim()
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
-  plot(model)
   \dontrun{
-    model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
+    data <- FREEdataSim()
+    data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+    model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
+    plot(model)
+    model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='INLA')
     plot(model2)
-    model3 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='fda')
+    model3 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='stan')
     plot(model3)
   }
 }

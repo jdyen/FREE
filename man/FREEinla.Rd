@@ -18,8 +18,8 @@ FREEinla(y, x, bins, model.int = "rw2", model.pred = "rw2", model.site = "iid", 
   \item{diag.int}{Constant added to the diagonal of the precision matrix for the intercept function. Can be altered to change smoothness of the splines and to improve model performance.}
   \item{diag.pred}{Constant added to the diagonal of the precision matrix for the covariate effects. Can be altered to change smoothness of the splines and to improve model performance.}
   \item{prec.prior}{Prior for the prior precision for the covariate effects (loggamma parameters). See \code{\link{inla.models}} for details.}
-  \item{control.predictor.set}{List specifying settings for control.predictor. See \code{\link{control.predictor.set}}}
-  \item{control.compute.set}{List specifying settings for control.compute. See \code{\link{control.compute.set}}}
+  \item{control.predictor.set}{List specifying settings for control.predictor. See \code{\link{inla}}}
+  \item{control.compute.set}{List specifying settings for control.compute. See \code{\link{inla}}}
   \item{group.mean}{Logical: should the intercept function argument values be grouped into clusters? AVOID USING THIS IF POSSIBLE; PRE-PREPARE DATA INTO AN APPROPRIATE FORMAT IF REQUIRED.}
   \item{n.groups}{If group.mean=TRUE, the number of groups to use.}
   \item{group.vars}{Logical: should the covariate effects argument values be grouped into clusters? AVOID USING THIS IF POSSIBLE; PRE-PREPARE DATA INTO AN APPROPRIATE FORMAT IF REQUIRED.}
