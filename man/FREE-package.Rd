@@ -14,7 +14,7 @@ Version: \tab 1.0\cr
 Date: \tab 2014-02-21\cr
 License: \tab GPL-3\cr
 }
-\pkg{FREE} is centred around two main functions: \code{\link{FREEfit}} and \code{\link{FREEfitCV}}. \code{\link{FREEfit}} has a formula interface and takes functional response data (in matrix format, replicates in rows) and scalar predictor variables (in matrix format, replicates in rows). \code{\link{FREEfit}} fits a model using a method selected by the user (options: gamboost, fda, INLA, stan, BUGSjump, BUGSspline). These methods each have their own strengths and weaknesses, as discussed in Yen et al. (in preparation) Functional regression in ecology and evolution.
+\pkg{FREE} is centred around two main functions: \code{\link{FREEfit}} and \code{\link{FREEfitCV}}. \code{\link{FREEfit}} has a formula interface and takes functional response data (in matrix format, replicates in rows) and scalar predictor variables (in matrix format, replicates in rows). \code{\link{FREEfit}} fits a model using a method selected by the user (options: \code{gamboost}, \code{fda}, \code{INLA}, \code{stan}, \code{BUGSjump}, \code{BUGSspline}). These methods each have their own strengths and weaknesses, as discussed in \cite{Yen et al. (in preparation)}.
 
 \code{\link{FREEfitCV}} performs k-fold cross validation on models, fitted using \code{\link{FREEfit}}. This is useful for model validation and for assessment and tuning of model parameters.
 }
