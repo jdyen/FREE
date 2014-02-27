@@ -1,6 +1,6 @@
 Function Regression in Ecology and Evolution (FREE)
 ===========================================================================
-This README is for the software FREE (Function Regression in Ecology and Evolution).
+This README is for the R package FREE (Function Regression in Ecology and Evolution).
 
 Copyright (C) 2014, Jian Yen
 
@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ===========================================================================
 
 
-FREE is a collection of helper functions for fitting regression models where response and/or predictor variables are functions, rather than scalar quantities. The emphasis is on easy model fitting and straightforward interfaces, with a focus on ecological and evolutionary applications. All functions in FREE are written in R 3.0.1.
+FREE is a collection of R helper functions for fitting regression models where response and/or predictor variables are functions, rather than scalar quantities. The emphasis is on easy model fitting and straightforward interfaces, with a focus on ecological and evolutionary applications. All functions in FREE are written in R 3.0.2.
 
 Several additional packages are required (see Installation, below); and some of these packages are not available through CRAN.
 
@@ -44,13 +44,13 @@ See the links above for relevant details. Note that rstan and INLA are not curre
 FREE imports functions from several packages (see DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of rstan and INLA, all other packages are available through the CRAN and should be easy to install.
 
 If package 'maptools' is not installed correctly from the CRAN, try
-> install.packages("maptools", repos="http://R-Forge.R-project.org")
+>> install.packages("maptools", repos="http://R-Forge.R-project.org")
 
 Once the appropriate packages have been installed, you simply need to install the FREE package in R, using
 >> install.packages("FREE_x.x.tar.gz", repos=NULL, type="source")
 when FREE_x.x.tar.gz is in the current working directory (and x.x is replaced with the appropriate version number).
 
-NOTE: The BUGS methods require WinBUGS 1.4 and the jump add-in to be installed locally. See <http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml> for details. WinBUGS does not install easily onto non-Windows operating systems. Note that installing WinBUGS is not necessary to use other methods within package FREE.
+NOTE: The BUGS methods require WinBUGS 1.4 and its jump add-in to be installed locally. See <http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml> and <http://www.winbugs-development.org.uk/rjmcmc.html> for details. WinBUGS does not install easily on non-Windows operating systems. Note that installing WinBUGS is not necessary to use other methods within package FREE.
 
 
 Usage
