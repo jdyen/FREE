@@ -43,6 +43,9 @@ See the links above for relevant details. Note that rstan and INLA are not curre
 
 FREE imports functions from several packages (see DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of rstan and INLA, all other packages are available through the CRAN and should be easy to install.
 
+If package 'maptools' is not installed correctly from the CRAN, try
+> install.packages("maptools", repos="http://R-Forge.R-project.org")
+
 Once the appropriate packages have been installed, you simply need to install the FREE package in R, using
 >> install.packages("FREE_x.x.tar.gz", repos=NULL, type="source")
 when FREE_x.x.tar.gz is in the current working directory (and x.x is replaced with the appropriate version number).
