@@ -1,5 +1,5 @@
 FREEbugsJump <-
-function(y, x, bins, bugs.file=NULL, n.chains=3, n.iters=5000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL, order=3, cont=order, ARmod=TRUE){
+function(y, x, bins, bugs.file=NULL, n.chains=3, n.iters=5000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL, order=3, cont=order, ARmod=TRUE, ...){
   if (is.null(bugs.file)) {
     bugs.file <- "FREEbugsJumpTemp.txt"
     bugs.switch <- TRUE
@@ -34,7 +34,8 @@ function(y, x, bins, bugs.file=NULL, n.chains=3, n.iters=5000, n.burnin=n.iters/
   parameters <- c("mu", "beta.fun")
   model <- bugs(data=bugdata, inits=inits, model.file=bugs.file,
                 parameters.to.save=parameters, n.chains=n.chains, n.iter=n.iters,
-                n.burnin=n.burnin, n.thin=n.thin, debug=debug, bugs.directory=bugs.dir)
+                n.burnin=n.burnin, n.thin=n.thin, debug=debug, bugs.directory=bugs.dir,
+                ...)
   fitted.y.mean <- model$mean$mu
   fitted.beta.mean <- model$mean$beta.fun
   fitted.beta.sd <- model$sd$beta.fun

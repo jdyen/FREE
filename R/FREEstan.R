@@ -1,9 +1,9 @@
 FREEstan <-
-function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, verbose=FALSE, refresh=max(n.iters/10, 1)){
+function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, verbose=FALSE, refresh=max(n.iters/10, 1), ...){
   if (get_cppo()$mode != "fast") {
     set_cppo("fast")
   }
-  if (is.null(stan.file)) {
+  if (is.null(stan.file) & is.na(stan.model)) {
     stan.file <- stanCodeDefault()
   }
   D <- ncol(y)
@@ -31,8 +31,13 @@ function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chain
     CovMat <- round(diag(1, Kt), 4)
   }
   dat <- list(Y=Y, X=data.list, N=N, D=D, k=k, Kt=Kt, BS=BS[1:D,1:Kt], CovMat=CovMat)
-  model <- stan(model_code=stan.file, fit=stan.model, data=dat, chains=n.chains, iter=n.iters,
-                warmup=n.burnin, verbose=verbose, thin=n.thin, refresh=refresh)
+  if (is.na(stan.model)) {
+    model <- stan(model_code=stan.file, fit=stan.model, data=dat, chains=n.chains, iter=n.iters,
+                  warmup=n.burnin, verbose=verbose, thin=n.thin, refresh=refresh, ...)
+  } else {
+    model <- stan(fit=stan.model, data=dat, chains=n.chains, iter=n.iters, warmup=n.burnin,
+                  verbose=verbose, thin=n.thin, refresh=refresh, ...)
+  }
   fitted.betas.bs <- matrix(monitor(as.array(model), print=FALSE)
                             [1:{ncol(data.list) * Kt}, "mean"], ncol=ncol(data.list),
                             byrow=TRUE)

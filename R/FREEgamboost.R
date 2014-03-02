@@ -1,5 +1,5 @@
 FREEgamboost <-
-function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="bmrf", family="Gaussian", spatial=FALSE, cvm.set=FALSE, weights=NULL, deg.m.int=2, df.m.int=8, diff.m.int=2, deg.m.pred=2, df.m.pred=8, diff.m.pred=2, df.spat=6, df.mrf=100, nu.m=0.01, mstop=1000, trace=FALSE, offset=0){
+function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="bmrf", family="Gaussian", spatial=FALSE, cvm.set=FALSE, weights=NULL, deg.m.int=2, df.m.int=8, diff.m.int=2, deg.m.pred=2, df.m.pred=8, diff.m.pred=2, df.spat=6, df.mrf=100, nu.m=0.01, mstop=1000, trace=FALSE, offset=0, ...){
   if (spatial & is.null(coord.data)) {
     stop("Coordinates are required if spatial=TRUE...", call.=FALSE)
   }
@@ -52,16 +52,22 @@ function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.s
   if (family == "Poisson") {
     mod.mboost <- gamboost(formula=formula, data=mboost.data.file,
                            control=boost_control(mstop=mstop, nu=nu.m, trace=trace),
-                           weights=weights, family=Poisson(), offset=offset)
+                           weights=weights, family=Poisson(), offset=offset, ...)
   } else {
     if (family == "GammaReg") {
       mod.mboost <- gamboost(formula=formula, data=mboost.data.file,
                              control=boost_control(mstop=mstop, nu=nu.m, trace=trace),
-                             weights=weights, family=GammaReg(), offset=offset)
+                             weights=weights, family=GammaReg(), offset=offset, ...)
     } else {
-      mod.mboost <- gamboost(formula=formula, data=mboost.data.file,
-                             control=boost_control(mstop=mstop, nu=nu.m, trace=trace),
-                             weights=weights, family=Gaussian(), offset=offset)
+      if (family == "NBinomial") {
+        mod.mboost <- gamboost(formula=formula, data=mboost.data.file,
+                               control=boost_control(mstop=mstop, nu=nu.m, trace=trace),
+                               weights=weights, family=NBinomial(), offset=offset, ...)  
+      } else {
+        mod.mboost <- gamboost(formula=formula, data=mboost.data.file,
+                               control=boost_control(mstop=mstop, nu=nu.m, trace=trace),
+                               weights=weights, family=Gaussian(), offset=offset, ...)
+      }
     }
   }
   if (cvm.set) {

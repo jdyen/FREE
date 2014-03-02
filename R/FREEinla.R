@@ -1,5 +1,5 @@
 FREEinla <-
-function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model.eij="ar1", family.resp="gaussian", order=NULL, diag.int=1e-5, diag.pred=0.01, prec.prior=c(1e-1,1e-3), control.predictor.set=list(compute=T), control.compute.set=list(cpo=T, dic=TRUE), group.mean=FALSE, n.groups=10, group.vars=FALSE, n.groups.var=10, verbose=FALSE){
+function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model.eij="ar1", family.resp="gaussian", order=NULL, diag.int=1e-5, diag.pred=0.01, prec.prior=c(1e-1,1e-3), control.predictor.set=list(compute=T), control.compute.set=list(cpo=T, dic=TRUE), group.mean=FALSE, n.groups=10, group.vars=FALSE, n.groups.var=10, verbose=FALSE, ...){
   data <- ConvertB2A(y, x, bins)
   y.data <- data$y.vector
   X.data <- data$X.vector
@@ -26,7 +26,7 @@ function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model
   names(inla.data.file)[[length(inla.data.file)]] <- paste("bin.int", (n.vars + 1), sep="")
   mod.inla <- inla(formula, family=family.resp, data=inla.data.file,
                     control.predictor=control.predictor.set,
-                    control.compute=control.compute.set, verbose=verbose)
+                    control.compute=control.compute.set, verbose=verbose, ...)
   fitted <- matrix(mod.inla$summary.fitted$mean, nrow=nrow(y), byrow=TRUE)
   fitted.coefs <- names(mod.inla$summary.random[1:{ncol(x) + 1}])
   coef.vals <- NULL

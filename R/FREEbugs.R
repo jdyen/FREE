@@ -1,5 +1,5 @@
 FREEbugs <-
-function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL){
+function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL, ...){
   if (is.null(bugs.file)) {
     bugs.file <- "FREEbugsSplineTemp.txt"
     MakeBUGSsplineFile(filename="FREEbugsSplineTemp.txt", ARmod=!iid.er)
@@ -41,7 +41,7 @@ function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=20
   model <- bugs(data=bugdata, inits=initials, model.file=bugs.file,
                 parameters.to.save=save.params, n.chains=n.chains,
                 n.iter=n.iters, n.burnin=n.burnin, n.thin=n.thin, debug=debug,
-                bugs.directory=bugs.dir)
+                bugs.directory=bugs.dir, ...)
   fitted.y.mean <- model$mean$mu
   fitted.beta.bs <- t(model$mean$beta)
   fitted.beta.sd <- t(model$sd$beta)
