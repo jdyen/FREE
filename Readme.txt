@@ -41,7 +41,7 @@ Before installing this R package several additional packages must be installed w
 2. INLA <http://www.r-inla.org/>
 See the links above for relevant details. Note that rstan and INLA are not currently available through the CRAN and must be installed according to the instructions on their websites.
 
-FREE imports functions from several packages (see DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of rstan and INLA, all other packages are available through the CRAN and should be easy to install.
+FREE imports functions from several packages (see Depends and Imports in the DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of rstan and INLA, all other packages are available through the CRAN and should be easy to install.
 
 If package 'maptools' is not installed correctly from the CRAN, try
 >> install.packages("maptools", repos="http://R-Forge.R-project.org")
@@ -49,6 +49,15 @@ If package 'maptools' is not installed correctly from the CRAN, try
 Once the appropriate packages have been installed, you simply need to install the FREE package in R, using
 >> install.packages("FREE_x.x.tar.gz", repos=NULL, type="source")
 when FREE_x.x.tar.gz is in the current working directory (and x.x is replaced with the appropriate version number).
+
+Errors during installation often are related to the installation of required packages. Restarting R and making sure all required packages can be loaded (library(pkgName)) will identify missing or incorrectly installed packages.
+
+One common error occurs if rstan has been installed only for 64-bit architecture. There are two possible solutions to this problem:
+1) install FREE for 64-bit architecture only:
+>> install.packages("FREE_1.0.tar.gz", repos = NULL, type = "source", INSTALL_opts=c("--no-multiarch"))
+2) install rstan for 32- and 64-bit architectures:
+>> install.packages('rstan', type = 'source', INSTALL_opts = "--merge-multiarch")
+Either one of these options should work.
 
 NOTE: The BUGS methods require WinBUGS 1.4 and its jump add-in to be installed locally. See <http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml> and <http://www.winbugs-development.org.uk/rjmcmc.html> for details. WinBUGS does not install easily on non-Windows operating systems. Note that installing WinBUGS is not necessary to use other methods within package FREE.
 
