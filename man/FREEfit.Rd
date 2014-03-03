@@ -44,30 +44,23 @@ Object of class \code{FREEfit} with the following components:
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \section{Warning}{BUGS and stan methods will return a warning if any Rhat values are greater than 1.1 (for models where n.chains > 1). This indicates that model convergence might be an issue and should not be ignored. Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing.}
 \seealso{
-\code{\link{FREEfit.formula}}
-\code{\link{FREEfit.default}}
-\code{\link{FREEfda}}
-\code{\link{FREEgamboost}}
-\code{\link{FREEinla}}
-\code{\link{FREEstan}}
-\code{\link{FREEbugs}}
-\code{\link{FREEbugsJump}}
-\code{\link{FREEfree}}
-\code{\link{FREEfitCV}}
+\code{\link{FREEfit.formula}}, \code{\link{FREEfit.default}}, \code{\link{FREEfda}}, 
+\code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, 
+\code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, \code{\link{FREEfree}}, \code{\link{FREEfitCV}}
 }
 \examples{
-  data <- FREEdataSim()
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
-  plot(model)
-  \dontrun{
-    model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='INLA')
-    plot(model2)
-    model3 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='stan')
-    plot(model3)
-    model4 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='gamboost')
-    plot(model4)
-  }
+data <- FREEdataSim()
+data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
+plot(model)
+\dontrun{
+  model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='INLA')
+  plot(model2)
+  model3 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='stan')
+  plot(model3)
+  model4 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='gamboost')
+  plot(model4)
+}
 }
 \keyword{function regression}
 \keyword{Bayesian}

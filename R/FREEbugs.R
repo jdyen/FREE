@@ -28,7 +28,7 @@ function(y, x, bins,family="gaussian", errors="ar1", n.basis=12, bugs.file=NULL,
   }
   save.params <- c("mu", "beta")
   bugdata <- list("y", "X", "N", "p", "v", "BS", "Kt", "CovMat")
-  if (iid.er) {
+  if (errors != "ar1") {
     initials <- function(){
       list(tau_y=1, tau_beta=rep(1, v), beta=matrix(rnorm(Kt * v), ncol=Kt), tau_site=1,
            site.e=rep(0, N))

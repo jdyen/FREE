@@ -46,8 +46,8 @@ function(y, x, bins, family="gaussian", errors="ar1", model.int="spline", model.
   formula <- MakeMboostFormula(n.vars=n.vars, var.names=var.names, model.int=model.int,
                                model.pred=model.pred, model.site=model.site, spatial=spatial,
                                deg.m.int=deg.int, df.m.int=df.int, diff.m.int=diff.int,
-                               deg.m.pred=deg.pred, df.m.pred=df.pred,
-                               diff.m.pred=diff.pred, df.spat=df.spat, df.mrf=df.mrf,
+                               deg.m.pred=deg.beta, df.m.pred=df.beta,
+                               diff.m.pred=diff.beta, df.spat=df.spat, df.mrf=df.mrf,
                                rand.eff=errors, n.knots=length(bins))
   if (spatial) {
     mboost.data.file <- list(y=y.data, bin.int=bin.data, bin.fact=bin.fact, SITE=site.data,

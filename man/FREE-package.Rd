@@ -31,9 +31,10 @@ License: \tab GPL-3\cr
 \keyword{ longitudinal data analysis }
 \keyword{ Bayesian }
 \examples{
-  data <- FREEdataSim()
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
-  summary(model)
-  plot(model)
+# Fit a functional regression model using the fda package and plot the results using default plot methods for objects of class FREEfit
+data <- FREEdataSim()
+data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
+summary(model)
+plot(model)
 }
