@@ -3,7 +3,9 @@
 \title{Function regression using \pkg{fda}}
 \description{This function uses \pkg{fda} to perform function regression for a functional response variable. Wrapper functions are provided for a formula interface and for k-fold cross validation. Features of this function are already provided by \code{\link{fRegress}} in \pkg{fda}, but \code{FREEfda} provides a convenient interface for ecological and evolutionary analyses and allows for direct comparison with alternative approaches. Plot, print, summary, fitted, predict, residuals, and coef methods are provided.}
 \usage{
-FREEfda(y, x, bins, family="gaussian", errors="iid", y.basis = "spline", nbasis.y = 12, norder.y = 6, beta.basis = "spline", nbasis.beta = 12, norder.beta = 6, loglam = NULL, ...)
+FREEfda(y, x, bins, family="gaussian", errors="iid", y.basis = "spline",
+nbasis.y = 12, norder.y = 6, beta.basis = "spline", nbasis.beta = 12,
+norder.beta = 6, loglam = NULL, ...)
 }
 \arguments{
   \item{y}{Matrix of response data, sites in rows.}

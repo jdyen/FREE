@@ -6,8 +6,12 @@
 \description{Main interface for cross validation for models of class \code{FREEfit}. Performs k-fold cross validation and returns an estimate of model predictive r2 as well as observed and predicted values. Plot, print and summary methods are available.}
 \usage{
 FREEfitCV(y, ...)
-\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL, method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
-\method{FREEfitCV}{default}(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
+\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL,
+method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
+"FREE"), n.cv = 10, verbose = TRUE, ...)
+\method{FREEfitCV}{default}(y, x, bins = 1:ncol(y),
+method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
+"FREE"), n.cv = 10, verbose = TRUE, ...)
 }
 \arguments{
   \item{y}{Formula or response variable to be passed to \code{FREEfitCV.method}}
@@ -55,5 +59,4 @@ summary(modelCV1)
 }
 }
 \keyword{function regression}
-\keyword{cross validation}
 \keyword{model validation}

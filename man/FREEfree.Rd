@@ -32,4 +32,4 @@ An error: NOT YET IMPLEMENTED
   model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="FREE")
 }
 }
-\keyword{Function regression}
+\keyword{function regression}

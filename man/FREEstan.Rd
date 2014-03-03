@@ -3,7 +3,10 @@
 \title{Bayesian function regression using MCMC}
 \description{This fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The stan approach is used, which is an MCMC approach different to the more traditional BUGS approaches, relying on their No-U-Turn Sampler, a variant of Hamiltonian Monte Carlo (see \url{http://mc-stan.org/}). This method is relatively fast, due largely to its quick convergence, but relies on several settings that can affect model output.}
 \usage{
-FREEstan(y, x, bins, family="gaussian", errors="ar1", n.basis=12, stan.file = NULL, n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, verbose = FALSE, refresh = max(n.iters/10, 1), stan.model = NULL, ...)
+FREEstan(y, x, bins, family="gaussian", errors="ar1", n.basis=12,
+stan.file = NULL, n.chains = 3, n.iters = 2000, n.burnin = n.iters/2,
+n.thin = 1, verbose = FALSE, refresh = max(n.iters/10, 1),
+stan.model = NULL, ...)
 }
 \arguments{
   \item{y}{Matrix of response data, sites in rows.}
@@ -66,3 +69,6 @@ Object of class \code{FREEfit} with the following components:
 }
 }
 \keyword{function regression}
+\keyword{stan}
+\keyword{basis functions}
+\keyword{Bayesian}

@@ -3,12 +3,19 @@
 \alias{FREEfit.formula}
 \alias{FREEfit.default}
 \title{Function Regression in Ecology and Evolution}
-\description{This is the main call for fitting a model of class \code{FREEfit}. Function \code{FREEfit} has a formula or default method. \code{FREEfit} fits a model where the response variable is a function and there are one or more scalar predictor variables. Parameters for the functional model are represented as continuous functions, so the model to be fitted is:
-\deqn{y(x) = \alpha(x) + \Sigma_{i} \beta_{i}(x) z + \epsilon(x)}}
+\description{
+This is the main call for fitting a model of class \code{FREEfit}. Function \code{FREEfit} has a formula or default method. \code{FREEfit} fits a model where the response variable is a function and there are one or more scalar predictor variables. Parameters for the functional model are represented as continuous functions, so the model to be fitted is:
+\deqn{y(x) = \alpha(x) + \Sigma_{i} \beta_{i}(x) z + \epsilon(x)}
+where \eqn{y(x)} is the response variable as a function of \eqn{x}, \eqn{\alpha(x)} is an intercept function, \eqn{\beta_{i}(x)} is the effect of variable \eqn{i} at each value of \eqn{x}, \eqn{z} is the value of covariate or predictor variable \eqn{i} and \eqn{\epsilon(x)} is the error at each value of \eqn{x}.
+}
 \usage{
 FREEfit(y, ...)
-\method{FREEfit}{formula}(formula, data, bins=NULL, method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...)
-\method{FREEfit}{default}(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...)
+\method{FREEfit}{formula}(formula, data, bins=NULL,
+method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
+...)
+\method{FREEfit}{default}(y, x, bins = 1:ncol(y),
+method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
+...)
 }
 \arguments{
   \item{y}{Formula or response variable to be passed to \code{FREEfit.method}}
@@ -63,6 +70,3 @@ plot(model)
 }
 }
 \keyword{function regression}
-\keyword{Bayesian}
-\keyword{ecology}
-\keyword{evolution}

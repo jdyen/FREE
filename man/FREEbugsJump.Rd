@@ -3,7 +3,9 @@
 \title{Function regression using WinBUGS}
 \description{Fit a model where the response data are functions using WinBUGS 1.4. Regression coefficients are splines of arbitrary order and continuity and errors can be IID or AR1.}
 \usage{
-FREEbugsJump(y, x, bins, family="gaussian", errors="ar1", order=3, cont=order, bugs.file = NULL, n.chains = 3, n.iters = 5000, n.burnin = n.iters/2, n.thin = 1, debug = FALSE, bugs.dir = NULL, ...)
+FREEbugsJump(y, x, bins, family="gaussian", errors="ar1", order=3, cont=order,
+bugs.file = NULL, n.chains = 3, n.iters = 5000, n.burnin = n.iters/2,
+n.thin = 1, debug = FALSE, bugs.dir = NULL, ...)
 }
 \arguments{
   \item{y}{Matrix of response data, sites in rows.}
@@ -57,5 +59,6 @@ WinBUGS 1.4 can be very slow. This method is faster than \code{\link{FREEbugs}},
 }
 }
 \keyword{WinBUGS}
-\keyword{Function regression}
+\keyword{function regression}
 \keyword{Bayesian}
+\keyword{splines}

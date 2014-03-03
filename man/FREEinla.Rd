@@ -3,7 +3,11 @@
 \title{Bayesian function regression using INLA}
 \description{\code{FREEinla} fits a Bayesian functional regression model for functional responses and one or more scalar covariates. The INLA approach is used, which is a numerical approximation to the Bayesian posterior distribution that avoids the need for MCMC. This method is fast, but relies on several numerical solvers and their associated parameters, which can affect model output.}
 \usage{
-FREEinla(y, x, bins, family="gaussian", errors="ar1", model.int = "spline", model.pred = "spline", model.site = "iid", verbose = FALSE, diag.int = 1e-05, diag.pred = 0.01, prec.prior = c(0.1, 0.001), control.predictor.set = list(compute = T), control.compute.set = list(cpo = T, dic = TRUE), ...)
+FREEinla(y, x, bins, family="gaussian", errors="ar1", model.int = "spline",
+model.pred = "spline", model.site = "iid", verbose = FALSE, diag.int = 1e-05,
+diag.pred = 0.01, prec.prior = c(0.1, 0.001),
+control.predictor.set = list(compute = T),
+control.compute.set = list(cpo = T, dic = TRUE), ...)
 }
 \arguments{
   \item{y}{Matrix of response data, sites in rows.}
@@ -57,4 +61,7 @@ Object of class \code{FREEfit} with the following components:
   plot(model)
 }
 }
-\keyword{Function regression}
+\keyword{function regression}
+\keyword{INLA}
+\keyword{Bayesian}
+\keyword{splines}

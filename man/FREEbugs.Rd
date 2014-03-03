@@ -3,7 +3,9 @@
 \title{Function regression using WinBUGS}
 \description{Fits a basis-function-type function regression model using WinBUGS (see references). Data are modelled over a b-spline basis and the coefficients from this basis are regressed on the predictor variables. These coefficients are assumed independent of one another.}
 \usage{
-FREEbugs(y, x, bins, family="gaussian", errors="ar1", n.basis=12, bugs.file = NULL, n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, debug = FALSE, bugs.dir = NULL, ...)
+FREEbugs(y, x, bins, family="gaussian", errors="ar1", n.basis=12, bugs.file = NULL,
+n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, debug = FALSE,
+bugs.dir = NULL, ...)
 }
 \arguments{
   \item{y}{Matrix of response data, sites in rows.}
@@ -53,5 +55,6 @@ Object of class \code{FREEfit} with the following components:
 }
 }
 \keyword{WinBUGS}
-\keyword{Function regression}
-\keyword{b-spline}
+\keyword{function regression}
+\keyword{basis functions}
+\keyword{Bayesian}

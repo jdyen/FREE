@@ -3,7 +3,11 @@
 \title{Function regression using model-based boosting}
 \description{Fits a functional regression model for functional response variables using the model-based boosting approach of \pkg{mboost}, in particular, \code{\link{gamboost}}. One or more predictor varialbes is expected. This method is best called using \code{\link{FREEfit}}  and setting method = 'gamboost'.}
 \usage{
-FREEgamboost(y, x, bins, family="gaussian", errors="ar1", model.int = "spline", model.pred = "spline", model.site = "iid", deg.int = 2, df.int = 8, diff.int = 2, deg.beta = 2, df.beta = 8, diff.beta = 2, df.spat = 6, df.mrf = 100, spatial = FALSE, coord.data = NULL, mstop = 1000, cvm.set = FALSE, weights = NULL, nu.m = 0.01, trace = FALSE, offset = 0, ...)
+FREEgamboost(y, x, bins, family="gaussian", errors="ar1", model.int = "spline",
+model.pred = "spline", model.site = "iid", deg.int = 2, df.int = 8,
+diff.int = 2, deg.beta = 2, df.beta = 8, diff.beta = 2, df.spat = 6,
+df.mrf = 100, spatial = FALSE, coord.data = NULL, mstop = 1000,
+cvm.set = FALSE, weights = NULL, nu.m = 0.01, trace = FALSE, offset = 0, ...)
 }
 \arguments{
   \item{y}{Matrix of response data, sites in rows.}
@@ -60,3 +64,5 @@ summary(model)
 plot(model)
 }
 \keyword{function regression}
+\keyword{mboost}
+\keyword{splines}

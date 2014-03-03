@@ -26,12 +26,12 @@ License: \tab GPL-3\cr
   \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
 }
 \keyword{ package }
-\keyword{ function valued data }
-\keyword{ functional response }
-\keyword{ longitudinal data analysis }
-\keyword{ Bayesian }
+\keyword{ function regression }
+\keyword{ ecology }
+\keyword{ evolution }
 \examples{
-# Fit a functional regression model using the fda package and plot the results using default plot methods for objects of class FREEfit
+# Fit a functional regression model using the fda package and plot the results
+# using default plot methods for objects of class FREEfit
 data <- FREEdataSim()
 data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
 model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")

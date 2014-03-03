@@ -3,7 +3,8 @@
 \title{Simulate functional response data and predictor variables}
 \description{\code{FREEdataSim} simulates a dataset of n observations, particularly for use in testing models of class \code{FREEfit}. Covariates and parameters have default values (see below), but all can be set by the user. Noise is added as IID error (within replicate, within bin), AR1 error and MVN error (correlated across all bins).}
 \usage{
-FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL, beta.mean = NULL, error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL)
+FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL,
+beta.mean = NULL, error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL)
 }
 \arguments{
   \item{n}{Number of replicates}
