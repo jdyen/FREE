@@ -3,7 +3,8 @@
 \title{Simulate functional response data and predictor variables}
 \description{\code{FREEdataSim} simulates a dataset of n observations, particularly for use in testing models of class \code{FREEfit}. Covariates and parameters have default values (see below), but all can be set by the user. Noise is added as IID error (within replicate, within bin), AR1 error and MVN error (correlated across all bins).}
 \usage{
-FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL, beta.mean = NULL, error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL)
+FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL,
+beta.mean = NULL, error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL)
 }
 \arguments{
   \item{n}{Number of replicates}
@@ -35,14 +36,14 @@ FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL, beta.
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \examples{
-  data <- FREEdataSim()
-  y.min <- min(data$y.iid[1, ], data$y.ar1[1, ], data$y.mvn[1, ], data$mean.real)
-  y.max <- max(data$y.iid[1, ], data$y.ar1[1, ], data$y.mvn[1, ], data$mean.real)
-  plot(data$y.iid[1, ], type='l', ylim=c(y.min, y.max), xlab="Argument", ylab="Response")
-  lines(data$y.ar1[1, ], lty=2)
-  lines(data$y.mvn[1, ], lty=3)
-  lines(data$mean.real, col='red')
-  data.list <- list(y=data$y.iid, VAR1=data$x$VAR1, VAR2=data$x$VAR2)
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
-  plot(model)
+data <- FREEdataSim()
+y.min <- min(data$y.iid[1, ], data$y.ar1[1, ], data$y.mvn[1, ], data$mean.real)
+y.max <- max(data$y.iid[1, ], data$y.ar1[1, ], data$y.mvn[1, ], data$mean.real)
+plot(data$y.iid[1, ], type='l', ylim=c(y.min, y.max), xlab="Argument", ylab="Response")
+lines(data$y.ar1[1, ], lty=2)
+lines(data$y.mvn[1, ], lty=3)
+lines(data$mean.real, col='red')
+data.list <- list(y=data$y.iid, VAR1=data$x$VAR1, VAR2=data$x$VAR2)
+model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="fda")
+plot(model)
 }

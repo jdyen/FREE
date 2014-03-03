@@ -20,20 +20,16 @@ An error: NOT YET IMPLEMENTED
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{
-\code{\link{FREEfda}}
-\code{\link{FREEgamboost}}
-\code{\link{FREEinla}}
-\code{\link{FREEstan}}
-\code{\link{FREEbugs}}
-\code{\link{FREEbugsJump}}
+\code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, 
+\code{\link{FREEstan}}, \code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, 
 \code{\link{FREEfit}}
 }
 \examples{
-  \dontrun{
-    # MODEL NOT YET IMPLEMENTED
-    data <- FREEdataSim()
-    data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-    model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="FREE")
-  }
+\dontrun{
+  # MODEL NOT YET IMPLEMENTED
+  data <- FREEdataSim()
+  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="FREE")
 }
-\keyword{Function regression}
+}
+\keyword{function regression}

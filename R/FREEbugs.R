@@ -1,8 +1,8 @@
 FREEbugs <-
-function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL){
+function(y, x, bins,family="gaussian", errors="ar1", n.basis=12, bugs.file=NULL, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL, ...){
   if (is.null(bugs.file)) {
     bugs.file <- "FREEbugsSplineTemp.txt"
-    MakeBUGSsplineFile(filename="FREEbugsSplineTemp.txt", ARmod=!iid.er)
+    MakeBUGSsplineFile(filename="FREEbugsSplineTemp.txt", ARmod={errors == "ar1"})
   }
   if (is.null(bugs.dir)) {
     bugs.dir <- "c:/Program Files/WinBUGS14/"
@@ -12,9 +12,10 @@ function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=20
   X <- t(x)
   X <- rbind(rep(1, N), X)
   v <- nrow(X)
+  Kt <- n.basis
   BS <- bs(x=bins, df=Kt, degree=3, intercept=TRUE)
   BS <- BS[1:p, 1:Kt]
-  if (iid.er == FALSE) {
+  if (errors == "ar1") {
     alpha <- 0.1
     diff0 <- diag(1, p, p)
     diff2 <- matrix(rep(c(1, -2, 1, rep(0,p-2)), p-2)[1:{{p-2}*p}], p-2, p, byrow=T)
@@ -27,7 +28,7 @@ function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=20
   }
   save.params <- c("mu", "beta")
   bugdata <- list("y", "X", "N", "p", "v", "BS", "Kt", "CovMat")
-  if (iid.er) {
+  if (errors != "ar1") {
     initials <- function(){
       list(tau_y=1, tau_beta=rep(1, v), beta=matrix(rnorm(Kt * v), ncol=Kt), tau_site=1,
            site.e=rep(0, N))
@@ -41,7 +42,7 @@ function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=20
   model <- bugs(data=bugdata, inits=initials, model.file=bugs.file,
                 parameters.to.save=save.params, n.chains=n.chains,
                 n.iter=n.iters, n.burnin=n.burnin, n.thin=n.thin, debug=debug,
-                bugs.directory=bugs.dir)
+                bugs.directory=bugs.dir, ...)
   fitted.y.mean <- model$mean$mu
   fitted.beta.bs <- t(model$mean$beta)
   fitted.beta.sd <- t(model$sd$beta)
@@ -58,6 +59,5 @@ function(y, x, bins, bugs.file=NULL, Kt=12, iid.er=FALSE, n.chains=3, n.iters=20
   r <- cor(c(fitted.y.mean), c(y))
   r2 <- r * r
   xIC <- model$DIC
-  family <- "Gaussian"
   return(list(fitted=fitted.y.mean, observed=y, coefs.mean=t(fitted.betas), coefs.sd=t(beta.sd.TEMP), r2=r2, family=family, bins=bins, xIC=xIC))
 }

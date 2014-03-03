@@ -6,8 +6,12 @@
 \description{Main interface for cross validation for models of class \code{FREEfit}. Performs k-fold cross validation and returns an estimate of model predictive r2 as well as observed and predicted values. Plot, print and summary methods are available.}
 \usage{
 FREEfitCV(y, ...)
-\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL, method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
-\method{FREEfitCV}{default}(y, x, bins = 1:ncol(y), method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv = 10, verbose = TRUE, ...)
+\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL,
+method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
+"FREE"), n.cv = 10, verbose = TRUE, ...)
+\method{FREEfitCV}{default}(y, x, bins = 1:ncol(y),
+method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
+"FREE"), n.cv = 10, verbose = TRUE, ...)
 }
 \arguments{
   \item{y}{Formula or response variable to be passed to \code{FREEfitCV.method}}
@@ -38,28 +42,21 @@ An object of class \code{FREEfitCV}
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \section{Warning}{BUGS and stan methods will return a warning if any Rhat values are greater than 1.1 (for models where n.chains > 1). This indicates that model convergence might be an issue and should not be ignored. Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing.}
 \seealso{
-\code{\link{FREEfitCV.default}}
-\code{\link{FREEfitCV.formula}}
-\code{\link{FREEfit}}
-\code{\link{FREEfda}}
-\code{\link{FREEgamboost}}
-\code{\link{FREEinla}}
-\code{\link{FREEstan}}
-\code{\link{FREEbugs}}
-\code{\link{FREEbugsJump}}
+\code{\link{FREEfitCV.default}}, \code{\link{FREEfitCV.formula}}, \code{\link{FREEfit}}, 
+\code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, 
+\code{\link{FREEstan}}, \code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, 
 \code{\link{FREEfree}}
 }
 \examples{
-  data <- FREEdataSim()
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  modelCV1 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
-  summary(modelCV1)
-  \dontrun{
-    modelCV2 <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
-    summary(modelCV2)
-    plot(modelCV2)
-  }
+data <- FREEdataSim()
+data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+modelCV1 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
+summary(modelCV1)
+\dontrun{
+  modelCV2 <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, method='gamboost')
+  summary(modelCV2)
+  plot(modelCV2)
+}
 }
 \keyword{function regression}
-\keyword{cross validation}
 \keyword{model validation}

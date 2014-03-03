@@ -1,5 +1,5 @@
 MakeMboostFormula <-
-function(n.vars=2, var.names=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="bmrf", spatial=FALSE, deg.m.int=2, df.m.int=4, diff.m.int=2, deg.m.pred=2, df.m.pred=4, diff.m.pred=2, df.spat=6,  df.mrf=100, n.knots=25){
+function(n.vars=2, var.names=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="ar1", spatial=FALSE, deg.m.int=2, df.m.int=4, diff.m.int=2, deg.m.pred=2, df.m.pred=4, diff.m.pred=2, df.spat=6,  df.mrf=100, n.knots=25){
   if (is.null(var.names)) {
     var.names <- NULL
     for (i in 1:n.vars) {
@@ -15,27 +15,32 @@ function(n.vars=2, var.names=NULL, model.int="bbs", model.pred="bbs", model.site
                       ", differences=", diff.m.pred, ", knots=",n.knots - 1,", center = TRUE)", sep="")
   }
   if (spatial) {
-	if (rand.eff == "bbs") {
+	if (rand.eff == "rand.spline") {
       append.temp <- paste(" + bspatial(xcoord, ycoord, df=", df.spat, ") + ",
                            model.site, "(SITE) + bbs(bin.int, by=SITE.fact, center=T)",
                            sep="")
     } else {
-      if (rand.eff == "bmrf") {
+      if (rand.eff == "ar1") {
         append.temp <- paste(" + bspatial(xcoord, ycoord, df=", df.spat,
                              ") + bmrf(bin.mrf, bnd=bin.diag, df=", df.mrf, ")",
                              sep="")
       } else {
-        append.temp <- paste(" + bspatial(xcoord, ycoord, df=", df.spat, ") + ",
-                             model.site, "(SITE) + brandom(SITE, by=bin.fact)",
-                             sep="")
+      	if (rand.eff == "rand.lin") {
+          append.temp <- paste(" + bspatial(xcoord, ycoord, df=", df.spat, ") + ",
+                               model.site, "(SITE) + brandom(SITE, by=bin.fact)",
+                               sep="")
+        } else {
+          append.temp <- paste(" + bspatial(xcoord, ycoord, df=", df.spat, ") + ",
+                               model.site, "(SITE)", sep="")
+        }
       }
     }
   } else {
-    if (rand.eff == "bbs") {
+    if (rand.eff == "rand.spline") {
       append.temp <- paste(" + ", model.site, "(SITE) + bbs(bin.int, by=SITE.fact, center=T)",
                            sep="")
     } else {
-      if (rand.eff == "bmrf") {
+      if (rand.eff == "ar1") {
         append.temp <- paste(" + bmrf(bin.mrf, bnd=bin.diag, df=", df.mrf, ")", sep="")
       } else {
         if (rand.eff == "rand.lin") {

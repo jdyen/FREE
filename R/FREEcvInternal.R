@@ -1,13 +1,9 @@
 FREEcvInternal <-
-function(i, n.obs, n.cv, y, x, bins, method, verbose, ...){
+function(i, n.obs, n.cv, y, x, bins, method, verbose, stan.model=NA, ...){
   y.store <- y
   x.store <- x
   inc <- floor(n.obs / n.cv)
-  if (i < n.cv) {
-    sites.to.cv <- {{i - 1} * inc + 1}:{i * inc}
-  } else {
-    sites.to.cv <- {{i - 1} * inc + 1}:n.obs
-  }
+  sites.to.cv <- {{i - 1} * inc + 1}:{i * inc}
   y <- y[-sites.to.cv,]
   x <- x[-sites.to.cv,]
   if (method == "fda") {
@@ -49,5 +45,9 @@ function(i, n.obs, n.cv, y, x, bins, method, verbose, ...){
     cat(paste(100 * {i / n.cv}, "% complete.....", sep=""), "\n")
     flush.console()
   }
-  return(list(observed=observed, predicted=predicted))
+  if ({method == "stan"} & {i == 1}) {
+    return(list(observed=observed, predicted=predicted, stan.model=stan.model))
+  } else {
+    return(list(observed=observed, predicted=predicted))
+  }
 }

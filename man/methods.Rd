@@ -42,14 +42,15 @@ Methods for \code{FREEfit} models. ADD DETAILS.
 \code{\link{FREEfit}}
 }
 \examples{
-  data <- FREEdataSim()
-  data.list <- list(y=data$y.iid, VAR1=data$x$VAR1, VAR2=data$x$VAR2)
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
-  print(model)
-  summary(model)
-  plot(model)
-  fitted(model)
-  coef(model)
-  residuals(model)
-  predict(model, newdata=list(VAR1=rnorm(10), VAR2=rnorm(10)))
+# Fit a function regression model using the fda package and demonstrate the default methods
+data <- FREEdataSim()
+data.list <- list(y=data$y.iid, VAR1=data$x$VAR1, VAR2=data$x$VAR2)
+model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
+print(model)
+summary(model)
+plot(model)
+fitted(model)
+coef(model)
+residuals(model)
+predict(model, newdata=list(VAR1=rnorm(10), VAR2=rnorm(10)))
 }
