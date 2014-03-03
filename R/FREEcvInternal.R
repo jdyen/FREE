@@ -4,7 +4,6 @@ function(i, n.obs, n.cv, y, x, bins, method, verbose, stan.model=NA, ...){
   x.store <- x
   inc <- floor(n.obs / n.cv)
   sites.to.cv <- {{i - 1} * inc + 1}:{i * inc}
-  sites.to.cv <- {{i - 1} * inc + 1}:n.obs
   y <- y[-sites.to.cv,]
   x <- x[-sites.to.cv,]
   if (method == "fda") {
