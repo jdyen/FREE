@@ -1,5 +1,5 @@
 FREEinla <-
-function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model.eij="ar1", family.resp="gaussian", order=NULL, diag.int=1e-5, diag.pred=0.01, prec.prior=c(1e-1,1e-3), control.predictor.set=list(compute=T), control.compute.set=list(cpo=T, dic=TRUE), group.mean=FALSE, n.groups=10, group.vars=FALSE, n.groups.var=10, verbose=FALSE, ...){
+function(y, x, bins, family="gaussian", errors="ar1", model.int="spline",  model.pred="spline", model.site="iid", verbose=FALSE, diag.int=1e-5, diag.pred=0.01, prec.prior=c(1e-1,1e-3), control.predictor.set=list(compute=T), control.compute.set=list(cpo=T, dic=TRUE), ...){
   data <- ConvertB2A(y, x, bins)
   y.data <- data$y.vector
   X.data <- data$X.vector
@@ -7,12 +7,21 @@ function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model
   site.data <- data$sites.vector
   n.vars <- ncol(X.data)
   var.names <- colnames(X.data)
+  if (model.int == "spline") {
+    model.int <- "rw2"
+  } else {
+    model.int <- model.int
+  }
+  if (model.pred == "spline") {
+    model.pred <- "rw2"
+  } else {
+    model.pred <- model.pred
+  }
   formula <- MakeInlaFormula(n.vars=n.vars, var.names=var.names, model.int=model.int,
                              model.pred=model.pred, diag.int=diag.int, diag.pred=diag.pred,
                              model.site=model.site, prec.prior=prec.prior, 
-                             model.eij=model.eij,
-                             order=order, group.mean=group.mean, n.groups=n.groups,
-                             group.vars=group.vars, n.groups.var=n.groups.var)
+                             model.eij=errors,
+                             order=order)
   inla.data.file <- list(y=y.data, bin.int=bin.data, SITE=site.data)
   for (i in 1:n.vars) {
     var.temp <- list(X.data[, var.names[i]])
@@ -24,7 +33,7 @@ function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model
   }
   inla.data.file[length(inla.data.file) + 1] <- list(bin.data)
   names(inla.data.file)[[length(inla.data.file)]] <- paste("bin.int", (n.vars + 1), sep="")
-  mod.inla <- inla(formula, family=family.resp, data=inla.data.file,
+  mod.inla <- inla(formula, family=family, data=inla.data.file,
                     control.predictor=control.predictor.set,
                     control.compute=control.compute.set, verbose=verbose, ...)
   fitted <- matrix(mod.inla$summary.fitted$mean, nrow=nrow(y), byrow=TRUE)
@@ -34,7 +43,7 @@ function(y, x, bins, model.int="rw2",  model.pred="rw2", model.site="iid", model
   for (name.use in fitted.coefs) {
     coef.vals <- cbind(coef.vals, mod.inla$summary.random[[name.use]]$mean)
     coef.vals.sd <- cbind(coef.vals.sd, mod.inla$summary.random[[name.use]]$sd)
-    if (family.resp == "poisson") {
+    if (family == "poisson") {
       coef.vals <- exp(coef.vals)
       coef.vals.sd <- exp(coef.vals.sd)
     }

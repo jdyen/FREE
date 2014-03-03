@@ -3,8 +3,19 @@ function(y, x, bins=1:ncol(y), method=c("fda", "gamboost", "INLA", "stan", "BUGS
   n.obs <- nrow(y)
   observed <- NULL
   predicted <- NULL
-  cv.temp <- lapply(c(1:n.cv), FREEcvInternal, n.obs=n.obs, n.cv=n.cv, y=y, x=x, bins=bins,
-                   method=method, verbose=verbose, ...)
+  if (method == "stan") {
+    cv.temp <- list()
+    cv.temp.stan <- FREEcvInternal(i=1, n.obs=n.obs, n.cv=n.cv, y=y, x=x, bins=bins, method=method, verbose=verbose,
+                                   ...)
+    cv.temp[[1]] <- list(cv.temp.stan$observed, cv.temp.stan$predicted)
+    stan.model <- cv.temp.stan$stan.model
+    cv.temp2 <- lapply(c(2:n.cv), FREEcvInternal, n.obs=n.obs, n.cv=n.cv, y=y, x=x, bins=bins,
+                       method=method, verbose=verbose, stan.model=stan.model, ...)
+    cv.temp <- c(cv.temp, cv.temp2)
+  } else {
+    cv.temp <- lapply(c(1:n.cv), FREEcvInternal, n.obs=n.obs, n.cv=n.cv, y=y, x=x, bins=bins,
+                     method=method, verbose=verbose, ...)
+  }
   cv.out <- FREEcvOutput(cv.temp)
   observed <- cv.out$observed
   predicted <- cv.out$predicted

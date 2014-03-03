@@ -1,5 +1,8 @@
 FREEfda <-
-function(y, x, bins, y.basis="bspline", nbasis.y=12, norder.y=6, beta.basis="bspline", nbasis.beta=12, norder.beta=6, loglam=NULL, ...){
+function(y, x, bins, family="gaussian", errors="iid", y.basis="spline", nbasis.y=12, norder.y=6, beta.basis="spline", nbasis.beta=12, norder.beta=6, loglam=NULL, ...){
+  if (errors != "iid") {
+    warning("Method fda only supports IID errors.....", call.=FALSE)
+  }
   if (y.basis == "fourier") {
     y.basis <- create.fourier.basis(c(min(bins), max(bins)), nbasis=nbasis.y)
   } else {
@@ -79,7 +82,6 @@ function(y, x, bins, y.basis="bspline", nbasis.y=12, norder.y=6, beta.basis="bsp
   colnames(fitted.sd) <- colnames(fitted.betas)
   r <- cor(c(t(fitted.vals)), c(y))
   r2 <- r * r
-  family <- "Gaussian"
   xIC <- NULL
   return(list(fitted=t(fitted.vals), observed=y, coefs.mean=t(fitted.betas), 
               coefs.sd=t(fitted.sd), r2=r2, family=family, bins=bins, xIC=xIC))

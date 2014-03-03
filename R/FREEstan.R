@@ -1,9 +1,9 @@
 FREEstan <-
-function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, verbose=FALSE, refresh=max(n.iters/10, 1), ...){
+function(y, x, bins, family="gaussian", errors="ar1", n.basis=12, stan.file=NULL, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, verbose=FALSE, refresh=max(n.iters/10, 1), stan.model=NULL, ...){
   if (get_cppo()$mode != "fast") {
     set_cppo("fast")
   }
-  if (is.null(stan.file) & is.na(stan.model)) {
+  if (is.null(stan.file) & is.null(stan.model)) {
     stan.file <- stanCodeDefault()
   }
   D <- ncol(y)
@@ -16,10 +16,10 @@ function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chain
   }
   colnames(data.list) <- c("int", colnames(x))
   k <- ncol(data.list)
-  Kt <- Kt
+  Kt <- n.basis
   grid <- seq(min(bins), max(bins), length=D)
   BS <- bs(1:D, df=Kt, intercept=TRUE, degree=3)
-  if (!iid.er) {
+  if (errors == "ar1") {
     alpha <- 0.1
     diff0 <- diag(1, D, D)
     diff2 <- matrix(rep(c(1, -2, 1, rep(0, D - 2)), D - 2)[1:{{D - 2} * D}], D - 2, D, byrow=T)
@@ -31,8 +31,8 @@ function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chain
     CovMat <- round(diag(1, Kt), 4)
   }
   dat <- list(Y=Y, X=data.list, N=N, D=D, k=k, Kt=Kt, BS=BS[1:D,1:Kt], CovMat=CovMat)
-  if (is.na(stan.model)) {
-    model <- stan(model_code=stan.file, fit=stan.model, data=dat, chains=n.chains, iter=n.iters,
+  if (is.null(stan.model)) {
+    model <- stan(model_code=stan.file, data=dat, chains=n.chains, iter=n.iters,
                   warmup=n.burnin, verbose=verbose, thin=n.thin, refresh=refresh, ...)
   } else {
     model <- stan(fit=stan.model, data=dat, chains=n.chains, iter=n.iters, warmup=n.burnin,
@@ -63,7 +63,6 @@ function(y, x, bins, stan.file=NULL, stan.model=NA, Kt=12, iid.er=FALSE, n.chain
   r <- cor(c(fitted.y.mean), c(y))
   r2 <- r * r
   xIC <- NULL
-  family <- "Gaussian"
   return(list(fitted=fitted.y.mean, observed=y, coefs.mean=t(fitted.betas),
               coefs.sd=t(beta.sd.TEMP), r2=r2, family=family, bins=bins, xIC=xIC,
               stan.model=model))

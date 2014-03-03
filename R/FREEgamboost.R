@@ -1,5 +1,5 @@
 FREEgamboost <-
-function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.site="brandom", rand.eff="bmrf", family="Gaussian", spatial=FALSE, cvm.set=FALSE, weights=NULL, deg.m.int=2, df.m.int=8, diff.m.int=2, deg.m.pred=2, df.m.pred=8, diff.m.pred=2, df.spat=6, df.mrf=100, nu.m=0.01, mstop=1000, trace=FALSE, offset=0, ...){
+function(y, x, bins, family="gaussian", errors="ar1", model.int="spline", model.pred="spline", model.site="iid", deg.int=2, df.int=8, diff.int=2, deg.beta=2, df.beta=8, diff.beta=2, df.spat=6, df.mrf=100, spatial=FALSE, coord.data=NULL, mstop=1000, cvm.set=FALSE, weights=NULL, nu.m=0.01, trace=FALSE, offset=0, ...){
   if (spatial & is.null(coord.data)) {
     stop("Coordinates are required if spatial=TRUE...", call.=FALSE)
   }
@@ -18,7 +18,7 @@ function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.s
   var.names <- colnames(X.data)
   bin.fact <- factor(bin.data / max(bin.data))
   SITE.fact <- factor(site.data)
-  if (rand.eff == "bmrf") {
+  if (errors == "ar1") {
     bin.diag <- MakeMassiveTridiag(MakeTridiag(c(1, rep(2, length(unique(bin.data)) - 2), 1),
                                  -1, -1), n.times=n.sites)
     bin.mrf <- factor(seq(along=bin.data))
@@ -28,12 +28,27 @@ function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.s
     bin.diag <- NULL
     bin.mrf <- NULL
   }
+  if (model.site == "iid") {
+    model.site <- "brandom"	
+  } else {
+    model.site <- "brandom"
+  }
+  if (model.int == "spline") {
+    model.int <- "bbs"
+  } else {
+    model.int <- model.int
+  }
+  if (model.pred == "spline") {
+    model.pred <- "bbs"
+  } else {
+    model.int <- model.int
+  }
   formula <- MakeMboostFormula(n.vars=n.vars, var.names=var.names, model.int=model.int,
                                model.pred=model.pred, model.site=model.site, spatial=spatial,
-                               deg.m.int=deg.m.int, df.m.int=df.m.int, diff.m.int=diff.m.int,
-                               deg.m.pred=deg.m.pred, df.m.pred=df.m.pred,
-                               diff.m.pred=diff.m.pred, df.spat=df.spat, df.mrf=df.mrf,
-                               rand.eff=rand.eff, n.knots=length(bins))
+                               deg.m.int=deg.int, df.m.int=df.int, diff.m.int=diff.int,
+                               deg.m.pred=deg.pred, df.m.pred=df.pred,
+                               diff.m.pred=diff.pred, df.spat=df.spat, df.mrf=df.mrf,
+                               rand.eff=errors, n.knots=length(bins))
   if (spatial) {
     mboost.data.file <- list(y=y.data, bin.int=bin.data, bin.fact=bin.fact, SITE=site.data,
                            SITE.fact=SITE.fact, int=rep(1, length(y.data)),
@@ -49,7 +64,7 @@ function(y, x, bins, coord.data=NULL, model.int="bbs", model.pred="bbs", model.s
     mboost.data.file[length(mboost.data.file) + 1] <- var.temp
     names(mboost.data.file)[[length(mboost.data.file)]] <- var.names[i]
   }
-  if (family == "Poisson") {
+  if (family == "poisson") {
     mod.mboost <- gamboost(formula=formula, data=mboost.data.file,
                            control=boost_control(mstop=mstop, nu=nu.m, trace=trace),
                            weights=weights, family=Poisson(), offset=offset, ...)

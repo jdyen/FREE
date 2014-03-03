@@ -1,5 +1,5 @@
 FREEcvInternal <-
-function(i, n.obs, n.cv, y, x, bins, method, verbose, ...){
+function(i, n.obs, n.cv, y, x, bins, method, verbose, stan.model=NA, ...){
   y.store <- y
   x.store <- x
   inc <- floor(n.obs / n.cv)
@@ -49,5 +49,9 @@ function(i, n.obs, n.cv, y, x, bins, method, verbose, ...){
     cat(paste(100 * {i / n.cv}, "% complete.....", sep=""), "\n")
     flush.console()
   }
-  return(list(observed=observed, predicted=predicted))
+  if ({method == "stan"} & {i == 1}) {
+    return(list(observed=observed, predicted=predicted, stan.model=stan.model))
+  } else {
+    return(list(observed=observed, predicted=predicted))
+  }
 }
