@@ -7,7 +7,7 @@ function(y, x, bins=1:ncol(y), method=c("fda", "gamboost", "INLA", "stan", "BUGS
     cv.temp <- list()
     cv.temp.stan <- FREEcvInternal(i=1, n.obs=n.obs, n.cv=n.cv, y=y, x=x, bins=bins, method=method, verbose=verbose,
                                    ...)
-    cv.temp[[1]] <- list(cv.temp.stan$observed, cv.temp.stan$predicted)
+    cv.temp[[1]] <- list(observed=cv.temp.stan$observed, predicted=cv.temp.stan$predicted)
     stan.model <- cv.temp.stan$stan.model
     cv.temp2 <- lapply(c(2:n.cv), FREEcvInternal, n.obs=n.obs, n.cv=n.cv, y=y, x=x, bins=bins,
                        method=method, verbose=verbose, stan.model=stan.model, ...)
