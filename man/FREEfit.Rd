@@ -15,7 +15,7 @@ method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
 ...)
 \method{FREEfit}{default}(y, x, bins = 1:ncol(y),
 method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
-...)
+bootstrap.cis=FALSE, n.bs=50, ...)
 }
 \arguments{
   \item{y}{Formula or response variable to be passed to \code{FREEfit.method}}
@@ -24,6 +24,8 @@ method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
   \item{x}{Matrix of predictor variables, sites in rows}
   \item{bins}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
   \item{method}{String defining the method to be used. Seven options are available but only six of these are currently implemented. Defaults to gamboost. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
+  \item{bootstrap.cis}{For method=gamboost only: Logical: should a bootstrap be used to calculate confidence intervals for gamboost parameter estimates?}
+  \item{n.bs}{If bootstrap.cis=TRUE, the number of bootstraps to perform}
   \item{\dots}{Additional arguments to be passed to \code{FREEmethod}. See \code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, \code{\link{FREEbugs}} and \code{\link{FREEbugsJump}} for details.}
 }
 \details{\code{FREEfit} is the main function for fitting \code{FREEfit} models, and \code{FREEfit.formula} is the main interface.
