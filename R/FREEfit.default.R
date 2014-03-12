@@ -1,5 +1,5 @@
 FREEfit.default <-
-function(y, x, bins=1:ncol(y), method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...){
+function(y, x, bins=1:ncol(y), method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), bootstrap.cis=FALSE, n.bs=50, ...){
   if (ncol(y) != length(bins)) {
     stop("Response data y should have the same number of columns as there are bins...",
          call.=FALSE)
@@ -18,6 +18,12 @@ function(y, x, bins=1:ncol(y), method=c("fda", "gamboost", "INLA", "stan", "BUGS
   }
   if (method == "gamboost") {
     model <- FREEgamboost(y=y, x=x, bins=bins, ...)
+    if (bootstrap.cis) {
+      coefs <- sapply(1:n.bs, FREEbsInternal, n.bs=n.bs, y=y, x=x, bins=bins,
+                      ..., simplify="array")
+      coefs.sd <- apply(coefs, c(1,2), sd)
+      model$coefs.sd <- coefs.sd
+    }
   }
   if (method == "INLA") {
     model <- FREEinla(y=y, x=x, bins=bins, ...)
