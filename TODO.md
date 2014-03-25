@@ -15,3 +15,4 @@ Maintainer: Jian Yen
 - Check and fix errors in different basis functions for fda method
 - Add identity basis in stan method
 - Test memory use for MakeMassiveTridiag and gamboost with AR1 errors. How many sites are too many?
+- Add a preferred citation to the readme file
