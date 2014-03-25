@@ -1,7 +1,9 @@
 ## FREE R PACKAGE
-### TASKS TO COMPLETE
+### Maintainer: Jian Yen
 
-Maintainer: Jian Yen
+*****
+
+### Tasks to complete:
 
 - Fix FREEinla documentation. Currently references gamboost
 - Add bootstrap CIs for gamboost method
