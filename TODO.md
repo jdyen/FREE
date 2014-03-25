@@ -3,6 +3,7 @@ FREE R PACKAGE: THINGS TO DO
 Author: Jian Yen <jdl.yen@gmail.com>
 
 - [ ] Fix FREEinla documentation. Currently references gamboost.
+- [x] Add bootstrap CIs for gamboost method
 - [ ] Improve package load for UNIX systems. Disable WinBUGS options.
 - [ ] Check rstan install on UNIX systems. Currently crashes on stan() call
         on OSX.
