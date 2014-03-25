@@ -36,7 +36,7 @@ cvm.set = FALSE, weights = NULL, nu.m = 0.01, trace = FALSE, offset = 0, ...)
   \item{offset}{sets model offset}
   \item{\dots}{Additional arguments to be passed to \code{gamboost}}
 }
-\details{\code{\link{gamboost}} does not generate estimates of uncertainty in parameters by default. We are currently working on a bootstrap method for generating these estimates, but this method performs quite slowly and may not be practicable.}
+\details{\code{\link{gamboost}} does not generate estimates of uncertainty in parameters by default. A bootstrap method has been implemented to address this and is called directly from \code{\link{FREEfit}}.}
 \value{
 Object of class \code{FREEfit} with the following components:
   \item{fitted}{fitted y values}
