@@ -18,7 +18,7 @@ control.compute.set = list(cpo = T, dic = TRUE), ...)
   \item{model.int}{String specifying how the intercept function is modelled. spline (default) approximates a spline using a second order random walk. Other options are possible, but have not been tested extensively. See \code{\link{f}}}
   \item{model.pred}{String specifying how the covariate effects are modelled. spline (default) approximates a spline using a second order random walk. Other options are possible, but have not been tested extensively. See \code{\link{f}}}
   \item{model.site}{String specifying how site-based random effects are modelled. iid (default) gives a random intercept to each site. Other options are possible, but have not been tested extensively and are not recommended. See \code{\link{f}}}
-  \item{verbose}{Logical: passed directly to \code{\link{gamboost}}. Should model fitting details be printed directly to the console during model fitting?}
+  \item{verbose}{Logical: passed directly to \code{\link{inla}}. Should model fitting details be printed directly to the console during model fitting?}
   \item{diag.int}{Constant added to the diagonal of the precision matrix for the intercept function. Can be altered to change smoothness of the splines and to improve model performance.}
   \item{diag.pred}{Constant added to the diagonal of the precision matrix for the covariate effects. Can be altered to change smoothness of the splines and to improve model performance.}
   \item{prec.prior}{Prior for the prior precision for the covariate effects (loggamma parameters). See \code{\link{inla.models}} for details.}
