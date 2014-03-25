@@ -1,5 +1,8 @@
-## FREE R PACKAGE
-### Maintainer: Jian Yen
+# Function Regression in Ecology and Evolution (FREE)
+
+This is a to-do list for the R package FREE (Function Regression in Ecology and Evolution).
+
+Maintainer: Jian Yen
 
 *****
 
