@@ -1,4 +1,5 @@
-FREE R PACKAGE: THINGS TO DO
+## FREE R PACKAGE
+### TASKS TO COMPLETE
 
 Author: Jian Yen <jdl.yen@gmail.com>
 
