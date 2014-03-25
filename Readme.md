@@ -6,6 +6,7 @@ Copyright &copy; 2014, Jian Yen
 
 *****
 
+## Licence details
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -21,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 *****
 
+## Overview
 FREE is a collection of R helper functions for fitting regression models where response and/or predictor variables are functions, rather than scalar quantities. The emphasis is on easy model fitting and straightforward interfaces, with a focus on ecological and evolutionary applications. All functions in FREE are written in R 3.0.2.
 
 Several additional packages are required (see Installation, below); and some of these packages are not available through CRAN.
