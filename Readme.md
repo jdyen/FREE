@@ -47,7 +47,7 @@ For OSX users: navigate to the folder OSX/ and download the file FREE_x.x.tar.gz
 
 Before installing this R package several additional packages must be installed within R:
 
-1. [rstan](http://mc-stan.org/rstan.html) (windows users only)
+1. [rstan](http://mc-stan.org/rstan.html) (Windows users only)
 2. [INLA](http://www.r-inla.org/)
 
 See the links above for relevant details. Note that rstan and INLA are not currently available through the CRAN and must be installed according to the instructions on their websites.
@@ -82,7 +82,7 @@ Either one of these options should work.
 
 NOTE: The BUGS methods require WinBUGS 1.4 and its jump add-in to be installed locally. See the [WinBUGS](http://www2.mrc-bsu.cam.ac.uk/bugs/) and [rjMCMC](http://www.winbugs-development.org.uk/rjmcmc.html) websites for details. WinBUGS does not install easily on non-Windows operating systems. Note that installing WinBUGS is not necessary to use other methods within package FREE.
 
-NOTE: The BUGS and stan methods are not available in the OSX version. The required packages either are not available or do not install correctly on OSX systems. If you want to get the stan method working and can install and load the [rstan](http://mc-stan.org/rstan.html) package then it is possible to install the Windows version of FREE on OSX systems. The `stan` function within the rstan package causes R to crash on all OSX systems we have used.
+NOTE: The BUGS and stan methods are not available in the OSX version. The required packages either are not available or do not install correctly on OSX systems. If you want to get the stan method working and can install and load the [rstan](http://mc-stan.org/rstan.html) package then it is possible to install the Windows version of FREE on OSX systems. The `stan` function within the `rstan` package causes R to crash on all OSX systems we have used.
 
 *****
 
