@@ -28,7 +28,7 @@ function(y, x, bins, family="gaussian", errors="ar1", order=3, cont=order, bugs.
     }
   } else {
     inits <- function(){
-      list(alpha0=0, k=rep(0, Q + 2), sd=maxsd, site.e=rnorm(Nsites), beta=rep(0, Q), sd.e=rep(1,3))
+      list(k=rep(0, Q + 2), sd=maxsd, site.e=rnorm(Nsites), beta=rep(0, Q), sd.e=rep(1,3))
     }
   }
   parameters <- c("mu", "beta.fun")
