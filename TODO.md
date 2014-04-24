@@ -16,3 +16,4 @@ Maintainer: Jian Yen
 - Add identity basis in stan method
 - Test memory use for MakeMassiveTridiag and gamboost with AR1 errors. How many sites are too many?
 - Add a preferred citation to the readme file
+- Add citations for other software packages

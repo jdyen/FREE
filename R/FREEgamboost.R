@@ -112,5 +112,5 @@ function(y, x, bins, family="gaussian", errors="ar1", model.int="spline", model.
   r2 <- r * r
   xIC <- NULL #AIC(mod.mboost)
   return(list(fitted=fitted, observed=y, coefs.mean=coef.vals, coefs.sd=NULL, r2=r2,
-              family=family, bins=bins, xIC=xIC))
+              family=family, bins=bins, xIC=xIC, formula2=formula))
 }

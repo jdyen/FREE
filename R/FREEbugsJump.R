@@ -23,7 +23,7 @@ function(y, x, bins, family="gaussian", errors="ar1", order=3, cont=order, bugs.
   bugdata <- list("Nsites", "Nclasses", "size.class", "response", "maxsd", "Q", "predictors")
   if (errors == "ar1") {
     inits <- function(){
-      list(alpha0=0, rho=rep(0.01, Nsites), rho.m=0.01, k=rep(0, Q + 2),
+      list(rho=rep(0.01, Nsites), rho.m=0.01, k=rep(0, Q + 2),
            sd=maxsd, site.e=rnorm(Nsites), beta=rep(0, Q), sd.e=rep(1,3))
     }
   } else {

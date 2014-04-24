@@ -24,7 +24,7 @@ function(n.vars=2, var.names=NULL, model.int="rw2", model.pred="rw2", model.site
     var.temp <- paste(var.temp, " + f(", bin.int.temp, ",", var.names[i],
                       ", model='", model.pred, "', hyper=list(prec=list(param=c(",
                       paste(prec.prior[1], prec.prior[2], sep=','),
-                      "))), diagonal=", diag.pred, ", constr=F)", sep="")
+                      "))), diagonal=", diag.pred, ", constr=T)", sep="")
     var.lin.temp <- paste(var.lin.temp, " + ", var.names[i], sep="")
   }
   if (model.eij == "arp") {
@@ -33,9 +33,13 @@ function(n.vars=2, var.names=NULL, model.int="rw2", model.pred="rw2", model.site
                          (n.vars + 1), ", model='ar', order=", order,
                          ", replicate=SITE)", sep="")
   } else {
-    append.temp <- paste(" + f(SITE, model='", model.site, "')", " + f(bin.int",
-                         (n.vars + 1), ", model='", model.eij, "', replicate=SITE)",
-                         sep="")
+  	if (model.eij == "ar1") {
+      append.temp <- paste(" + f(SITE, model='", model.site, "')", " + f(bin.int",
+                           (n.vars + 1), ", model='", model.eij, "', replicate=SITE)",
+                           sep="")
+    } else {
+      append.temp <- paste(" + f(SITE, model='", model.site, "')", sep="")
+    }
   }
   formula <- as.formula(paste(int.temp, var.lin.temp, var.temp, append.temp, sep=""))
   return(formula)

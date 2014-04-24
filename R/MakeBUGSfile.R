@@ -10,7 +10,7 @@ function(Q, filename="FREEbugsJumpTemp.txt", order=3, cont=order, ARmod=FALSE){
 
           mu2[i, j] <- mu[i, j] + cor.e[i, j]
 
-          mu[i, j] <- alpha.fun[j] + sum(funs[i, j, ]) + site.e[i]
+          mu[i, j] <- sum(funs[i, j, ]) + site.e[i]
 
           for (v in 1:Q) {
             funs[i, j, v] <- beta.fun[v, j] * Xc[i, v]
@@ -35,7 +35,7 @@ function(Q, filename="FREEbugsJumpTemp.txt", order=3, cont=order, ARmod=FALSE){
         for (j in 1:Nclasses) {
           response[i, j] ~ dnorm(mu[i, j], tau[1])
 
-          mu[i, j] <- alpha.fun[j] + sum(funs[i, j, ]) + site.e[i]
+          mu[i, j] <- sum(funs[i, j, ]) + site.e[i]
 
           for(v in 1:Q) {
             funs[i, j, v] <- beta.fun[v, j] * Xc[i, v]
@@ -55,8 +55,6 @@ function(Q, filename="FREEbugsJumpTemp.txt", order=3, cont=order, ARmod=FALSE){
         }
       }  
 
-      alpha0 ~ dnorm(0, 0.001)
-
       tau.beta.int <- 1 / pow(maxsd[Q + 2], 2)
 
       for (v in 1:Q) {
@@ -64,7 +62,6 @@ function(Q, filename="FREEbugsJumpTemp.txt", order=3, cont=order, ARmod=FALSE){
       }
 
       for (j in 1:Nclasses) {
-        alpha.fun[j] <- alpha0 + alpha.fun0[j] - alpha.fun0[1]
 ", fill=TRUE)
 
   for (v in 1:Q) {
@@ -73,9 +70,6 @@ function(Q, filename="FREEbugsJumpTemp.txt", order=3, cont=order, ARmod=FALSE){
 
   cat("
       }
-
-      alpha.fun0[1:Nclasses] <- jump.pw.poly.df.cub(size.class[1:Nclasses], k[1], tau.beta[1])
-
 
       for (i in 1:(Q + 2)) {
         k[i] ~ dbin(0.5, kmax)

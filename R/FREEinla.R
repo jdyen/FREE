@@ -49,10 +49,14 @@ function(y, x, bins, family="gaussian", errors="ar1", model.int="spline",  model
     }
   }
   colnames(coef.vals) <- c("INTERCEPT", var.names)
+  for (i in 1:n.vars) {
+    coef.vals[, {i + 1}] <- coef.vals[, {i + 1}] + mod.inla$summary.fixed[var.names[i], 1]
+    coef.vals.sd[, {i + 1}] <- coef.vals.sd[, {i + 1}] + mod.inla$summary.fixed[var.names[i], 2]
+  }
   colnames(coef.vals.sd) <- colnames(coef.vals)
   r <- cor(c(fitted), c(y))
   r2 <- r * r
   xIC <- mod.inla$dic$dic
   return(list(fitted=fitted, observed=y, coefs.mean=t(coef.vals), coefs.sd=t(coef.vals.sd),
-              r2=r2, family=family, bins=bins, xIC=xIC))
+              r2=r2, family=family, bins=bins, xIC=xIC, formula2=formula, model=mod.inla))
 }
