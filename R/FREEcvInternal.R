@@ -40,7 +40,7 @@ function(i, n.obs, n.cv, y, x, bins, method, verbose, stan.model=NA, ...){
     class(model) <- "FREEfit"
   }
   observed <- y.store[sites.to.cv, ]
-  predicted <- predict(model, x.store[sites.to.cv, ])
+  predicted <- predict(model, newdata=x.store[sites.to.cv, ])
   if (verbose) {
     cat(paste(100 * {i / n.cv}, "% complete.....", sep=""), "\n")
     flush.console()

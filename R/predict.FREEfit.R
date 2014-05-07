@@ -3,8 +3,8 @@ function(object, newdata=NULL, ...){
   if (is.null(newdata)) {
     y <- fitted(object)
   } else {
-    if (!is.null(object$formula)){
-      if (is.null(newdata[all.vars(object$formula)[1]][[1]])) {
+    if (!is.null(object$formula) & !is.matrix(newdata)){
+      if (is.null(newdata$`all.vars(object$formula)[1]`)) {
         newdata[[length(newdata) + 1]] <- rnorm(length(newdata[[1]]))
         names(newdata)[length(newdata)] <- all.vars(object$formula)[1]
       }
