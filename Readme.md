@@ -29,7 +29,7 @@ Several additional packages are required (see Installation, below); and some of 
 
 Currently only functional response variables are considered but future updates will introduce functional predictors.
 
-A purpose-built MCMC algorithm is in development to replace the need for other packages. We intend to incorporate both functional predictors and responses into this package. We are releasing FREE in its current form because functional data analysis has the potential to provide new insight into ecological and evolutionary questions and the testing and development of our purpose-built Bayesian approach could take several years.
+A purpose-built Gibbs sampler has been developed and is intended to replace the other packages. This Gibbs sampler method is included in the current package but is in development, so other methods have not yet been removed. We intend to incorporate both functional predictors and responses into this package using a Gibbs sampler. We are releasing FREE in its current form because functional data analysis has the potential to provide new insight into ecological and evolutionary questions and the testing and development of our purpose-built Bayesian approach could take several years.
 
 
 Created 13 February 2014
@@ -39,7 +39,7 @@ Updated 25 March 2014
 *****
 
 ## Installation
-FREE is distributed as an R package but is not currently available through the CRAN. There are two versions of the FREE package, one for Windows systems (tested on Windows 7 and Windows XP) and one for OSX/UNIX systems (tested only on OSX 10.6).
+FREE is distributed as an R package but is not currently available through the CRAN. There are two versions of the FREE package, one for Windows systems (tested on Windows 7 and Windows XP) and one for OSX/UNIX systems (tested only on OSX 10.6; not currently up-to-date).
 
 For Windows users: simply download the file FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number).
 
