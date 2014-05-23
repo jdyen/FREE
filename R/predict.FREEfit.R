@@ -10,7 +10,15 @@ function(object, newdata=NULL, ...){
       }
       x <- model.matrix(object$formula, newdata)
     } else {
-      x <- cbind(rep(1, nrow(newdata)), newdata)
+      if (is.matrix(newdata)) {
+        x <- cbind(rep(1, nrow(newdata)), newdata)
+      } else {
+        if (is.vector(newdata)) {
+          x <- cbind(rep(1, length(newdata)), newdata)
+        } else {
+          stop("newdata in predict.FREEfit are not vector or matrix...", call.=FALSE)
+        }
+      }
     }
     y <- x %*% coef(object)$mean
   }

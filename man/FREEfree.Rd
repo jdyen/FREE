@@ -14,12 +14,12 @@ FREEfree(y, x, bins, family="gaussian", errors="iid", model=c("iid", "rw2"), n.c
   \item{model}{Specify independent or rw2 links across the length of parameter splines}
   \item{n.chains}{Number of MCMC chains.}
   \item{n.iters}{Total number of MCMC iterations (including burnin)}
-  \item{n.burnin}{Number of iterations to be treated as a burnin}
-  \item{n.thin}{Thinning rate for MCMC chains; defaults to 1}
+  \item{n.burnin}{Number of iterations to be treated as a burnin; defaults to n.iters/5}
+  \item{n.thin}{Thinning rate for MCMC chains; defaults to 100}
   \item{hypers}{The hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
   \item{inits}{Optional: initial values for the variance and the model parameters}
 }
-\details{TO BE COMPLETED...}
+\details{\code{FREEfree} fits a function regression model using a purpose-built Gibbs sampler. The C code for this Gibbs sampler is available at the \pkg{FREE} website. Extensions to this method are in development.}
 \value{
 Object of class \code{FREEfit} with the following components:
   \item{fitted}{fitted y values}
@@ -29,10 +29,10 @@ Object of class \code{FREEfit} with the following components:
   \item{r2}{r-squared value for the fitted model, based on Pearson R}
   \item{family}{family used for model fitting}
   \item{bins}{vector of argument values for the response function}
-  \item{xIC}{DIC value from the fitted model}
+  \item{xIC}{DIC value from the fitted model; not currently available}
 }
 \references{
-  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
+  \cite{Yen et al. (in preparation) Function regression in ecology and evolution}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{

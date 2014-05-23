@@ -18,7 +18,7 @@ void update_beta_iid(double *response, double *preds, int *n, int *np, int *nj, 
 {
 /* Gibbs update for all parameters. Updates beta and then sigma2 */
   int i, j, k, m;
-  double cov_sum, cov_sum2, cov_sum3, cov_sum4;
+  double cov_sum, cov_sum2, cov_sum4;
   double beta_mean;	
   double beta_sigma2;
   double phi_new, psi_new;

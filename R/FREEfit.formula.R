@@ -10,11 +10,13 @@ function(formula, data=list(), bins=NULL, method=c("fda", "gamboost", "INLA", "s
   } else {
     x <- x
   }
-  if (length(variable.names(mf)) == 2) {
-    x <- matrix(x)
-    colnames(x) <- variable.names(mf)[2]
+  x <- as.matrix(x)
+  if (length(variable.names(mf)) >= 2) {
+    if (ncol(x) == {length(variable.names(mf)) - 1}) {
+      colnames(x) <- variable.names(mf)[2:{length(variable.names(mf))}]
+      colnames(x) <- gsub(":", "", colnames(x))
+    }
   }
-  colnames(x) <- gsub(":", "", colnames(x))
   y <- model.response(mf)
   if (is.null(bins)) {
     bins <- 1:ncol(y)
