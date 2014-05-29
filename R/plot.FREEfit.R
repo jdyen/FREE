@@ -27,4 +27,5 @@ function(x, ...){
   if (is.null(vals$upper) | is.null(vals$lower)) {
     cat("Estimates of parameter uncertainty not available...\n")
   }
+  par(mfrow=c(1, 1))
 }

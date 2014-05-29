@@ -19,3 +19,4 @@ Maintainer: Jian Yen
 - Add citations for other software packages
 - Check errors in the number of bins used by the gamboost method
 - Add scalar-valued responses with function-valued predictors using the FREE method
+- Fix plot.FREEfit and plot.FREEfitCV so they don't change global par() settings.
