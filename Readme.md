@@ -48,9 +48,9 @@ For OSX users: navigate to the folder OSX/ and download the file FREE_x.x.tar.gz
 #### Experimental
 A simple install procedure has been developed, but is currently experimental and may not work on all systems. You will still need to download the appropriate FREE_x.x.tar.gz file (OSX or Windows) to your working directory.
 
-Simply enter the following into your R console (setting OSX.install=TRUE for OSX users).
+Download the installFREE.R script to your working directory and enter the following into your R console (setting OSX.install=TRUE for OSX users).
 ```
-source("https://github.com/jdyen/FREE/installFREE")
+source("installFREE.R")
 installFREE(OSX.install=FALSE)
 ```
 
