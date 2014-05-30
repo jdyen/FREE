@@ -45,6 +45,18 @@ For Windows users: simply download the file FREE_x.x.tar.gz into a local directo
 
 For OSX users: navigate to the folder OSX/ and download the file FREE_x.x.tar.gz into a local directory on your computer. If you install this version, you do not need to install the rstan, R2WinBUGS, coda or boot packages
 
+#### Experimental
+A simple install procedure has been developed, but is currently experimental and may not work on all systems.
+
+Simply enter the following into your R console (setting OSX.install=TRUE for OSX users).
+```
+source("https://github.com/jdyen/FREE/installFREE")
+installFREE(OSX.install=FALSE)
+```
+
+You still need to install a C++ compiler if using rstan. See the instructions below for details (or see [gcc](https://github.com/kennethreitz/osx-gcc-installer/) for OSX users and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) for Windows users).
+*****
+
 Before installing this R package several additional packages must be installed within R:
 
 1. [rstan](http://mc-stan.org/rstan.html) (Windows users only)
