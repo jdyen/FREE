@@ -46,7 +46,7 @@ For Windows users: simply download the file FREE_x.x.tar.gz into a local directo
 For OSX users: navigate to the folder OSX/ and download the file FREE_x.x.tar.gz into a local directory on your computer. If you install this version, you do not need to install the rstan, R2WinBUGS, coda or boot packages
 
 #### Experimental
-A simple install procedure has been developed, but is currently experimental and may not work on all systems.
+A simple install procedure has been developed, but is currently experimental and may not work on all systems. You will still need to download the appropriate FREE_x.x.tar.gz file (OSX or Windows) to your working directory.
 
 Simply enter the following into your R console (setting OSX.install=TRUE for OSX users).
 ```
