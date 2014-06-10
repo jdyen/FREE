@@ -34,29 +34,30 @@ A purpose-built Gibbs sampler has been developed and is intended to replace the 
 
 Created 13 February 2014
 
-Updated 25 March 2014
+Updated 10 June 2014
 
 *****
 
 ## Installation
-FREE is distributed as an R package but is not currently available through the CRAN. There are two versions of the FREE package, one for Windows systems (tested on Windows 7 and Windows XP) and one for OSX/UNIX systems (tested only on OSX 10.6; not currently up-to-date).
+FREE is distributed as an R package (in source form) but is not currently available through the CRAN. There are two versions of the FREE package, one for Windows systems (tested on Windows 7 and Windows XP) and one for OSX/UNIX systems (tested only on OSX 10.6).
 
 For Windows users: simply download the file FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number).
 
 For OSX users: navigate to the folder OSX/ and download the file FREE_x.x.tar.gz into a local directory on your computer. If you install this version, you do not need to install the rstan, R2WinBUGS, coda or boot packages
 
+Because FREE is installed from source you will also need an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
+
 #### Experimental
 A simple install procedure has been developed, but is currently experimental and may not work on all systems. You will still need to download the appropriate FREE_x.x.tar.gz file (OSX or Windows) to your working directory.
 
-Download the installFREE.R script to your working directory and enter the following into your R console (setting OSX.install=TRUE for OSX users).
+Once you've installed a C/C++ compiler, download the installFREE.R script to your working directory and enter the following into your R console (setting OSX.install=TRUE for OSX users).
 ```
 source("installFREE.R")
 installFREE(OSX.install=FALSE)
 ```
-
-You still need to install a C++ compiler if using rstan. See the instructions below for details (or see [gcc](https://github.com/kennethreitz/osx-gcc-installer/) for OSX users and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) for Windows users).
 *****
 
+#### Standard approach
 Before installing this R package several additional packages must be installed within R:
 
 1. [rstan](http://mc-stan.org/rstan.html) (Windows users only)
