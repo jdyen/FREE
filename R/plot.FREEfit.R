@@ -5,7 +5,11 @@ function(x, ...){
   dim.plots <- ceiling(n.plots / 2)
   par(mfrow=c(dim.plots, 2))
   plot(c(x$fitted), c(x$observed), bty='l', xlab="Fitted", ylab="Observed", las=1, ...)
-  y.lab <- c("Mean", rep("Beta", {nrow(vals$mean) - 1}))
+  if (x$method == "scalar") {
+    y.lab <- rep("Beta", {nrow(vals$mean)})
+  } else {
+    y.lab <- c("Mean", rep("Beta", {nrow(vals$mean) - 1}))
+  }
   for (i in 1:{n.plots - 1}) {
     if (!is.null(vals$upper) & !is.null(vals$lower)) {
       y.min <- min(vals$lower[i, ], na.rm=TRUE)
@@ -20,7 +24,7 @@ function(x, ...){
       lines(vals$upper[i, ] ~ x$bins, lty=2)
       lines(vals$lower[i, ] ~ x$bins, lty=2)
     }
-    if (i > 1) {
+    if ((i > 1) | (x$method == "scalar")) {
       lines(c(min(x$bins), max(x$bins)), c(0, 0), lty=3)
     }
   }

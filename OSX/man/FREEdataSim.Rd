@@ -1,12 +1,15 @@
 \name{FREEdataSim}
 \alias{FREEdataSim}
-\title{Simulate functional response data and predictor variables}
-\description{\code{FREEdataSim} simulates a dataset of n observations, particularly for use in testing models of class \code{FREEfit}. Covariates and parameters have default values (see below), but all can be set by the user. Noise is added as IID error (within replicate, within bin), AR1 error and MVN error (correlated across all bins).}
+\title{Simulate functional response or predictor data and all other associated variables}
+\description{\code{FREEdataSim} simulates a dataset of n observations, particularly for use in testing models of class \code{FREEfit}. Either functional responses (default) or functional predictors can be simulated. Covariates and parameters have default values (see below), but all can be set by the user. For functional response models, noise is added as IID error (within replicate, within bin), AR1 error and MVN error (correlated across all bins). For functional predictor models, all noise follows a Gaussian IID process.}
 \usage{
-FREEdataSim(n = 100, n.vars = 2, bins = NULL, y.mean = NULL, x.val = NULL,
-beta.mean = NULL, error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL)
+FREEdataSim(function.class = c("response", "predictor"), n = 100, n.vars = 2,
+            bins = NULL, y.mean = NULL, x.val = NULL, beta.mean = NULL,
+            error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL,
+            struc.err.mean = 0, struc.err.sd = 1)
 }
 \arguments{
+  \item{function.class}{Should the simulated data have functional responses or functional predictors? Defaults to "response", which generates data with a functional response variable.}
   \item{n}{Number of replicates}
   \item{n.vars}{Number of independent variables}
   \item{bins}{Either the number of bins (scalar value), or a vector of preferred argument values. Defaults to 1:21.}
@@ -17,6 +20,8 @@ beta.mean = NULL, error.mean = 0, error.sd = 1, cov.mean = NULL, cov.sd = NULL)
   \item{error.sd}{Optional: standard deviation of errors, which are normally distributed. Defaults to 1.}
   \item{cov.mean}{Optional: used if x.val is not provided. Sets the mean of covariates, which are normally distributed. Needs to have length equal to n.vars (one mean for each covariate). Defaults to NULL, in which case cov.mean is set to a random integer  between 1 and 10.}
   \item{cov.sd}{Optional: sets the sd of covariates, which are normally distributed (if x.val is not provided). Needs to have length equal to n.vars. Defaults to NULL, in which case cov.sd is set to a random number from c(0.5, 1, 1.5, 2)}
+  \item{struc.err.mean}{Optional: mean of structural (function-wide) errors, which are normally distributed. Defaults to 0.}
+  \item{struc.err.sd}{Optional: standard deviation of structural (function-wide) errors, which are normally distributed. Defaults to 1.}
 }
 \details{This is a very flexible function designed to generate several different random datasets. It has been tested only with settings fairly close to default and may exhibit unusual behaviour away from these settings (e.g., large errors relative to mean values).}
 \value{

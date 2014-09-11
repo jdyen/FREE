@@ -80,9 +80,9 @@ void update_beta(double *response, double *preds, int *n, int *np, int *nj, doub
       }
       cov_sum += 2.0 * weight_hist[i][1] * covariates[i][k] - 2.0 * cov_sum4;
     }
-    beta_mean = (sigma2 * (6.0 * beta[k][0] - 4.0 * beta[k][2])
-                       + sigma2_beta * cov_sum) / (10.0 * sigma2 + 2.0 * sigma2_beta * cov_sum2);
-    beta_sigma2 = (sigma2 * sigma2_beta) / (5.0 * sigma2 + sigma2_beta * cov_sum2);
+    beta_mean = (sigma2 * (6.0 * beta[k][0] + 8.0 * beta[k][2] - 2.0 * beta[k][3])
+                       + sigma2_beta * cov_sum) / (12.0 * sigma2 + 2.0 * sigma2_beta * cov_sum2);
+    beta_sigma2 = (sigma2 * sigma2_beta) / (6.0 * sigma2 + sigma2_beta * cov_sum2);
     //Sample new beta[k][1]
     beta[k][1] = rnorm(beta_mean, sqrt(beta_sigma2));
   }

@@ -11,7 +11,7 @@ method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
 "FREE"), n.cv = 10, verbose = TRUE, ...)
 \method{FREEfitCV}{default}(y, x, bins = 1:ncol(y),
 method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
-"FREE"), n.cv = 10, verbose = TRUE, ...)
+"FREE"), n.cv = 10, verbose = TRUE, n.vars=NULL, n.bins=NULL, ...)
 }
 \arguments{
   \item{y}{Formula or response variable to be passed to \code{FREEfitCV.method}}
@@ -22,6 +22,8 @@ method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump",
   \item{method}{String defining the method to be used. Seven options are available but only six of these are currently implemented. Defaults to gamboost. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
   \item{n.cv}{Number of folds for cross validation. Defaults to 10.}
   \item{verbose}{Logical: should progress be printed out? If TRUE the percentage complete will be printed to the console after each fold has been held out.}
+  \item{n.vars}{Number of predictor variables in model; used only for scalar response models.}
+  \item{n.bins}{Number of bins in the predictor variable; used only for scalar response models.}
   \item{\dots}{Additional arguments to be passed to \code{FREEmethod}. See \code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, \code{\link{FREEbugs}} and \code{\link{FREEbugsJump}} for details.}
 }
 \details{
