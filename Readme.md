@@ -27,14 +27,14 @@ FREE is a collection of R helper functions for fitting regression models where r
 
 Several additional packages are required (see Installation, below); and some of these packages are not available through CRAN.
 
-Currently only functional response variables are considered but future updates will introduce functional predictors.
+The FREE package focuses on function-valued response models, but also supports basic function-valued predictor models (single intercept, several variables). Function-valued predictor models are implemented using a purpose-built Gibbs sampler, and this method is still in development, so has not been tested extensively.
 
-A purpose-built Gibbs sampler has been developed and is intended to replace the other packages. This Gibbs sampler method is included in the current package but is in development, so other methods have not yet been removed. We intend to incorporate both functional predictors and responses into this package using a Gibbs sampler. We are releasing FREE in its current form because functional data analysis has the potential to provide new insight into ecological and evolutionary questions and the testing and development of our purpose-built Bayesian approach could take several years.
+The purpose-built Gibbs sampler is intended to replace the other supported methods, but is in development, so other methods have not yet been removed. We are releasing FREE in its current form because functional data analysis has the potential to provide new insight into ecological and evolutionary questions and we hope to receive as much feedback as possible on the FREE package.
 
 
 Created 13 February 2014
 
-Updated 10 June 2014
+Updated 11 September 2014
 
 *****
 
@@ -101,6 +101,8 @@ NOTE: The BUGS and stan methods are not available in the OSX version. The requir
 
 ## Usage
 Once FREE has been installed there are two main functions to use: `FREEfit` and `FREEfitCV`. Both of these functions have a formula interface (`FREEfit.formula` and `FREEfitCV.formula`) and information about their use can be found by typing `?FREEfit` and `?FREEfitCV` in the R console.
+
+The `FREEfit` and `FREEfitCV` functions should determine automatically whether the model to be fitted is a function-valued response or function-valued predictor model. At this stage we expect some errors/warnings in this process; see the relevant help files for details.
 
 Mathematical and statistical details for each implementation, as well as a comparison of their performance, are discussed in:
 Yen JDL, et al. (in preparation) Function regression in ecology and evolution.
