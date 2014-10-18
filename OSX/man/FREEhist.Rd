@@ -18,7 +18,7 @@ List with the following components:
   \item{breaks.hist}{Midpoints of the bins used in data conversion}
 }
 \references{
-  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
+  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{

@@ -9,14 +9,17 @@ function(i, n.obs, n.cv, y, x, bins, method, verbose, stan.model=NA, ...){
   if (method == "fda") {
     model <- FREEfda(y, x, bins, ...)
     class(model) <- "FREEfit"
+    model$method <- method
   }
   if (method == "gamboost") {
     model <- FREEgamboost(y, x, bins, ...)
     class(model) <- "FREEfit"
+    model$method <- method
   }
   if (method == "INLA") {
     model <- FREEinla(y, x, bins, ...)
     class(model) <- "FREEfit"
+    model$method <- method
   }
   if (method == "stan") {
     if (i == 1) {
@@ -26,18 +29,22 @@ function(i, n.obs, n.cv, y, x, bins, method, verbose, stan.model=NA, ...){
       model <- FREEstan(y, x, bins, stan.model=stan.model, refresh=0, ...)
     }
     class(model) <- "FREEfit"
+    model$method <- method
   }
   if (method == "BUGSspline") {
     model <- FREEbugs(y, x, bins, ...)
     class(model) <- "FREEfit"
+    model$method <- method
   }
   if (method == "BUGSjump") {
     model <- FREEbugsJump(y, x, bins, ...)
     class(model) <- "FREEfit"
+    model$method <- method
   }
   if (method == "FREE") {
     model <- FREEfree(y, x, bins, ...)
     class(model) <- "FREEfit"
+    model$method <- method
   }
   observed <- y.store[sites.to.cv, ]
   predicted <- predict(model, newdata=x.store[sites.to.cv, ])

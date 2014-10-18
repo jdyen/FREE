@@ -35,7 +35,7 @@
 Methods for \code{FREEfit} models. ADD DETAILS.
 }
 \references{
-  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
+  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com>}}
 \seealso{

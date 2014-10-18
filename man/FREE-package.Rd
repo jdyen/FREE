@@ -23,7 +23,7 @@ License: \tab GPL-3\cr
   Maintainer: Jian Yen \email{jdl.yen@gmail.com}
 }
 \references{
-  \cite{Yen et al. (in preparation) Functional regression in ecology and evolution}
+  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
 }
 \keyword{ package }
 \keyword{ function regression }
