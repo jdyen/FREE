@@ -1,7 +1,7 @@
 # Function Regression in Ecology and Evolution (FREE)
 
-This README is for the R package FREE (Function Regression in Ecology and Evolution).
-Yen JDL, et al. (in press) Function regression in ecology and evolution. Methods in Ecology and Evolution.
+This README is for the R package FREE (Function Regression in Ecology and Evolution) (see also
+Yen JDL, et al. (in press) Function regression in ecology and evolution. Methods in Ecology and Evolution).
 
 Copyright &copy; 2014, Jian Yen
 
