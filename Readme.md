@@ -1,6 +1,7 @@
 # Function Regression in Ecology and Evolution (FREE)
 
 This README is for the R package FREE (Function Regression in Ecology and Evolution).
+Yen JDL, et al. (in press) Function regression in ecology and evolution. Methods in Ecology and Evolution.
 
 Copyright &copy; 2014, Jian Yen
 
@@ -105,7 +106,7 @@ Once FREE has been installed there are two main functions to use: `FREEfit` and 
 The `FREEfit` and `FREEfitCV` functions should determine automatically whether the model to be fitted is a function-valued response or function-valued predictor model. At this stage we expect some errors/warnings in this process; see the relevant help files for details.
 
 Mathematical and statistical details for each implementation, as well as a comparison of their performance, are discussed in:
-Yen JDL, et al. (in preparation) Function regression in ecology and evolution.
+Yen JDL, et al. (in press) Function regression in ecology and evolution. Methods in Ecology and Evolution.
 
 Models fitted using `FREEfit` are of class FREEfit and have several S3 methods available: `print`, `summary`, `plot`, `coef`, `predict`, `fitted` and `residuals`. Models fitted using `FREEfitCV` are of class FREEfitCV and have several S3 methods available: `print`, `summary`, `plot` and `residuals`.
 
