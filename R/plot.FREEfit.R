@@ -1,6 +1,11 @@
 plot.FREEfit <-
 function(x, ...){
   vals <- coef(x)
+  if (is.null(nrow(vals$mean))) {
+    vals$mean <- matrix(vals$mean, nrow=1)
+    vals$upper <- matrix(vals$upper, nrow=1)
+    vals$lower <- matrix(vals$lower, nrow=1)
+  }
   n.plots <- nrow(vals$mean) + 1
   dim.plots <- ceiling(n.plots / 2)
   par(mfrow=c(dim.plots, 2))

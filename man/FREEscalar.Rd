@@ -1,53 +1,71 @@
 \name{FREEscalar}
 \alias{FREEscalar}
 \title{Bayesian function regression using purpose-built MCMC}
-\description{\code{FREEscalar} implements a purpose-built MCMC approach for Bayesian functional regression, where the predictor variables are given by a function and the response variable is a scalar. This is a work in progress and is in testing stage only. The \code{FREEscalar} approach uses a Gibbs sampler for spline-based function regression models, with a 2nd-order random walk process across bins.}
+\description{\code{FREEscalar} fits a function regression models with scalar response variables and one function-valued response variable. The \code{FREEscalar} method uses a Gibbs sampler for B-spline-based function regression models. This method can accommodate clustering varaibles, which define distinct groups that are assigned their own function-valued intercept; this is similar to the use of random intercepts in linear mixed models. This method also can include a matrix of scalar predictor variables.}
 \usage{
-FREEscalar(y, x, bins, n.vars, n.bins, family="gaussian", errors="iid",
-n.chains=3, n.iters=10000, n.burnin=n.iters/5, n.thin=n.iters/100,
-hypers=list(psi=1, phi=100, sigma2_alpha=10, sigma2_beta=10),
-inits=list(vari=10, alpha=NULL, betas=NULL))
+FREEscalar(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
+           n.burnin=round(n.iters / 5), n.thin=1, n.chains=3,
+           hypers=list(phi1=0.1, psi1=0.1, phi2=0.1, psi2=0.1, s2_alpha=10,
+                       s2_beta=10, s2_delta=10),
+           inits=list(alpha=NULL, beta=NULL, gamma=NULL, delta=NULL,
+                      sigma2=1, sigma2_gamma=1),
+           par.run=FALSE)
 }
 \arguments{
-  \item{y}{Matrix of response data, sites in rows.}
-  \item{x}{Matrix of predictor variables, sites in rows}
+  \item{y}{Numeric vector of response data.}
+  \item{x}{Matrix of predictor variable function, sites in rows}
+  \item{z}{Matrix of scalar predictor variables}
+  \item{groups}{Matrix of clustering variables}
   \item{bins}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
-  \item{n.vars}{Number of functional predictor variables in the model}
-  \item{n.bins}{Number of bins for the functional predictor variables (must be equal for all variables)}
-  \item{family}{Family for the observed response variable; only Gaussian errors are implemented currently}
-  \item{errors}{Specify the error structure of within-site residuals; options are "ar1" or "iid"}
-  \item{n.chains}{Number of MCMC chains.}
+  \item{degree}{The degree of the B spline basis functions used in model fitting}
+  \item{n_knots}{Number of knots for B splines for the function-valued effects in model fitting}
   \item{n.iters}{Total number of MCMC iterations (including burnin)}
-  \item{n.burnin}{Number of iterations to be treated as a burnin; defaults to n.iters/5}
-  \item{n.thin}{Thinning rate for MCMC chains; defaults to 100}
+  \item{n.burnin}{Number of iterations to be treated as a burnin; defaults to \code{round(n.iters/5)}}
+  \item{n.thin}{Thinning rate for MCMC chains; defaults to 1}
+  \item{n.chains}{Number of MCMC chains.}
   \item{hypers}{The hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
   \item{inits}{Optional: initial values for the variance and the model parameters}
+  \item{par.run}{Logical: if TRUE and \code{Sys.info()["sysname"] == "Darwin"} the \pkg{parallel} package is used to run multiple chains on different cores}
 }
-\details{\code{FREEscalar} fits a function regression model using a purpose-built Gibbs sampler. The C code for this Gibbs sampler is available at the \pkg{FREE} website. Extensions to this method are in development.}
+\details{\code{FREEscalar} fits a function regression model using a purpose-built Gibbs sampler. The C++ code for this Gibbs sampler is available at the \pkg{FREE} website.}
 \value{
-Object of class \code{FREEfit} with the following components:
-  \item{fitted}{fitted y values}
-  \item{observed}{observed y data}
-  \item{coefs.mean}{mean values for all fitted coefficients (including the mean function)}
-  \item{coefs.sd}{sd values for all fitted coefficients (including the mean function)}
+List with the following components:
+  \item{fitted}{Fitted y values}
+  \item{fitted.sd}{Standard deviation of fitted y values}
+  \item{observed}{Observed y data}
+  \item{coefs.mean}{Mean values for the fitted function-valued model parameter}
+  \item{coefs.sd}{Standard deviations of the fitted function-valued model parameter}
   \item{r2}{r-squared value for the fitted model, based on Pearson R}
   \item{family}{family used for model fitting}
-  \item{bins}{vector of argument values for the response function}
-  \item{xIC}{DIC value from the fitted model; not currently available}
+  \item{xIC}{DIC value from the fitted model}
+  \item{rhats}{Rhat values for the fitted model; values near one indicate good chain mixing}
+  \item{sigma2.mean}{Mean value of the overall model variance}
+  \item{sigma2.sd}{Standard deviation of the overall model variance}
+  \item{sigma2_gamma.mean}{Mean values of the shared variances for each clustering variable}
+  \item{sigma2_gamma.sd}{Standard deviation of the share variances for each clustering variable}
+  \item{alpha.mean}{Mean of the model grand mean}
+  \item{alpha.sd}{Standard deviation of grand mean}
+  \item{beta.mean}{Mean values for the B-spline coefficients}
+  \item{beta.sd}{Standard deviations of B-spline coefficients}
+  \item{gamma.mean}{Mean values for the model intercepts for clustering variables}
+  \item{gamma.sd}{Standard deviations of the model intercepts for clustering variables}
+  \item{delta.mean}{Mean values for the linear effects of scalar predictor variables}
+  \item{delta.sd}{Standard deviations of the fitted effects for scalar predictor variables}
+  \item{llik_all}{Log-likelihood values for all iterations (including burn-in) and all chains; useful for assessing model convergence and mixing}
 }
 \references{
-  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
+  \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{
-\code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, 
-\code{\link{FREEstan}}, \code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, 
-\code{\link{FREEfit}}, \code{\link{FREEfree}}
+\code{\link{FREEfit}}
 }
 \examples{
   data <- FREEdataSim(function.class="predictor")
-  data.list <- with(data, list(y=y.iid, VAR1=x[, , 1], VAR2=x[, , 2]))
-  model <- FREEfit(y ~ VAR1 + VAR2, data=data.list)
+  data.list <- with(data, list(y=y.iid, VAR1=x[, , 1]))
+  z <- rnorm(length(data.list$y))
+  groups <- sample(1:4, size=length(data.list$y), replace=TRUE)
+  model <- FREEfit(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=50)
 }
 \keyword{function regression}
 \keyword{functional predictor}

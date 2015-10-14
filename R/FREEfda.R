@@ -12,15 +12,11 @@ function(y, x, bins, family="gaussian", errors="iid", y.basis="spline", nbasis.y
       if (y.basis == "exponential") {
   	    y.basis <- create.exponential.basis(c(min(bins), max(bins)), nbasis=nbasis.y)
   	  } else {
-        if (y.basis == "polynomial") {
-  	      y.basis <- create.polynomial.basis(c(min(bins), max(bins)), nbasis=nbasis.y)
+        if (y.basis == "power") {
+  	      y.basis <- create.power.basis(c(min(bins), max(bins)), nbasis=nbasis.y)
   	    } else {
-          if (y.basis == "power") {
-  	        y.basis <- create.power.basis(c(min(bins), max(bins)), nbasis=nbasis.y)
-  	      } else {
-            y.basis <- create.bspline.basis(c(min(bins), max(bins)), nbasis=nbasis.y,
-                                               norder=norder.y)
-          }
+          y.basis <- create.bspline.basis(c(min(bins), max(bins)), nbasis=nbasis.y,
+                                             norder=norder.y)
         }
       }
     }
@@ -36,15 +32,11 @@ function(y, x, bins, family="gaussian", errors="iid", y.basis="spline", nbasis.y
       if (beta.basis == "exponential") {
   	    beta.basis <- create.exponential.basis(c(min(bins), max(bins)), nbasis=nbasis.beta)
   	  } else {
-        if (beta.basis == "polynomial") {
-  	      beta.basis <- create.polynomial.basis(c(min(bins), max(bins)), nbasis=nbasis.beta)
+        if (beta.basis == "power") {
+  	      beta.basis <- create.power.basis(c(min(bins), max(bins)), nbasis=nbasis.beta)
   	    } else {
-          if (beta.basis == "power") {
-  	        beta.basis <- create.power.basis(c(min(bins), max(bins)), nbasis=nbasis.beta)
-  	      } else {
-            beta.basis <- create.bspline.basis(c(min(bins), max(bins)), nbasis=nbasis.beta,
-                                               norder=norder.beta)
-          }
+          beta.basis <- create.bspline.basis(c(min(bins), max(bins)), nbasis=nbasis.beta,
+                                             norder=norder.beta)
         }
       }
     }

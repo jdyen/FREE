@@ -1,5 +1,5 @@
 FREEbugs <-
-function(y, x, bins,family="gaussian", errors="ar1", n.basis=12, bugs.file=NULL, n.chains=3, n.iters=2000, n.burnin=n.iters/2, n.thin=1, debug=FALSE, bugs.dir=NULL, ...){
+function(y, x, bins,family="gaussian", errors="ar1", n.basis=12, bugs.file=NULL, n.chains=3, n.iters=2000, n.burnin=round(n.iters/2), n.thin=1, debug=FALSE, bugs.dir=NULL, ...){
   if (is.null(bugs.file)) {
     bugs.file <- "FREEbugsSplineTemp.txt"
     MakeBUGSsplineFile(filename="FREEbugsSplineTemp.txt", ARmod={errors == "ar1"})

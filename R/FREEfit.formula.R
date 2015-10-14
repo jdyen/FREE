@@ -1,5 +1,6 @@
 FREEfit.formula <-
-function(formula, data=list(), bins=NULL, method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...){
+function(formula, data=list(), bins=NULL, groups=NULL, z=NULL,
+         method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), ...){
   mf <- model.frame(formula=formula, data=data)
   if (is.null(model.response(mf))) {
     stop("Model response must be specified in formula.....", call.=FALSE)
@@ -19,23 +20,24 @@ function(formula, data=list(), bins=NULL, method=c("fda", "gamboost", "INLA", "s
       }
     }
     y <- model.response(mf)
-    if (is.null(bins)) {
-      bins <- 1:ncol(y)
-    }
     if (length(method) > 1) {
-      method <- "gamboost"
+      if (is.null(groups)) {
+        warning("Only one method should be supplied; fda method used by default...", call.=FALSE)
+        method <- "fda"
+      } else {
+        warning("Only one method should be supplied; FREE method used as default for model with clustering variables...", call.=FALSE)
+        method <- "FREE"
+      }
     }
-    model <- FREEfit.default(y=y, x=x, bins=bins, method=method, ...)
+    model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z, method=method, ...)
   } else {
     if (is.numeric(model.response(mf))) {
       y <- model.response(mf)
-      n.bins <- ncol(x) / (length(variable.names(mf)) - 1)
-      n.vars <- length(variable.names(mf)) - 1
       if (is.null(bins)) {
-        bins <- 1:n.bins
+        bins <- 1:ncol(x)
       }
-      model <- FREEfit.default(y=y, x=x, bins=bins, method=method, 
-                               n.vars=n.vars, n.bins=n.bins, ...)
+      model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z,
+                               method=method, ...)
     } else {
       stop("Model response must be a numeric vector (scalar response model) or a matrix (function response model).", call.=FALSE)
     }

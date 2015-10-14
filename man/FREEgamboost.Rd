@@ -49,7 +49,7 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
+  \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{

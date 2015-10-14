@@ -1,5 +1,6 @@
 FREEfitCV.formula <-
-function(formula, data=list(), bins=NULL, method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv=10, verbose=TRUE, ...){
+function(formula, data=list(), bins=NULL, groups=NULL, z=NULL,
+method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"), n.cv=10, verbose=TRUE, ...){
   mf <- model.frame(formula=formula, data=data)
   if (is.null(model.response(mf))) {
     stop("Model response must be specified in formula.....", call.=FALSE)
@@ -25,7 +26,7 @@ function(formula, data=list(), bins=NULL, method=c("fda", "gamboost", "INLA", "s
   	if (length(method) > 1) {
   	  method <- "gamboost"
   	}
-  	model <- FREEfitCV.default(y=y, x=x, bins=bins, method=method,
+  	model <- FREEfitCV.default(y=y, x=x, bins=bins, groups=groups, z=z, method=method,
   	                           verbose=verbose, n.cv=n.cv, ...)
   } else {
   	if (is.numeric(model.response(mf))) {
@@ -35,7 +36,7 @@ function(formula, data=list(), bins=NULL, method=c("fda", "gamboost", "INLA", "s
   	  if (is.null(bins)) {
   	    bins <- 1:n.bins
   	  }
-  	  model <- FREEfitCV.default(y=y, x=x, bins=bins, method=method,
+  	  model <- FREEfitCV.default(y=y, x=x, bins=bins, groups=groups, z=z, method=method,
   	                             verbose=verbose, n.cv=n.cv,
      	                         n.vars=n.vars, n.bins=n.bins, ...)
   	} else {

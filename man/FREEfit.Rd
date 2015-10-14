@@ -4,35 +4,39 @@
 \alias{FREEfit.default}
 \title{Function Regression in Ecology and Evolution}
 \description{
-This is the main call for fitting a model of class \code{FREEfit}. Function \code{FREEfit} has a formula or default method. \code{FREEfit} fits a model where the response variable is a function and there are one or more scalar predictor variables. Parameters for the functional model are represented as continuous functions, so the model to be fitted is:
-\deqn{y(x) = \alpha(x) + \Sigma_{i} \beta_{i}(x) z + \epsilon(x)}
-where \eqn{y(x)} is the response variable as a function of \eqn{x}, \eqn{\alpha(x)} is an intercept function, \eqn{\beta_{i}(x)} is the effect of variable \eqn{i} at each value of \eqn{x}, \eqn{z} is the value of covariate or predictor variable \eqn{i} and \eqn{\epsilon(x)} is the error at each value of \eqn{x}.
+This is the main call for fitting a model of class \code{FREEfit}. Function \code{FREEfit} has a formula or default method. \code{FREEfit} fits models with function-valued response variables or function-valued predictor variables (but not both). Parameters for these models are represented as continuous functions. Models with function-valued response variables can accommodate clustering variables, which introduce function-valued intercepts for distinct groups within the data (similar to a random intercept in a mixed effects model). The model with a function-valued response variable is:
+\deqn{y(m) = \alpha(m) + \Sigma_{i} \beta_{i}(m) x + \Sigma_{q} \gamma_{q, G(i)}(m) + \epsilon(m)},
+where \eqn{y(m)} is the response variable as a function of \eqn{m}, \eqn{\alpha(m)} is an intercept function, \eqn{\beta_{i}(m)} is the effect of variable \eqn{i} at each value of \eqn{m}, \eqn{x} is the value of covariate or predictor variable \eqn{i}, \eqn{\gamma_{q, G(i)}(m)} is a function-valued intercept for group \eqn{G(i)} of clustering variable \eqn{q}, where \eqn{G(i)} is the group to which subject \eqn{i} belongs, and \eqn{\epsilon(m)} is the error at each value of \eqn{m}. Models without clustering variables can be fitted using several different methods; models with clustering variables use a custom-built Gibbs sampler.
+
+Models with single-valued (scalar) response variables can accommodate one function-valued predictor variable, one or more clustering variables that introduce group-specific intercepts (similar to random intercepts in a mixed effects model), and one or more scalar predictor variables. The model with a scalar response variable is:
+\deqn{y = \alpha + \int \beta(m) x(m) dm + \Sigma_{q} \gamma_{q, G(i)} + \Sigma_{k} \delta_{k} z_{k} + \epsilon},
+where \eqn{y} is the response variable, \eqn{\alpha} is the model intercept, \eqn{\beta(m)} is the effect of the function-valued predictor variable, \eqn{x(m)}, on the response variable, \eqn{\gamma_{q, G(i)}} is a random intercept for group \eqn{G(i)} of clustering variable \eqn{q}, where \eqn{G(i)} is the group to which subject \eqn{i} belongs, \eqn{\delta_{k}} is the linear effect of scalar predictor variable, \eqn{z_{k}}, on the response, and \eqn{\epsilon} is the model error. All models with scalar response variables are fitted using a custom-built Gibbs sampler.
 }
 \usage{
 FREEfit(y, ...)
-\method{FREEfit}{formula}(formula, data, bins=NULL,
+\method{FREEfit}{formula}(formula, data, bins=NULL, groups=NULL, z=NULL,
 method=c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
 ...)
-\method{FREEfit}{default}(y, x, bins = 1:ncol(y),
+\method{FREEfit}{default}(y, x, bins = NULL, groups=NULL, z=NULL,
 method = c("fda", "gamboost", "INLA", "stan", "BUGSspline", "BUGSjump", "FREE"),
-n.vars=NULL, n.bins=NULL, bootstrap.cis=FALSE, n.bs=50, ...)
+bootstrap.cis=FALSE, n.bs=50, ...)
 }
 \arguments{
-  \item{y}{Formula or response variable to be passed to \code{FREEfit.method}}
-  \item{formula}{Model to be fitted. Of the form y ~ x1 + x2. Interactions are possible, but not tested extensively. Predictor variables can be factor or numeric.}
+  \item{y}{Response variable to be passed to \code{FREEfit.method}. Can be function-valued or single-valued.}
+  \item{formula}{Model to be fitted. Of the form y ~ x1 + x2. Interactions are possible, but not tested extensively. Predictor variables can be factor or numeric. If a function-valued predictor is used, then only one predictor variable can be included and the response variable must be single-valued.}
   \item{data}{Named list containing data for the model. The response variable must be a matrix, with sites in rows, while the predictor variables must be vectors. Predictor variables can be numeric or factors, and are prepared using model.frame().}
-  \item{x}{Matrix of predictor variables, sites in rows}
+  \item{x}{Matrix of predictor variables or a matrix of the function-valued predictor variable. Sites must be in rows.}
   \item{bins}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
-  \item{method}{String defining the method to be used. Seven options are available but only six of these are currently implemented. Defaults to gamboost. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
-  \item{n.vars}{Number of variables in a functional predictor model; ignored for functional response models.}
-  \item{n.bins}{Number of bins in the predictor variable for a functional predictor model; ignored for functional response models.}
+  \item{groups}{Matrix of clustering variables}
+  \item{z}{Matrix of scalar predictor variables; only used if the response variable is single-valued.}
+  \item{method}{String defining the method to be used. Defaults to fda if groups and z are NULL, otherwise defaults to the FREE method. Methods BUGSspline and BUGSjump can be slow, as can gamboost, INLA and stan if inappropriate settings are used.}
   \item{bootstrap.cis}{For method=gamboost only: Logical: should a bootstrap be used to calculate confidence intervals for gamboost parameter estimates?}
   \item{n.bs}{If bootstrap.cis=TRUE, the number of bootstraps to perform}
-  \item{\dots}{Additional arguments to be passed to \code{FREEmethod}. See \code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, \code{\link{FREEbugs}} and \code{\link{FREEbugsJump}} for details.}
+  \item{\dots}{Additional arguments to be passed to \code{FREEmethod}. See \code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, \code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, \code{\link{FREEspline}} and \code{\link{FREEscalar}} for details.}
 }
 \details{\code{FREEfit} is the main function for fitting \code{FREEfit} models, and \code{FREEfit.formula} is the main interface.
 	
-There are many parameters and settings that can be passed to each method; see the appropriate help files for details. These settings require consideration because the different methods will not necessarily perform well for all data under default settings. In many cases the necessary settings might cause slow performance, e.g., many iterations for MCMC methods. In these cases, appropriate alternatives should be used (\code{\link{FREEfda}} for stan models, \code{\link{FREEinla}} for Bayesian spline models, \code{\link{FREEgamboost}} for general spline models). See also Yen et al. (in preparation) for a detailed discussion of performance versus computing time for these methods. We advise running small datasets to test the computing time for each method; although \code{\link{FREEbugsJump}} might be preferred for its statistical advantages, we often find it to perform extremely slowly (hours to weeks for n > 100).
+There are many parameters and settings that can be passed to each method; see the appropriate help files for details. These settings require consideration because the different methods will not necessarily perform well for all data under default settings. In many cases the necessary settings might cause slow performance, e.g., many iterations for MCMC methods. In these cases, appropriate alternatives should be used (\code{\link{FREEfda}} for stan models, \code{\link{FREEinla}} for Bayesian spline models). See also Yen et al. (2015) for a detailed discussion of performance versus computing time for these methods. We advise running small datasets to test the computing time for each method; although \code{\link{FREEbugsJump}} might be preferred for its statistical advantages, we often find it to perform extremely slowly (hours to weeks for n > 100).
 	
 The function \code{\link{FREEfitCV}} has been provided for model validation and should be used when determining appropriate settings and for choosing among alternative approaches.}
 \value{
@@ -50,27 +54,38 @@ Object of class \code{FREEfit} with the following components:
   \item{formula}{If \code{FREEfit.formula} is used: the model formula}
 }
 \references{
-  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
+  \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
-\section{Warning}{BUGS and stan methods will return a warning if any Rhat values are greater than 1.1 (for models where n.chains > 1). This indicates that model convergence might be an issue and should not be ignored. Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing.}
+\section{Warning}{BUGS and stan methods will return a warning if any Rhat values are greater than 1.1 (for models where n.chains > 1). This indicates that model convergence might be an issue and should not be ignored. Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing. Rhat values are returned for each parameter when groups or z are not NULL, along with the log-likelihood at each iteration.}
 \seealso{
 \code{\link{FREEfit.formula}}, \code{\link{FREEfit.default}}, \code{\link{FREEfda}}, 
 \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, 
-\code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, \code{\link{FREEfree}}, \code{\link{FREEfitCV}}
+\code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, \code{\link{FREEfree}}, 
+\code{\link{FREEspline}}, \code{\link{FREEscalar}}, \code{\link{FREEfitCV}}
 }
 \examples{
-data <- FREEdataSim()
+# basic model
+data <- FREEdataSim(function.class="response")
 data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
 model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
+summary(model)
 plot(model)
-\dontrun{
-  model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='INLA')
-  plot(model2)
-  model3 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='stan')
-  plot(model3)
-  model4 <- FREEfit(y ~ VAR1 * VAR2, data=data.list, method='gamboost')
-  plot(model4)
-}
+
+# try a model with clustering variables
+groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
+model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, groups=groups, method='FREE', n.iters=25)
+summary(model2)
+plot(model2)
+
+# try a model with a scalar response variable
+data <- FREEdataSim(function.class="predictor")
+data.list <- with(data, list(y=y.iid, VAR1=x[, , 1]))
+z <- rnorm(length(data.list$y))
+groups <- sample(1:4, size=length(data.list$y), replace=TRUE)
+model3 <- FREEfit(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=25)
+summary(model3)
+plot(model3)
+
 }
 \keyword{function regression}

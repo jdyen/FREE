@@ -4,7 +4,7 @@
 \description{Fits a basis-function-type function regression model using WinBUGS (see references). Data are modelled over a b-spline basis and the coefficients from this basis are regressed on the predictor variables. These coefficients are assumed independent of one another.}
 \usage{
 FREEbugs(y, x, bins, family="gaussian", errors="ar1", n.basis=12, bugs.file = NULL,
-n.chains = 3, n.iters = 2000, n.burnin = n.iters/2, n.thin = 1, debug = FALSE,
+n.chains = 3, n.iters = 2000, n.burnin = round(n.iters/2), n.thin = 1, debug = FALSE,
 bugs.dir = NULL, ...)
 }
 \arguments{
@@ -36,7 +36,7 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model}
 }
 \references{
-  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
+  \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \section{Warning }{

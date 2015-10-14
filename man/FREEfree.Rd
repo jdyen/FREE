@@ -3,8 +3,8 @@
 \title{Bayesian function regression using purpose-built MCMC}
 \description{\code{FREEfree} implements a purpose-built MCMC approach for Bayesian functional regression, intended to replace the \code{\link{FREEfda}}, \code{\link{FREEgamboost}}, \code{\link{FREEinla}}, \code{\link{FREEstan}}, \code{\link{FREEbugs}}, \code{\link{FREEbugsJump}} methods currently implemented in \pkg{FREE}. This is a work in progress and is in testing stage only. The \code{FREE} method uses a Gibbs sampler for spline-based function regression models, with either independent bins or a 2nd-order random walk process across bins.}
 \usage{
-FREEfree(y, x, bins, family="gaussian", errors="iid", model=c("iid", "rw2"),
-n.chains=3, n.iters=10000, n.burnin=n.iters/5, n.thin=n.iters/100,
+FREEfree(y, x, bins, family="gaussian", errors="iid", model="rw2",
+n.chains=3, n.iters=10000, n.burnin=round(n.iters/5), n.thin=1,
 hypers=list(psi=1, phi=100, sigma2_beta=10), inits=list(vari=10, betas=NULL))
 }
 \arguments{
@@ -34,7 +34,7 @@ Object of class \code{FREEfit} with the following components:
   \item{xIC}{DIC value from the fitted model; not currently available}
 }
 \references{
-  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
+  \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \seealso{

@@ -1,5 +1,5 @@
 FREEfree <-
-function(y, x, bins, family="gaussian", errors="iid", model=c("iid", "rw2"), n.chains=3, n.iters=10000, n.burnin=n.iters/5, n.thin=n.iters/100, hypers=list(psi=1, phi=100, sigma2_beta=10), inits=list(vari=10, betas=NULL)) {
+function(y, x, bins, family="gaussian", errors="iid", model="rw2", n.chains=3, n.iters=10000, n.burnin=round(n.iters/5), n.thin=1, hypers=list(psi=1, phi=100, sigma2_beta=10), inits=list(vari=10, betas=NULL)) {
   # add intercept to predictors
   x <- cbind(rep(1, nrow(y)), x)
   # extract indices

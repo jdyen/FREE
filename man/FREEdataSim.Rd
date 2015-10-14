@@ -37,7 +37,7 @@ FREEdataSim(function.class = c("response", "predictor"), n = 100, n.vars = 2,
   \item{bins}{The argument values used}
 }
 \references{
-  \cite{Yen et al. (in press) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution}
+  \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
 \examples{
