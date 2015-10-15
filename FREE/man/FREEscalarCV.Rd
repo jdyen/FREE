@@ -46,7 +46,7 @@ Object of class \code{FREEfitCV} with the following components:
   data.list <- with(data, list(y=y.iid, VAR1=x[, , 1]))
   z <- rnorm(length(data.list$y))
   groups <- sample(1:4, size=length(data.list$y), replace=TRUE)
-  model <- FREEfitCV(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=50)
+  model <- FREEfitCV(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=15, n.cv=3)
 }
 \keyword{function regression}
 \keyword{Bayesian}

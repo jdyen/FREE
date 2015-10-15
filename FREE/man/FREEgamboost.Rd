@@ -57,7 +57,7 @@ Object of class \code{FREEfit} with the following components:
 \code{\link{FREEbugs}}, \code{\link{FREEbugsJump}}, \code{\link{FREEfit}}
 }
 \examples{
-data <- FREEdataSim()
+data <- FREEdataSim(function.class="response", n=10)
 data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
 model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method="gamboost", mstop=250)
 summary(model)

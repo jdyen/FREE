@@ -32,10 +32,10 @@ License: \tab GPL (>= 2)\cr
 \examples{
 # Fit a functional regression model using a Gibbs sampler and plot the results
 # using default plot methods for objects of class FREEfit
-data <- FREEdataSim(function.class="response")
+data <- FREEdataSim(function.class="response", n=10)
 data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
 groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
-model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, groups=groups, method="FREE", n.iters=50)
+model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, groups=groups, method="FREE", n.iters=10)
 summary(model)
 plot(model)
 }

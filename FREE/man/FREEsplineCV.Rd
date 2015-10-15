@@ -37,10 +37,13 @@ Object of class \code{FREEfitCV} with the following components:
 \code{\link{FREEspline}}, \code{\link{FREEfit}}
 }
 \examples{
-  data <- FREEdataSim()
+\dontrun{
+  data <- FREEdataSim(function.class="response", n=10)
   data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
   groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
-  model <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, groups=groups, method="FREE", n.iters=50)
+  model <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, groups=groups,
+                     method="FREE", n.iters=5, n.cv=3)
+}
 }
 \keyword{function regression}
 \keyword{Bayesian}

@@ -72,18 +72,20 @@ model <- FREEfit(y ~ VAR1 + VAR2, data=data.list, method='fda')
 summary(model)
 plot(model)
 
+\dontrun{
 # try a model with clustering variables
 groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
 model2 <- FREEfit(y ~ VAR1 + VAR2, data=data.list, groups=groups, method='FREE', n.iters=25)
 summary(model2)
 plot(model2)
+}
 
 # try a model with a scalar response variable
 data <- FREEdataSim(function.class="predictor")
 data.list <- with(data, list(y=y.iid, VAR1=x[, , 1]))
 z <- rnorm(length(data.list$y))
 groups <- sample(1:4, size=length(data.list$y), replace=TRUE)
-model3 <- FREEfit(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=25)
+model3 <- FREEfit(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=10)
 summary(model3)
 plot(model3)
 
