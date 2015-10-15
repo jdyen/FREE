@@ -40,9 +40,9 @@ Updated 14 October 2015
 *****
 
 ## Installation
-FREE is distributed as an R package in source form. FREE is not currently available through the CRAN. The FREE package has been tested on Windows 7, Windows XP, and OSX 10.6, 10.7 and 10.10.
+FREE is distributed as an R package in source and binary form. FREE is not currently available through the CRAN. The FREE package has been tested on Windows 7, Windows XP, and OSX 10.6, 10.7 and 10.10.
 
-There are three installation options. All require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
+There are four installation options. The first three require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
 
 - install/load the devtools package and install directly from the source package on GitHub:
 ```
@@ -62,6 +62,19 @@ installFREE()
 install.packages("FREE_x.x.tar.gz", repos=NULL, type="source")
 ```
 to install the FREE R package. This package then can be loaded in R using `library(FREE)`.
+
+*****
+
+- install all dependencies manually and install the FREE package from binary. For OSX systems, use
+```
+install.packages("FREE_x.x.tgz", repos=NULL)
+```
+and, for Windows systems, use
+```
+install.packages("FREE.zip", repos=NULL)
+```
+
+*****
 
 Errors during installation often are related to the installation of required packages. Restarting R and making sure all required packages can be loaded using `library(pkgName)` will identify missing or incorrectly installed packages.
 
