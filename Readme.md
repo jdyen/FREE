@@ -40,24 +40,22 @@ Updated 14 October 2015
 *****
 
 ## Installation
-FREE is distributed as an R package in source form (but binaries are available too). FREE is not currently available through the CRAN. The FREE package has been tested on Windows 7, Windows XP, and OSX 10.6, 10.7 and 10.10.
+FREE is distributed as an R package in source form. FREE is not currently available through the CRAN. The FREE package has been tested on Windows 7, Windows XP, and OSX 10.6, 10.7 and 10.10.
 
-To install: simply download the file FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0).
-  
-If you choose to install FREE from source you will also need an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
+There are three installation options. Both require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
 
-#### Experimental
-A simple install procedure has been developed, but is currently experimental and may not work on all systems. You will still need to download the  FREE_x.x.tar.gz file to your working directory.
+1. Install/load the devtools package and install directly from the source package on GitHub:
+```
+install_github("jdyen/FREE/FREE")
+```
 
-Once you've installed a C/C++ compiler, download the installFREE.R script to your working directory and enter the following into your R console:
+2. Download the source package FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0). Download and source the installFREE.R script:
 ```
 source("installFREE.R")
 installFREE()
 ```
-*****
 
-#### Standard approach
-Before installing this R package several additional packages must be installed within R:
+3. Install all dependencies manually. First, install the following packages (not available through CRAN):
 
 1. [rstan](http://mc-stan.org/rstan.html)
 2. [INLA](http://www.r-inla.org/)
@@ -78,7 +76,7 @@ An error might occur if rstan has been installed only for 64-bit architecture. T
 
 - install FREE for 64-bit architecture only:
 ```
-install.packages("FREE_1.0.tar.gz", repos = NULL, type = "source", INSTALL_opts=c("--no-multiarch"))
+install.packages("FREE_x.x.tar.gz", repos = NULL, type = "source", INSTALL_opts=c("--no-multiarch"))
 ```
 - install rstan for 32- and 64-bit architectures:
 ```
