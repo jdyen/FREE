@@ -42,29 +42,22 @@ Updated 14 October 2015
 ## Installation
 FREE is distributed as an R package in source form. FREE is not currently available through the CRAN. The FREE package has been tested on Windows 7, Windows XP, and OSX 10.6, 10.7 and 10.10.
 
-There are three installation options. Both require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
+There are three installation options. All require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
 
-1. Install/load the devtools package and install directly from the source package on GitHub:
+- install/load the devtools package and install directly from the source package on GitHub:
 ```
-install_github("jdyen/FREE/FREE")
+devtools::install_github("jdyen/FREE/FREE")
 ```
+*****
 
-2. Download the source package FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0). Download and source the installFREE.R script:
+- Download the source package FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0). Download and source the installFREE.R script:
 ```
 source("installFREE.R")
 installFREE()
 ```
+*****
 
-3. Install all dependencies manually. First, install the following packages (not available through CRAN):
-
-1. [rstan](http://mc-stan.org/rstan.html)
-2. [INLA](http://www.r-inla.org/)
-
-See the links above for relevant details. Note that rstan and INLA are not currently available through the CRAN and must be installed according to the instructions on their websites.
-
-FREE imports functions from several packages (see Depends and Imports in the DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of rstan and INLA, all other packages are available through the CRAN and should be easy to install.
-
-Once the appropriate packages have been installed, you simply need to place the file FREE_x.x.tar.gz in the current working directory (where x.x is replaced with the current version number) and use
+- Install all dependencies manually. First, install the INLA package (not available through CRAN; details at [INLA](http://www.r-inla.org/)). FREE imports functions from several packages (see Depends and Imports in the DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of INLA, all other packages are available through the CRAN and should be easy to install. Once the appropriate packages have been installed, you simply need to place the file FREE_x.x.tar.gz in the current working directory (where x.x is replaced with the current version number) and use
 ```
 install.packages("FREE_x.x.tar.gz", repos=NULL, type="source")
 ```
