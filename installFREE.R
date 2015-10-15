@@ -2,6 +2,9 @@ installFREE <- function() {
   if(!require(fda)) {
     install.packages("fda")
   }
+  if (!require(foreign)) {
+    install.packages("foreign")
+  }
   if(!require(INLA)) {
     source("http://www.math.ntnu.no/inla/givemeINLA.R")
   }
