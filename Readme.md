@@ -30,7 +30,7 @@ Several additional packages are required (see Installation, below); some of thes
 
 The FREE package has been updated to include several new methods. The FREE package now supports both function-valued response models and function-valued predictor models with one function-valued predictor variable. Function-valued predictor models are implemented using a purpose-built Gibbs sampler. Both types of models now also accommodate clustering variables (similar to random intercepts in a mixed effects model), which can account for clustering of subjects in space or time (e.g., several responses measures on one individual or in one site).
 
-The new methods are implemented with a purpose-built Gibbs sampler, which is intended to replace the other methods. The Gibbs sampler is still being tested, so the other methods have not yet been removed. We are releasing FREE in its current form because functional data analysis has the potential to provide new insight into ecological and evolutionary questions and we hope to receive as much feedback as possible on the FREE package.
+The new methods are implemented with a purpose-built Gibbs sampler, which is intended to replace the other methods. The Gibbs sampler is still being tested, so the other methods have not yet been removed.  A cut-down version of FREE (FREElite) is available in the FREElite folder; this version uses Gibbs samplers coded in C++ for all models. FREElite has fewer dependencies than the full FREE package, so might be a good option if installation of dependencies causes issues.
 
 
 Created 13 February 2014
@@ -42,11 +42,13 @@ Updated 15 October 2015
 ## Installation
 FREE is distributed as an R package in source and binary form. FREE is not currently available through the CRAN. The FREE package has been tested on Windows 7, Windows XP, and OSX 10.6, 10.7 and 10.10.
 
-There are four installation options. The first three require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
+There are several installation options. The first three require an appropriate C and C++ compiler installed. Easily installed options are [gcc](https://github.com/kennethreitz/osx-gcc-installer/) (OSX users) and [Rtools](https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows) (Windows users). If you're unsure of whether you need to install a C/C++ compiler, you can try installing the FREE package anyway; if you do not get any errors then no compiler is needed.
 
 - install/load the devtools package and install directly from the source package on GitHub:
 ```
 devtools::install_github("jdyen/FREE/FREE")
+# alternative: if you want to use the FREElite package, use the following line instead:
+devtools::install_github("jdyen/FREE/FREElite")
 ```
 
 - download the source package FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0). Download and source the installFREE.R script:
