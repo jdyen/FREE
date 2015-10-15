@@ -24,9 +24,7 @@ installFREE <- function() {
     install.packages("Rcpp")
   }
   if(!require(rstan)) {
-    install.packages("rstan", type="source",
-    repos = c(getOption("repos"), rstan = "http://wiki.rstan-repo.googlecode.com/git/"),
-    INSTALL_opts = "--merge-multiarch")
+    install.packages("rstan")
   }
   install.packages("FREE_2.0.tar.gz", type="source", repos=NULL)
 }

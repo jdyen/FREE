@@ -35,7 +35,7 @@ The new methods are implemented with a purpose-built Gibbs sampler, which is int
 
 Created 13 February 2014
 
-Updated 14 October 2015
+Updated 15 October 2015
 
 *****
 
@@ -48,33 +48,27 @@ There are four installation options. The first three require an appropriate C an
 ```
 devtools::install_github("jdyen/FREE/FREE")
 ```
-*****
 
-- Download the source package FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0). Download and source the installFREE.R script:
+- download the source package FREE_x.x.tar.gz into a local directory on your computer (replace x.x with the appropriate version number, currently 2.0). Download and source the installFREE.R script:
 ```
 source("installFREE.R")
 installFREE()
 ```
-*****
 
-- Install all dependencies manually. First, install the INLA package (not available through CRAN; details at [INLA](http://www.r-inla.org/)). FREE imports functions from several packages (see Depends and Imports in the DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of INLA, all other packages are available through the CRAN and should be easy to install. Once the appropriate packages have been installed, you simply need to place the file FREE_x.x.tar.gz in the current working directory (where x.x is replaced with the current version number) and use
+- install all dependencies manually. FREE imports functions from several packages (see Depends and Imports in the DESCRIPTION file) and these packages must be installed for FREE to install and load correctly. With the exception of [INLA](http://www.r-inla.org/), all other packages are available through the CRAN and should be easy to install. Once the appropriate packages have been installed, you simply need to place the file FREE_x.x.tar.gz in the current working directory (where x.x is replaced with the current version number) and use
 ```
 install.packages("FREE_x.x.tar.gz", repos=NULL, type="source")
 ```
 to install the FREE R package. This package then can be loaded in R using `library(FREE)`.
 
-*****
-
-- install all dependencies manually and install the FREE package from binary. For OSX systems, use
+- install all dependencies manually and install the FREE package from binary. For OSX systems, download the FREE_x.x.tgz binary and use
 ```
 install.packages("FREE_x.x.tgz", repos=NULL)
 ```
-and, for Windows systems, use
+For Windows systems, download the FREE.zip binary and use
 ```
 install.packages("FREE.zip", repos=NULL)
 ```
-
-*****
 
 Errors during installation often are related to the installation of required packages. Restarting R and making sure all required packages can be loaded using `library(pkgName)` will identify missing or incorrectly installed packages.
 
