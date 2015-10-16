@@ -1,3 +1,5 @@
+##' @method print FREEfitCV
+##' @export
 print.FREEfitCV <-
 function(x, ...){
   if (!is.null(x$call)) {

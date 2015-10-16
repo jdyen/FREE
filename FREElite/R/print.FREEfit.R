@@ -13,9 +13,9 @@ function(x, ...){
   print(x$coefs.mean)
   cat("\nr2: ")
   cat(x$r2)
-  if (!is.null(x$xIC)) {
+  if (!is.null(x$DIC)) {
     cat("\nDIC: ")
-    cat(x$xIC)
+    cat(x$DIC)
   } else {
     cat("\nDIC: DIC not computed for method ", x$method, ".....", sep="")
   }

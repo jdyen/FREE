@@ -6,18 +6,18 @@
 FREEdens(y, n.bins=10, case.var=NULL, data=NULL, kernel="gaussian", ...)
 }
 \arguments{
-  \item{y}{Vector of response data, either a numeric vector or a list with each index representing one case}
-  \item{n.bins}{Number of bins to be used when converting data to a distribution}
-  \item{case.var}{If \code{y} is numeric; vector of case IDs identifying which observations belong to which case}
-  \item{data}{Optional: list containing the variables \code{y} and \code{case.var}}
-  \item{kernel}{The density kernel to be used for density estimation}
-  \item{\dots}{Additional arguments to be passed to \code{density}}
+  \item{y}{vector of response data, either a numeric vector or a list with each index representing one case}
+  \item{n.bins}{number of bins to be used when converting data to a distribution}
+  \item{case.var}{if \code{y} is numeric; vector of case IDs identifying which observations belong to which case}
+  \item{data}{optional: list containing the variables \code{y} and \code{case.var}}
+  \item{kernel}{the density kernel to be used for density estimation}
+  \item{\dots}{additional arguments to be passed to \code{density}}
 }
 \details{This function is designed as a helper function when distribution data are available but are not already converted to their 'functional' form. Although binning data is not ideal, in many cases it is essential if we do not wish to assume a particular parametric form. Alternatives (e.g., histogram estimation or basis-function expansion) are possible, but the estimated distributions still need to be discretized prior to function regression analyses.}
 \value{
 List with the following components:
-  \item{y.dens}{Binned version of \code{y}}
-  \item{x.dens}{Midpoints of the bins used in data conversion}
+  \item{y.dens}{binned version of \code{y}}
+  \item{x.dens}{midpoints of the bins used in data conversion}
 }
 \references{
   \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
@@ -28,8 +28,8 @@ List with the following components:
 }
 \examples{
 \dontrun{
-  data <- rnorm(10000, mean=0, sd=1)
-  sites <- rep(1:10, each=1000)
-  data.dens <- FREEdens(data, n.bins=10, case.var=sites, kernel="gaussian")$y.dens
+data <- rnorm(10000, mean=0, sd=1)
+sites <- rep(1:10, each=1000)
+data.dens <- FREEdens(data, n.bins=10, case.var=sites, kernel="gaussian")$y.dens
 }
 }

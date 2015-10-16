@@ -1,3 +1,5 @@
+##' @method predict FREEfit
+##' @export
 predict.FREEfit <-
 function(object, newdata=NULL, ...){
   if (is.null(newdata)) {

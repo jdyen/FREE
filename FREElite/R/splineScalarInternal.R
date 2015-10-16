@@ -13,6 +13,7 @@ splineScalarInternal <- function(chain, y, x, z, groups, degree, n_knots, n.iter
   beta.store <- array(dim=c(n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
+  fp.sd.store <- array(dim=c(n_q, n_keep))
   gamma.store <- vector("list", length=n_q)
   for (q in 1:n_q) {
     gamma.store[[q]] <- array(dim=c(n_G_q[q], n_keep))
@@ -88,13 +89,15 @@ splineScalarInternal <- function(chain, y, x, z, groups, degree, n_knots, n.iter
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
+        fp.sd.store[q, current_iter] <- sd(gamma[[q]])
       }
     }
   }
   allout <- list(fitted=fitted.store, coefs=coefs.store, loglik=loglik.store,
                  gamma=gamma.store, sigma2=sigma2.store, beta=beta.store,
                  sigma2_gamma=sigma2_gamma.store, llik_all=llik_all,
-                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store)
+                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store,
+                 fp.sd.store=fp.sd.store)
   return(allout)
 }
 
@@ -113,6 +116,7 @@ splineScalarInternal2 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   beta.store <- array(dim=c(n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
+  fp.sd.store <- array(dim=c(n_q, n_keep))
   gamma.store <- vector("list", length=n_q)
   for (q in 1:n_q) {
     gamma.store[[q]] <- array(dim=c(n_G_q[q], n_keep))
@@ -183,13 +187,15 @@ splineScalarInternal2 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
+        fp.sd.store[q, current_iter] <- sd(gamma[[q]])
       }
     }
   }
   allout <- list(fitted=fitted.store, coefs=coefs.store, loglik=loglik.store,
                  gamma=gamma.store, sigma2=sigma2.store, beta=beta.store,
                  sigma2_gamma=sigma2_gamma.store, llik_all=llik_all,
-                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store)
+                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store,
+                 fp.sd.store=fp.sd.store)
   return(allout)
 }
 
@@ -208,6 +214,7 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   beta.store <- array(dim=c(n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
+  fp.sd.store <- array(dim=c(n_q, n_keep))
   gamma.store <- vector("list", length=n_q)
   for (q in 1:n_q) {
     gamma.store[[q]] <- array(dim=c(n_G_q[q], n_keep))
@@ -231,6 +238,7 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
     for (q in 1:n_q) {
       gamma[[q]] <- rnorm(n_G_q[q] - 1)
       gamma[[q]] <- c(gamma[[q]], -sum(gamma[[q]][1:(n_G_q[q] - 1)]))
+      fp.sd.store[q, current_iter] <- sd(gamma[[q]])
     }
   }
   delta <- rep(0, n_k)
@@ -279,13 +287,15 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
+        fp.sd.store[q, current_iter] <- sd(gamma[[q]])
       }
     }
   }
   allout <- list(fitted=fitted.store, coefs=coefs.store, loglik=loglik.store,
                  gamma=gamma.store, sigma2=sigma2.store, beta=beta.store,
                  sigma2_gamma=sigma2_gamma.store, llik_all=llik_all,
-                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store)
+                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store,
+                 fp.sd.store=fp.sd.store)
   return(allout)
 }
 
@@ -304,6 +314,7 @@ splineScalarInternal4 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   beta.store <- array(dim=c(n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
+  fp.sd.store <- array(dim=c(n_q, n_keep))
   gamma.store <- vector("list", length=n_q)
   for (q in 1:n_q) {
     gamma.store[[q]] <- array(dim=c(n_G_q[q], n_keep))
@@ -370,12 +381,14 @@ splineScalarInternal4 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
+        fp.sd.store[q, current_iter] <- sd(gamma[[q]])
       }
     }
   }
   allout <- list(fitted=fitted.store, coefs=coefs.store, loglik=loglik.store,
                  gamma=gamma.store, sigma2=sigma2.store, beta=beta.store,
                  sigma2_gamma=sigma2_gamma.store, llik_all=llik_all,
-                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store)
+                 bs_beta=bs_beta, alpha=alpha.store, delta=delta.store,
+                 fp.sd.store=fp.sd.store)
   return(allout)
 }

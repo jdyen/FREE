@@ -1,3 +1,5 @@
+##' @method coef FREEfit
+##' @export
 coef.FREEfit <-
 function(object, ...){
   if (!is.null(object$coefs.sd)) {

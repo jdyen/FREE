@@ -20,6 +20,7 @@ splineSliceInternal <- function(chain, y, x, groups, w, degree, n_knots_beta, n_
   rand.coefs.store <- vector("list", length=n_q)
   gamma.store <- vector("list", length=n_q)
   theta2.store <- vector("list", length=n_q)
+  fp.sd.store <- array(dim=c(n_q, n_keep))
   for (q in 1:n_q) {
     rand.coefs.store[[q]] <- array(dim=c(n_G_q[q], length(grid), n_keep))
     gamma.store[[q]] <- vector("list", length=n_G_q[q])
@@ -173,6 +174,7 @@ splineSliceInternal <- function(chain, y, x, groups, w, degree, n_knots_beta, n_
         rand.coefs.store[[q]][, , current_iter] <- coefs_calc(beta=gamma[[q]],
                                                    theta=theta2[[q]], degree=degree,
                                                    grid=grid, endpoints=endpoints)
+        fp.sd.store[q, current_iter] <- sd(rand.coefs.store[[q]][, , current_iter])
         for (qq in 1:n_G_q[q]) {
           gamma.store[[q]][[qq]][, current_iter] <- gamma[[q]][[qq]]
           theta2.store[[q]][[qq]][, current_iter] <- theta2[[q]][[qq]]
@@ -182,7 +184,7 @@ splineSliceInternal <- function(chain, y, x, groups, w, degree, n_knots_beta, n_
   }
   allout <- list(fitted.store, coefs.store, loglik.store, rand.coefs.store, gamma.store,
                  theta1.store, theta2.store, rho.store, sigma2.store, beta.store,
-                 sigma2_gamma.store, llik_all, gamma_all, beta_all)
+                 sigma2_gamma.store, llik_all, gamma_all, beta_all, fp.sd.store)
   return(allout)
 }
 
@@ -208,6 +210,7 @@ sigma2_gamma_hyper_a, sigma2_gamma_hyper_b, beta_hyper)
   rand.coefs.store <- vector("list", length=n_q)
   gamma.store <- vector("list", length=n_q)
   theta2.store <- vector("list", length=n_q)
+  fp.sd.store <- array(dim=c(n_q, n_keep))
   for (q in 1:n_q) {
     rand.coefs.store[[q]] <- array(dim=c(n_G_q[q], length(grid), n_keep))
     gamma.store[[q]] <- vector("list", length=n_G_q[q])
@@ -352,6 +355,7 @@ sigma2_gamma_hyper_a, sigma2_gamma_hyper_b, beta_hyper)
         rand.coefs.store[[q]][, , current_iter] <- coefs_calc(beta=gamma[[q]],
         theta=theta2[[q]], degree=degree,
         grid=grid, endpoints=endpoints)
+        fp.sd.store[q, current_iter] <- sd(rand.coefs.store[[q]][, , current_iter])
         for (qq in 1:n_G_q[q]) {
           gamma.store[[q]][[qq]][, current_iter] <- gamma[[q]][[qq]]
           theta2.store[[q]][[qq]][, current_iter] <- theta2[[q]][[qq]]
@@ -361,6 +365,6 @@ sigma2_gamma_hyper_a, sigma2_gamma_hyper_b, beta_hyper)
   }
   allout <- list(fitted.store, coefs.store, loglik.store, rand.coefs.store, gamma.store,
   theta1.store, theta2.store, rho.store, sigma2.store, beta.store,
-  sigma2_gamma.store, llik_all, gamma_all, beta_all)
+  sigma2_gamma.store, llik_all, gamma_all, beta_all, fp.sd.store)
   return(allout)
 }

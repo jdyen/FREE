@@ -42,7 +42,11 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
                        par.run=FALSE)
 {
   # data prep
-  x <- as.matrix(cbind(rep(1, nrow(y)), x))
+  if (is.null(x)) {
+    x <- matrix(rep(1, nrow(y)), ncol=1)
+  } else {
+    x <- as.matrix(cbind(rep(1, nrow(y)), x))
+  }
   n <- nrow(y)
   mod.type <- 1
   if (is.null(groups)) {
@@ -114,6 +118,12 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
   coefs.sd <- apply(array(unlist(lapply(mod, function(x) x[[2]])),
                           dim=c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]), n.keep, n.chains)),
                     c(1, 2), sd)
+  fp.sd.mean <- apply(array(unlist(lapply(mod, function(x) x[[15]])),
+                            dim=c(nrow(mod[[1]][[15]]), n.keep, n.chains)),
+                      1, mean)
+  fp.sd.sd <- apply(array(unlist(lapply(mod, function(x) x[[15]])),
+                          dim=c(nrow(mod[[1]][[15]]), n.keep, n.chains)),
+                    1, sd)
   rand.coefs.mean <- vector("list", length=n_q)
   rand.coefs.sd <- vector("list", length=n_q)
   theta2.mean <- vector("list", length=n_q)
@@ -288,7 +298,15 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
                           sigma2_hyper_a, sigma2_hyper_b,
                           sigma2_gamma_hyper_a, sigma2_gamma_hyper_b,
                           beta_hyper, n, n_j, n_k, n_q)
-  xIC <- -2 * loglik.mean + 2 * loglik.param.bar
+  DIC <- -2 * loglik.mean + 2 * loglik.param.bar
+  if (mod.type == 2) {
+    rand.coefs.mean <- NULL
+    rand.coefs.sd <- NULL
+    fp.sd.mean <- NULL
+    fp.sd.sd <- NULL
+    sigma2_gamma.mean <- NULL
+    sigma2_gamma.sd <- NULL
+  }
       
   # calculate all returned values
   family <- "gaussian"
@@ -296,11 +314,12 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
   return(list(fitted=fitted.mean, fitted.sd=fitted.sd, observed=y,
               coefs.mean=coefs.mean, coefs.sd=coefs.sd,
               rand.coefs.mean=rand.coefs.mean, rand.coefs.sd=rand.coefs.sd,
-              r2=r2, family=family, w=w, xIC=xIC, rhats=rhats,
+              r2=r2, family=family, DIC=DIC, rhats=rhats,
               sigma2.mean=sigma2.mean, sigma2.sd=sigma2.sd,
               sigma2_gamma.mean=sigma2_gamma.mean, 
               sigma2_gamma.sd=sigma2_gamma.sd,
               beta.mean=beta.mean, gamma.mean=gamma.mean,
               rho.mean=rho.mean, rho.sd=rho.sd,
-              llik_all=llik_all))
+              llik_all=llik_all, fp.sd.mean=fp.sd.mean,
+              fp.sd.sd=fp.sd.sd))
 }

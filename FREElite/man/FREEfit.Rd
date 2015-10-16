@@ -33,15 +33,15 @@ There are many parameters and settings that can be passed to each method; see th
 	
 The function \code{\link{FREEfitCV}} has been provided for model validation and should be used when determining appropriate settings and for choosing among alternative approaches.}
 \value{
-Object of class \code{FREEfit} with the following components:
+An object of class \code{FREEfit} with at least the following components:
   \item{fitted}{fitted y values}
+  \item{fitted.sd}{standard deviations of fitted y values}
   \item{observed}{observed y data}
   \item{coefs.mean}{mean values for all fitted coefficients (including the mean function)}
-  \item{coefs.sd}{sd values for all fitted coefficients (including the mean function)}
+  \item{coefs.sd}{standard deviations of all fitted coefficients (including the mean function)}  
   \item{r2}{r-squared value for the fitted model, based on Pearson R}
   \item{family}{family used for model fitting}
-  \item{bins}{vector of argument values for the response function}
-  \item{xIC}{DIC value from the fitted model}
+  \item{DIC}{DIC value from the fitted model}
   \item{method}{the method used to fit model}
   \item{call}{If \code{FREEfit.formula} is used: the model call}
   \item{formula}{If \code{FREEfit.formula} is used: the model formula}

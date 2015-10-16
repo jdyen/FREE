@@ -1,3 +1,5 @@
+##' @method summary FREEfitCV
+##' @export
 summary.FREEfitCV <-
 function(object, ...){
   if (!is.null(object$call)) {

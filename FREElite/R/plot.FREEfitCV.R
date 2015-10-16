@@ -1,3 +1,5 @@
+##' @method plot FREEfitCV
+##' @export
 plot.FREEfitCV <-
 function(x, ...){
   par(mfrow=c(1,1))

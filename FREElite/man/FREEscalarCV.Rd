@@ -12,21 +12,21 @@ FREEscalarCV(n.cv=10, y, x, z, groups, bins,
                         sigma2=1, sigma2_gamma=1), ...)
 }
 \arguments{
-  \item{n.cv}{Number of cross-validation folds to use.}
-  \item{y}{Numeric vector of response data.}
-  \item{x}{Matrix of predictor variable function, sites in rows}
-  \item{z}{Matrix of scalar predictor variables}
-  \item{groups}{Matrix of clustering variables}
-  \item{bins}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
-  \item{degree}{The degree of the B spline basis functions used in model fitting}
-  \item{n_knots}{Number of knots for B splines for the function-valued effects in model fitting}
-  \item{n.iters}{Total number of MCMC iterations (including burnin)}
-  \item{n.burnin}{Number of iterations to be treated as a burnin; defaults to \code{round(n.iters/5)}}
-  \item{n.thin}{Thinning rate for MCMC chains; defaults to 1}
-  \item{n.chains}{Number of MCMC chains.}
-  \item{hypers}{Optional: the hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
-  \item{inits}{Optional: initial values for the variance and the model parameters}
-  \item{\dots}{Additional arguments to be passed to \code{FREEscalar}}
+  \item{n.cv}{number of cross-validation folds to use}
+  \item{y}{numeric vector of response data}
+  \item{x}{matrix of predictor variable function, sites in rows}
+  \item{z}{matrix of scalar predictor variables}
+  \item{groups}{matrix of clustering variables}
+  \item{bins}{vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
+  \item{degree}{the degree of the B spline basis functions used in model fitting}
+  \item{n_knots}{number of knots for B splines for the function-valued effects in model fitting}
+  \item{n.iters}{total number of MCMC iterations (including burnin)}
+  \item{n.burnin}{number of iterations to be treated as a burnin; defaults to \code{round(n.iters/5)}}
+  \item{n.thin}{thinning rate for MCMC chains; defaults to 1}
+  \item{n.chains}{number of MCMC chains}
+  \item{hypers}{optional: the hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
+  \item{inits}{optional: initial values for the variance and the model parameters}
+  \item{\dots}{additional arguments to be passed to \code{FREEscalar}}
 }
 \details{\code{FREEscalar} fits a function regression model using a purpose-built Gibbs sampler. The C++ code for this Gibbs sampler is available at the \pkg{FREE} website.}
 \value{
@@ -42,11 +42,11 @@ Object of class \code{FREEfitCV} with the following components:
 \code{\link{FREEscalar}}, \code{\link{FREEfit}}
 }
 \examples{
-  data <- FREEdataSim(function.class="predictor")
-  data.list <- with(data, list(y=y.iid, VAR1=x[, , 1]))
-  z <- rnorm(length(data.list$y))
-  groups <- sample(1:4, size=length(data.list$y), replace=TRUE)
-  model <- FREEfitCV(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=15, n.cv=3)
+data <- FREEdataSim(function.class="predictor")
+data.list <- with(data, list(y=y.iid, VAR1=x[, , 1]))
+z <- rnorm(length(data.list$y))
+groups <- sample(1:4, size=length(data.list$y), replace=TRUE)
+model <- FREEfitCV(y ~ VAR1, data=data.list, z=z, groups=groups, n.iters=15, n.cv=3)
 }
 \keyword{function regression}
 \keyword{Bayesian}

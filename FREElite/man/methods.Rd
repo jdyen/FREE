@@ -26,13 +26,13 @@
 \method{residuals}{FREEfitCV}(object, \dots)
 }
 \arguments{
-  \item{x}{An object of class \code{FREEfit} or class \code{FREEfitCV}}
-  \item{object}{An object of class \code{FREEfit} or class \code{FREEfitCV}}
-  \item{newdata}{A named list of newdata, with names corresponding the data used to fit the \code{FREEfit} model.}
-  \item{\dots}{Additional arguments to be passed to method}
+  \item{x}{an object of class \code{FREEfit} or class \code{FREEfitCV}}
+  \item{object}{an object of class \code{FREEfit} or class \code{FREEfitCV}}
+  \item{newdata}{a named list of newdata, with names corresponding the data used to fit the \code{FREEfit} model.}
+  \item{\dots}{additional arguments to be passed to method}
 }
 \details{
-Methods for \code{FREEfit} models. ADD DETAILS.
+Basic methods for \code{FREEfit} models. The plot method gives plots of rhat values and the log-likelihood plotted against iterations, which are particularly useful for checking model convergence and mixing.
 }
 \references{
   \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}

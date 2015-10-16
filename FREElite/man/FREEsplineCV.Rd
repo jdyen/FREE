@@ -9,19 +9,19 @@ FREEsplineCV(n.cv, y, x, groups, w, degree=3, n_knots_beta=11,
                          phi_gamma=0.1, sigma2_beta=10), ...)
 }
 \arguments{
-  \item{n.cv}{Number of cross-validation folds to use.}
-  \item{y}{Numeric vector of response data.}
-  \item{x}{Matrix of predictor variable function, sites in rows}
-  \item{groups}{Matrix of clustering variables}
-  \item{w}{Vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
-  \item{degree}{The degree of the B spline basis functions used in model fitting}
-  \item{n_knots_beta}{Number of knots for B splines for the 'fixed' effects in model fitting}
-  \item{n_knots_gamma}{Number of knots for B splines for the 'random' effects in model fitting}
-  \item{n.iters}{Total number of MCMC iterations (including burnin)}
-  \item{n.chains}{Number of MCMC chains.}
-  \item{n.thin}{Thinning rate for MCMC chains; defaults to 1}
-  \item{hypers}{Optional: the hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
-  \item{\dots}{Additional arguments to be passed to \code{FREEspline}}
+  \item{n.cv}{number of cross-validation folds to use}
+  \item{y}{numeric vector of response data}
+  \item{x}{matrix of predictor variable function, sites in rows}
+  \item{groups}{matrix of clustering variables}
+  \item{w}{vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
+  \item{degree}{the degree of the B spline basis functions used in model fitting}
+  \item{n_knots_beta}{number of knots for B splines for the 'fixed' effects in model fitting}
+  \item{n_knots_gamma}{number of knots for B splines for the 'random' effects in model fitting}
+  \item{n.iters}{total number of MCMC iterations (including burnin)}
+  \item{n.chains}{number of MCMC chains}
+  \item{n.thin}{thinning rate for MCMC chains; defaults to 1}
+  \item{hypers}{optional: the hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
+  \item{\dots}{additional arguments to be passed to \code{FREEspline}}
 }
 \details{\code{FREEspline} fits a function regression model using a purpose-built Gibbs sampler. The C++ code for this Gibbs sampler is available at the \pkg{FREE} website.}
 \value{
@@ -38,11 +38,11 @@ Object of class \code{FREEfitCV} with the following components:
 }
 \examples{
 \dontrun{
-  data <- FREEdataSim(function.class="response", n=10)
-  data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
-  groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
-  model <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, groups=groups,
-                     n.iters=15, n.cv=3)
+data <- FREEdataSim(function.class="response", n=10)
+data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
+groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
+model <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, groups=groups,
+                   n.iters=15, n.cv=3)
 }
 }
 \keyword{function regression}

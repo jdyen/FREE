@@ -134,6 +134,12 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   delta.sd <- apply(array(unlist(lapply(mod, function(x) x$delta)),
                           dim=c(nrow(mod[[1]]$delta), n.keep, n.chains)),
                     1, sd)
+  fp.sd.mean <- apply(array(unlist(lapply(mod, function(x) x$fp.sd.store)),
+                            dim=c(nrow(mod[[1]]$fp.sd.store), n.keep, n.chains)),
+                      1, mean)
+  fp.sd.sd <- apply(array(unlist(lapply(mod, function(x) x$fp.sd.store)),
+                          dim=c(nrow(mod[[1]]$fp.sd.store), n.keep, n.chains)),
+                    1, sd)
   sigma2_gamma.mean <- apply(array(unlist(lapply(mod, function(x) x$sigma2_gamma)),
                                    dim=c(nrow(mod[[1]]$sigma2_gamma), n.keep, n.chains)),
                              1, mean)
@@ -230,14 +236,39 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   loglik.param.bar <- lnL_scalar(y=y, x=x, groups=groups, beta=beta.mean, gamma=gamma.mean,
                           delta=delta.mean, z=z, alpha=alpha.mean, sigma2=sigma2.mean,
                           bs_beta=bs_beta)
-  xIC <- -2 * loglik.mean + 2 * loglik.param.bar
+  DIC <- -2 * loglik.mean + 2 * loglik.param.bar
       
   # calculate all returned values
   family <- "gaussian"
+  if (mod.type == 2) {
+    # z but no groups
+    gamma.mean <- NULL
+    gamma.sd <- NULL
+    sigma2_gamma.mean <- NULL
+    sigma2_gamma.sd <- NULL
+    fp.sd.mean <- NULL
+    fp.sd.sd <- NULL
+  }
+  if (mod.type == 3) {
+    # groups but no z
+    delta.mean <- NULL
+    delta.sd <- NULL
+  }
+  if (mod.type == 4) {
+    # no z and no groups
+    gamma.mean <- NULL
+    gamma.sd <- NULL
+    sigma2_gamma.mean <- NULL
+    sigma2_gamma.sd <- NULL
+    fp.sd.mean <- NULL
+    fp.sd.sd <- NULL
+    delta.mean <- NULL
+    delta.sd <- NULL
+  }
   r2 <- cor(c(fitted.mean), c(y)) * cor(c(fitted.mean), c(y), use="complete")
   return(list(fitted=fitted.mean, fitted.sd=fitted.sd, observed=y,
               coefs.mean=coefs.mean, coefs.sd=coefs.sd,
-              r2=r2, family=family, xIC=xIC, rhats=rhats,
+              r2=r2, family=family, DIC=DIC, rhats=rhats,
               sigma2.mean=sigma2.mean, sigma2.sd=sigma2.sd,
               sigma2_gamma.mean=sigma2_gamma.mean, 
               sigma2_gamma.sd=sigma2_gamma.sd,
@@ -245,5 +276,6 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
               beta.mean=beta.mean, beta.sd=beta.sd,
               gamma.mean=gamma.mean, gamma.sd=gamma.sd,
               delta.mean=delta.mean, delta.sd=delta.sd,
-              llik_all=llik_all))
+              llik_all=llik_all, fp.sd.mean=fp.sd.mean,
+              fp.sd.sd=fp.sd.sd))
 }

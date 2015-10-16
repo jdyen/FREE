@@ -1,5 +1,14 @@
+##' @method plot FREEfit
+##' @export
 plot.FREEfit <-
 function(x, ...){
+  old.par <- par()
+  old.par$cin <- NULL
+  old.par$cra <- NULL
+  old.par$csi <- NULL
+  old.par$cxy <- NULL
+  old.par$din <- NULL
+  old.par$page <- NULL  
   vals <- coef(x)
   if (is.null(nrow(vals$mean))) {
     vals$mean <- matrix(vals$mean, nrow=1)
@@ -7,6 +16,9 @@ function(x, ...){
     vals$lower <- matrix(vals$lower, nrow=1)
   }
   n.plots <- nrow(vals$mean) + 4
+  if (is.null(x$fp.sd.mean)) {
+    n.plots <- n.plots - 1
+  }
   dim.plots <- ceiling(n.plots / 2)
   par(mfrow=c(dim.plots, 2))
   plot(c(x$fitted), c(x$observed), bty='l', xlab="Fitted", ylab="Observed", las=1, ...)
@@ -42,20 +54,28 @@ function(x, ...){
   if (is.null(vals$upper) | is.null(vals$lower)) {
     cat("Estimates of parameter uncertainty not available...\n")
   }
-  plot(x$sigma2.mean, 1, pch=16, cex=2, xlim=c(min(x$sigma2.mean - 1.96 * x$sigma2.sd,
-                                                   x$sigma2_gamma.mean - 1.96 * x$sigma2_gamma.sd),
-                                               max(x$sigma2.mean + 1.96 * x$sigma2.sd,
-                                                   x$sigma2_gamma.mean + 1.96 * x$sigma2_gamma.sd)),
-       ylim=c(0, length(x$sigma2_gamma.mean) + 2),
-       las=1, bty='l', xlab="Standard deviations", yaxt="n")
-  lines(c(x$sigma2.mean - 1.96 * x$sigma2.sd, x$sigma2.mean + 1.96 * x$sigma2.sd), c(1, 1))
-  for (i in seq(along=x$sigma2_gamma.mean)) {
-    points(x$sigma2_gamma.mean[i], (i + 1), pch=16, cex=2)
-    lines(c(x$sigma2_gamma.mean[i] - 1.96 * x$sigma2_gamma.sd[i],
-            x$sigma2_gamma.mean[i] + 1.96 * x$sigma2_gamma.sd[i]),
-          c(i + 1, i + 1))
+  if (!is.null(x$fp.sd.mean)) {
+    sd.mean <- c(sqrt(x$sigma2.mean), x$fp.sd.mean)
+    sd.mean <- ifelse(sd.mean < 0, 0, sd.mean)
+    sd.upper <- c(sqrt(max(x$sigma2.mean + 1.96 * x$sigma2.sd, 0)), x$fp.sd.mean + 1.96 * x$fp.sd.sd)
+    sd.upper <- ifelse(sd.upper < 0, 0, sd.upper)
+    sd.lower <- c(sqrt(max(x$sigma2.mean - 1.96 * x$sigma2.sd, 0)), x$fp.sd.mean - 1.96 * x$fp.sd.sd)
+    sd.lower <- ifelse(sd.lower < 0, 0, sd.lower)
+    par(mar=c(5.1, 7.1, 4.1, 2.1))
+    plot(sd.mean[1], 1, pch=16, cex=2, xlim=c(0, max(sd.upper)),
+         ylim=c(0, length(sd.mean) + 1),
+         las=1, bty='l', xlab="Standard deviations", yaxt="n", ylab="")
+    lines(c(sd.lower[1], sd.upper[1]), c(1, 1))
+    lines(c(0, 0), c(0, length(sd.mean) + 1), lty=2)
+    for (i in 2:length(sd.mean)) {
+      points(sd.mean[i], i, pch=16, cex=2)
+      lines(c(sd.lower[i], sd.upper[i]),
+            c(i, i))
+    }
+    axis(side=2, at=c(1:length(sd.mean)),
+         labels=c("Residual", paste("Group", 1:length(x$fp.sd.mean), sep="")),
+         las=1)
+    mtext("Variance component", side=2, adj=0.5, line=5, cex=0.75)
   }
-  axis(side=2, at=c(1:(length(x$sigma2_gamma.mean) + 1),
-       labels=c("Residual", paste("Group", 1:length(x$sigma2_gamma.mean), sep=""))))
-  par(mfrow=c(1, 1))
+  par(old.par)
 }
