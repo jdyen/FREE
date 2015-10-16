@@ -6,10 +6,12 @@
 \description{Main interface for cross validation for models of class \code{FREEfit}. Performs k-fold cross validation and returns an estimate of model predictive r2 as well as observed and predicted values. Plot, print and summary methods are available.}
 \usage{
 FREEfitCV(y, ...)
-\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL, groups=NULL, z=NULL,
-n.cv = 10, verbose = TRUE, ...)
+\method{FREEfitCV}{formula}(formula, data = list(), bins = NULL, groups=NULL,
+                            z=NULL, n.cv = 10, verbose = TRUE, n.iters=100,
+                            n.burnin=round(n.iters / 5), n.chains=3, par.run=FALSE, ...)
 \method{FREEfitCV}{default}(y, x, bins = NULL, groups=NULL, z=NULL,
-n.cv = 10, verbose = TRUE, ...)
+                            n.cv = 10, verbose = TRUE, n.iters=100,
+                            n.burnin=round(n.iters / 5), n.chains=3, par.run=FALSE, ...)
 }
 \arguments{
   \item{y}{formula or response variable to be passed to \code{FREEfitCV.method}}
@@ -21,6 +23,10 @@ n.cv = 10, verbose = TRUE, ...)
   \item{z}{matrix of scalar predictor variables}
   \item{n.cv}{number of folds for cross validation. Defaults to 10}
   \item{verbose}{logical: should progress be printed out? If TRUE the percentage complete will be printed to the console after each fold has been held out}
+  \item{n.iters}{total number of MCMC iterations (including burnin)}
+  \item{n.burnin}{number of iterations to be treated as a burnin; defaults to \code{round(n.iters/5)}}
+  \item{n.chains}{number of MCMC chains}
+  \item{par.run}{logical: if TRUE and \code{Sys.info()["sysname"] == "Darwin"} the \pkg{parallel} package is used to run multiple chains on different cores}	
   \item{\dots}{additional arguments to be passed to \code{FREEscalar} or \code{FREEspline}}
 }
 \details{

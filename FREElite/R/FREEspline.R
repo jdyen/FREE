@@ -17,7 +17,7 @@
 # y                        the values of the response function in a n x max(n_j^(i)) matrix
 # x                        the values of the predictor variables in a n x n_k matrix
 # groups                   the group IDs for each grouping variable q in a n x n_q matrix
-# w                        the observation points for each y_ij in a n x max(n_j^(i)) matrix
+# bins                     the observation points for each y_ij in a n x max(n_j^(i)) matrix
 # degree                   the degree of the spline functions
 # n_knots_beta             number of knots in the B-splines for the fixed effects
 # n_knots_gamma            number of knots in the B-splines for the quasi-random effects
@@ -33,7 +33,7 @@
 #                            sigma2 and sigma2_gamma. These values are NOT checked prior to
 #                            model fitting.
 
-FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=5,
+FREEspline <- function(y, x, groups, bins, degree=3, n_knots_beta=5, n_knots_gamma=5,
                        n.iters=1000, n.burnin=round(n.iters / 5), n.thin=1,
                        n.chains=3, hypers=list(psi_main=0.1, phi_main=0.1, psi_gamma=0.1,
                        phi_gamma=0.1, sigma2_beta=10),
@@ -77,8 +77,8 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
   n_knots_gamma <- n_knots_gamma_tmp
     
   # set up grid for output of coefficients
-  grid <- seq(min(w, na.rm=TRUE), max(w, na.rm=TRUE), length=ncol(y))
-  endpoints <- c(min(w, na.rm=TRUE) - 1, max(w, na.rm=TRUE) + 1)
+  grid <- seq(min(bins, na.rm=TRUE), max(bins, na.rm=TRUE), length=ncol(y))
+  endpoints <- c(min(bins, na.rm=TRUE) - 1, max(bins, na.rm=TRUE) + 1)
   
   # set up priors and hypers
   sigma2_hyper_a <- hypers$psi_main
@@ -92,13 +92,13 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
                        splineSliceInternal,
                        splineSliceInternal2)
   if ((Sys.info()["sysname"] == "Darwin") & (par.run)) {
-    mod <- mclapply(1:n.chains, spline_mod, y, x, groups, w, degree, n_knots_beta,
+    mod <- mclapply(1:n.chains, spline_mod, y, x, groups, bins, degree, n_knots_beta,
                     n_knots_gamma, n.iters, n.burnin, n.thin, inits, n, n_j, n_k, n_p, n_q,
                     n_G_q, n_t, grid, endpoints, sigma2_hyper_a, sigma2_hyper_b,
                     sigma2_gamma_hyper_a, sigma2_gamma_hyper_b, beta_hyper,
                     mc.cores=ifelse(n.chains < 4, n.chains, 4))
   } else {
-    mod <- lapply(1:n.chains, spline_mod, y, x, groups, w, degree, n_knots_beta,
+    mod <- lapply(1:n.chains, spline_mod, y, x, groups, bins, degree, n_knots_beta,
                   n_knots_gamma, n.iters, n.burnin, n.thin, inits, n, n_j, n_k, n_p, n_q,
                   n_G_q, n_t, grid, endpoints, sigma2_hyper_a, sigma2_hyper_b,
                   sigma2_gamma_hyper_a, sigma2_gamma_hyper_b, beta_hyper)    
@@ -253,7 +253,7 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
       rand.coefs.rhat[[q]] <- rhat.calc(rand.coefs.chain.var[[q]], rand.coefs.chain.var2[[q]], n.iters)
       gamma.rhat[[q]] <- vector("list", length=n_G_q[q])
       for (qq in 1:n_G_q[q]) {
-        gamma.rhat[[q]][[qq]] <- rhat.calc(gamma.chain.var[[q]][[qq]], gamma.chain.var2[[q]][[q]], n.iters)
+        gamma.rhat[[q]][[qq]] <- rhat.calc(gamma.chain.var[[q]][[qq]], gamma.chain.var2[[q]][[qq]], n.iters)
       }
     }
     sigma2.rhat <- rhat.calc(sigma2.chain.var, sigma2.chain.var2, n.iters)
@@ -280,18 +280,18 @@ FREEspline <- function(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=
   loglik.mean <- mean(unlist(lapply(mod, function(x) x[[3]])))
   b_splines_beta <- vector("list", length=n_k)
   for (i in 1:n_k) {
-    b_splines_beta[[i]] <- calc_bs(w, theta1.mean[[i]], degree,
-                                   c(min(w, na.rm=TRUE), max(w, na.rm=TRUE)))
+    b_splines_beta[[i]] <- calc_bs(bins, theta1.mean[[i]], degree,
+                                   c(min(bins, na.rm=TRUE), max(bins, na.rm=TRUE)))
   }
   b_splines_gamma <- vector("list", length=n_q)
   for (i in 1:n_q) {
     b_splines_gamma[[i]] <- vector("list", length=n_G_q[i])
     for (q in 1:n_G_q[i]) {
-      b_splines_gamma[[i]][[q]] <- calc_bs(w, theta2.mean[[i]][[q]], degree,
-                                           c(min(w, na.rm=TRUE), max(w, na.rm=TRUE)))
+      b_splines_gamma[[i]][[q]] <- calc_bs(bins, theta2.mean[[i]][[q]], degree,
+                                           c(min(bins, na.rm=TRUE), max(bins, na.rm=TRUE)))
     }
   }
-  loglik.param.bar <- lnL(y=y, x=x, w=w, groups=groups, beta=beta.mean, gamma=gamma.mean,
+  loglik.param.bar <- lnL(y=y, x=x, w=bins, groups=groups, beta=beta.mean, gamma=gamma.mean,
                           theta1=theta1.mean, theta2=theta2.mean, sigma2=sigma2.mean,
                           rho=rho.mean, b_splines_beta=b_splines_beta,
                           b_splines_gamma=b_splines_gamma,

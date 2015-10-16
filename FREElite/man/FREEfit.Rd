@@ -14,8 +14,12 @@ where \eqn{y} is the response variable, \eqn{\alpha} is the model intercept, \eq
 }
 \usage{
 FREEfit(y, ...)
-\method{FREEfit}{formula}(formula, data, bins=NULL, groups=NULL, z=NULL, ...)
-\method{FREEfit}{default}(y, x, bins = NULL, groups=NULL, z=NULL, ...)
+\method{FREEfit}{formula}(formula, data, bins=NULL, groups=NULL, z=NULL,
+                          n.iters=100, n.burnin=round(n.iters / 5),
+                          n.chains=3, par.run=FALSE, ...)
+\method{FREEfit}{default}(y, x, bins = NULL, groups=NULL, z=NULL,
+                          n.iters=100, n.burnin=round(n.iters / 5),
+                          n.chains=3, par.run=FALSE, ...)
 }
 \arguments{
   \item{y}{response variable to be passed to \code{FREEfit.method}. Can be function-valued or single-valued}
@@ -25,6 +29,10 @@ FREEfit(y, ...)
   \item{bins}{vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
   \item{groups}{matrix of clustering variables}
   \item{z}{matrix of scalar predictor variables; only used if the response variable is single-valued}
+  \item{n.iters}{total number of MCMC iterations (including burnin)}
+  \item{n.burnin}{number of iterations to be treated as a burnin; defaults to \code{round(n.iters/5)}}
+  \item{n.chains}{number of MCMC chains}
+  \item{par.run}{logical: if TRUE and \code{Sys.info()["sysname"] == "Darwin"} the \pkg{parallel} package is used to run multiple chains on different cores}	
   \item{\dots}{additional arguments to be passed to \code{\link{FREEspline}} or \code{\link{FREEscalar}}}
 }
 \details{\code{FREEfit} is the main function for fitting \code{FREEfit} models, and \code{FREEfit.formula} is the main interface.
@@ -42,6 +50,13 @@ An object of class \code{FREEfit} with at least the following components:
   \item{r2}{r-squared value for the fitted model, based on Pearson R}
   \item{family}{family used for model fitting}
   \item{DIC}{DIC value from the fitted model}
+  \item{rhats}{list with rhat values for each parameter}
+  \item{sigma2.mean}{mean value of the overall model variance}
+  \item{sigma2_gamma.mean}{standard deviation of the overall model variance}
+  \item{llik_all}{log-likelihood values for all iterations (including burn-in) and all chains; useful for assessing model convergence and mixing}
+  \item{fp.sd.mean}{mean of the finite-population standard deviations of random parameters (i.e., coefficients for clustering variables). These values can be used for variance partitioning analyses}
+  \item{fp.sd.sd}{standard deviations of the finite-population standard deviations of random parameters (i.e., coefficients for clustering variables). These values can be used for variance partitioning analyses}
+  \item{bins}{the argument values at which function-valued data are observed}
   \item{method}{the method used to fit model}
   \item{call}{If \code{FREEfit.formula} is used: the model call}
   \item{formula}{If \code{FREEfit.formula} is used: the model formula}
@@ -50,7 +65,7 @@ An object of class \code{FREEfit} with at least the following components:
   \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}
 }
 \author{Jian Yen \email{jdl.yen@gmail.com}}
-\section{Warning}{BUGS and stan methods will return a warning if any Rhat values are greater than 1.1 (for models where n.chains > 1). This indicates that model convergence might be an issue and should not be ignored. Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing. Rhat values are returned for each parameter when groups or z are not NULL, along with the log-likelihood at each iteration.}
+\section{Warning}{Assessing model convergence and chain mixing is complex and further developments are underway to improve user assessment of MCMC convergence and mixing. Rhat values are returned for each parameter, along with the log-likelihood at each iteration, and these can be used to assess whether chains have converged and are mixing well.}
 \seealso{
 \code{\link{FREEfit.formula}}, \code{\link{FREEfit.default}},
 \code{\link{FREEspline}}, \code{\link{FREEscalar}}, \code{\link{FREEfitCV}}

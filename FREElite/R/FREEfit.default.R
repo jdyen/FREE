@@ -1,5 +1,6 @@
 FREEfit.default <-
-function(y, x, bins=NULL, groups=NULL, z=NULL, ...)
+function(y, x, bins=NULL, groups=NULL, z=NULL, n.iters=100, n.burnin=round(n.iters / 5),
+         n.chains=3, par.run=FALSE, ...)
 {
   if (is.matrix(y)) {
     if (is.null(bins)) {
@@ -18,7 +19,9 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, ...)
       warning("matrix z is only used for scalar models", call.=FALSE)
     }
     if (is.null(groups)) {
-      model <- FREEspline(y=y, x=x, groups=groups, w=bins, ...)
+      model <- FREEspline(y=y, x=x, groups=groups, bins=bins, n.iters=n.iters,
+                          n.burnin=n.burnin, n.chains=n.chains, par.run=par.run,
+                          ...)
       model$bins <- bins
       model$method <- "FREEmixed"
     } else {
@@ -35,7 +38,9 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, ...)
           stop("response and groups should have the same number of rows", call.=FALSE)
         }
         groups <- apply(groups, 2, function(x) as.integer(as.factor(x)))
-        model <- FREEspline(y=y, x=x, groups=groups, w=bins, ...)
+        model <- FREEspline(y=y, x=x, groups=groups, bins=bins, n.iters=n.iters,
+                            n.burnin=n.burnin, n.chains=n.chains, par.run=par.run,
+                            ...)
         model$bins <- bins
         model$method <- "FREEmixed"
       } else {
@@ -75,7 +80,9 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, ...)
             }
             groups <- apply(groups, 2, function(x) as.integer(as.factor(x)))
           }
-          model <- FREEscalar(y=y, x=x, z=z, groups=groups, bins=bins, ...)
+          model <- FREEscalar(y=y, x=x, z=z, groups=groups, bins=bins, n.iters=n.iters,
+                              n.burnin=n.burnin, n.chains=n.chains, par.run=par.run,
+                              ...)
           model$bins <- bins
     	  model$method <- "scalar"
     	} else {

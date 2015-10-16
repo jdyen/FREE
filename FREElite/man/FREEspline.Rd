@@ -3,7 +3,7 @@
 \title{Bayesian function regression using purpose-built MCMC}
 \description{\code{FREEspline} fits a function regression models with function-valed response variables, one or more scalar predictor variables, and one or more clustering variables. The clustering variables (\code{groups}) define distinct groups that are assigned their own function-valued intercept; this is similar to the use of random intercepts in linear mixed models. The standard method for models with clustering varaibles uses a Gibbs sampler for B-spline-based function regression models, with a first-order autoregressive error structure across bins.}
 \usage{
-FREEspline(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=5,
+FREEspline(y, x, groups, bins, degree=3, n_knots_beta=5, n_knots_gamma=5,
            n.iters=1000, n.burnin=round(n.iters / 5), n.thin=1,
            n.chains=3, hypers=list(psi_main=0.1, phi_main=0.1, psi_gamma=0.1,
                                    phi_gamma=0.1, sigma2_beta=10),
@@ -15,13 +15,13 @@ FREEspline(y, x, groups, w, degree=3, n_knots_beta=5, n_knots_gamma=5,
   \item{y}{matrix of response data, sites in rows}
   \item{x}{matrix of predictor variables, sites in rows}
   \item{groups}{matrix of clustering variables}
-  \item{w}{vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
+  \item{bins}{vector of argument values for response functions (see References). Defaults to 1:ncol(y)}
   \item{degree}{the degree of the B spline basis functions used in model fitting}
   \item{n_knots_beta}{number of knots for B splines for the 'fixed' effects in model fitting}
   \item{n_knots_gamma}{number of knots for B splines for the 'random' effects in model fitting}
   \item{n.iters}{total number of MCMC iterations (including burnin)}
   \item{n.burnin}{number of iterations to be treated as a burnin; defaults to \code{round(n.iters/5)}}
-  \item{n.thin}{thinning rate for MCMC chains; defaults to 100}
+  \item{n.thin}{thinning rate for MCMC chains; defaults to 1}
   \item{n.chains}{number of MCMC chains}
   \item{hypers}{the hyperparameters for the spline parameter variance and for the inverse gamma prior for the overall model variance}
   \item{inits}{optional: initial values for the variance and the model parameters}
@@ -51,6 +51,8 @@ List with the following components:
   \item{rho.mean}{mean value of the autocorrelation parameter for the overall model errors within subjects}
   \item{rho.sd}{standard deviation of the autocorrelation parameter}
   \item{llik_all}{log-likelihood values for all iterations (including burn-in) and all chains; useful for assessing model convergence and mixing}
+  \item{fp.sd.mean}{mean of the finite-population standard deviations of random parameters (i.e., coefficients for clustering variables). These values can be used for variance partitioning analyses}
+  \item{fp.sd.sd}{standard deviations of the finite-population standard deviations of random parameters (i.e., coefficients for clustering variables). These values can be used for variance partitioning analyses}
 }
 \references{
   \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}

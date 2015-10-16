@@ -1,5 +1,6 @@
 FREEfit.formula <-
-function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, ...){
+function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, n.iters=100, n.burnin=round(n.iters / 5),
+n.chains=3, par.run=FALSE, ...){
   mf <- model.frame(formula=formula, data=data)
   if (is.null(model.response(mf))) {
     stop("model response must be specified in formula", call.=FALSE)
@@ -19,14 +20,16 @@ function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, ...){
       }
     }
     y <- model.response(mf)
-    model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z, ...)
+    model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z, n.iters=n.iters, n.burnin=n.burnin,
+                             n.chains=n.chains, par.run=par.run, ...)
   } else {
     if (is.numeric(model.response(mf))) {
       y <- model.response(mf)
       if (is.null(bins)) {
         bins <- 1:ncol(x)
       }
-      model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z, ...)
+      model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z, n.iters=n.iters, n.burnin=n.burnin,
+                               n.chains=n.chains, par.run=par.run, ...)
     } else {
       stop("model response must be a numeric vector (scalar response model) or a matrix (function response model)", call.=FALSE)
     }

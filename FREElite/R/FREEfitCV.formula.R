@@ -1,5 +1,7 @@
 FREEfitCV.formula <-
-function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, ...){
+function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, n.cv=10,
+         verbose=TRUE, n.iters=100, n.burnin=round(n.iters / 5),
+         n.chains=3, par.run=FALSE, ...){
   mf <- model.frame(formula=formula, data=data)
   if (is.null(model.response(mf))) {
     stop("model response must be specified in formula", call.=FALSE)
@@ -23,7 +25,9 @@ function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=
   	  bins <- 1:ncol(y)
   	}
   	model <- FREEfitCV.default(y=y, x=x, bins=bins, groups=groups, z=z,
-  	                           verbose=verbose, n.cv=n.cv, ...)
+  	                           verbose=verbose, n.cv=n.cv, n.iters=n.iters,
+                               n.burnin=n.burnin, n.chains=n.chains,
+                               par.run=par.run, ...)
   } else {
   	if (is.numeric(model.response(mf))) {
   	  y <- model.response(mf)
@@ -33,7 +37,9 @@ function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=
   	    bins <- 1:n.bins
   	  }
   	  model <- FREEfitCV.default(y=y, x=x, bins=bins, groups=groups, z=z,
-  	                             verbose=verbose, n.cv=n.cv, ...)
+                                 verbose=verbose, n.cv=n.cv, n.iters=n.iters,
+                                 n.burnin=n.burnin, n.chains=n.chains,
+                                 par.run=par.run, ...)
   	} else {
   	  stop("model response must be a numeric vector (scalar response model) or a matrix (function response model)", call.=FALSE)
   	}

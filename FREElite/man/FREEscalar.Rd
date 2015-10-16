@@ -52,6 +52,8 @@ List with the following components:
   \item{delta.mean}{mean values for the linear effects of scalar predictor variables}
   \item{delta.sd}{standard deviations of the fitted effects for scalar predictor variables}
   \item{llik_all}{log-likelihood values for all iterations (including burn-in) and all chains; useful for assessing model convergence and mixing}
+  \item{fp.sd.mean}{mean of the finite-population standard deviations of random parameters (i.e., coefficients for clustering variables). These values can be used for variance partitioning analyses}
+  \item{fp.sd.sd}{standard deviations of the finite-population standard deviations of random parameters (i.e., coefficients for clustering variables). These values can be used for variance partitioning analyses}
 }
 \references{
   \cite{Yen et al. (2015) Function regression in ecology and evolution: FREE. Methods in Ecology and Evolution, 6: 17-26.}

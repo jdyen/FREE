@@ -1,5 +1,6 @@
 FREEfitCV.default <-
-function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, ...){
+function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, n.iters=100,
+         n.burnin=round(n.iters / 5), n.chains=3, par.run=FALSE, ...){
   if (is.matrix(y)) {
     if (is.null(bins)) {
       bins <- 1:ncol(y)
@@ -20,7 +21,7 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, ...){
     observed <- NULL
     predicted <- NULL
   	if (is.null(groups)) {
-      cv.out <- FREEsplineCV(n.cv=n.cv, y=y, x=x, groups=groups, w=bins, ...)
+      cv.out <- FREEsplineCV(n.cv=n.cv, y=y, x=x, groups=groups, bins=bins, ...)
   	} else {
   	  if (is.matrix(groups) | is.integer(groups) | is.numeric(groups)) {
   	    if (is.integer(groups)) {
@@ -34,7 +35,9 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, ...){
   	      stop("response and groups should have the same number of rows", call.=FALSE)
   	    }
   	    groups <- apply(groups, 2, function(x) as.integer(as.factor(x)))
-  	    cv.out <- FREEsplineCV(n.cv=n.cv, y=y, x=x, groups=groups, w=bins, ...)
+  	    cv.out <- FREEsplineCV(n.cv=n.cv, y=y, x=x, groups=groups, bins=bins,
+                               n.iters=n.iters, n.burnin=n.burnin, n.chains=n.chains,
+                               par.run=par.run, verbose=verbose, ...)
   	  } else {
   	    stop("the groups variable needs to be a matrix or integer/numeric vector", call.=FALSE)
   	  }
@@ -73,7 +76,9 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, ...){
           stop("response and groups should have the same number of rows", call.=FALSE)
         }
         groups <- apply(groups, 2, function(x) as.integer(as.factor(x)))
-        cv.out <- FREEscalarCV(n.cv=n.cv, y=y, x=x, z=z, groups=groups, bins=bins, ...)
+        cv.out <- FREEscalarCV(n.cv=n.cv, y=y, x=x, z=z, groups=groups, bins=bins,
+                               n.iters=n.iters, n.burnin=n.burnin, n.chains=n.chains,
+                               par.run=par.run, verbose=verbose, ...)
       } else {
         stop("the groups variable needs to be a matrix or integer/numeric vector", call.=FALSE)
       }
