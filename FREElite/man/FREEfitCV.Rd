@@ -51,6 +51,7 @@ An object of class \code{FREEfitCV}
 \code{\link{FREEscalar}}, \code{\link{FREEspline}}
 }
 \examples{
+\dontrun{
 # basic model with cross validation
 data <- FREEdataSim(function.class="response", n=10)
 data.list <- with(data, list(y=y.iid, VAR1=x$VAR1, VAR2=x$VAR2))
@@ -59,7 +60,6 @@ modelCV1 <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list,
 summary(modelCV1)
 plot(modelCV1)
 
-\dontrun{
 # try a model with clustering variables
 groups <- sample(1:4, size=nrow(data.list$y), replace=TRUE)
 modelCV2 <- FREEfitCV(y ~ VAR1 + VAR2, data=data.list, groups=groups,
