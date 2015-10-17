@@ -1,0 +1,12 @@
+.DS_store
+.RData
+.Rhistory
+man/.DS_Store
+man/.Rapp.history
+src/.DS_Store
+src/FREE.so
+src/RcppExports.o
+src/scalar_update_betas.o
+src/spline_model_sampler.o
+src/symbols.rds
+R/.DS_Store
