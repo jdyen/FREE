@@ -19,7 +19,7 @@ function(x, ...){
   } else {
     cat("\nDIC: DIC not computed for method ", x$method, ".....", sep="")
   }
-  if (any(unlist(x$rhats) > 1.1)) {
+  if (any(unlist(x$rhats) > 1.1, na.rm=TRUE)) {
     cat("\nWarning: some rhats were greater than 1.1; consider increasing n.iters")
   }
 }

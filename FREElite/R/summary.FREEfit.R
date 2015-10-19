@@ -23,7 +23,7 @@ function(object, ...){
   if ((!is.null(object$rand.coefs.mean))) {
     res$rand.coefs <- object$rand.coefs.mean
   }
-  if (any(unlist(object$rhats) > 1.1)) {
+  if (any(unlist(object$rhats) > 1.1, na.rm=TRUE)) {
     warn.print <- "some rhat values were greater than 1.1; consider increasing n.iters"
     res$warning <- warn.print
   }
