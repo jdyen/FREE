@@ -1,6 +1,6 @@
 Package: FREE
 Type: Package
-Title: Function regression in Ecology and Evolution
+Title: Function Regression in Ecology and Evolution
 Version: 2.0
 Date: 2015-06-12
 Author: Jian Yen
@@ -11,7 +11,6 @@ Depends: R (>= 3.1.2)
 Imports: MASS,
          parallel,
          Rcpp (>= 0.11.3),
-         RcppArmadillo,
          splines
 LinkingTo: Rcpp,
            RcppArmadillo
