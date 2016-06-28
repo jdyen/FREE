@@ -9,8 +9,8 @@ splineScalarInternal <- function(chain, y, x, z, groups, degree, n_knots, n.iter
   loglik.store <- vector("numeric", length=n_keep)
   sigma2.store <- vector("numeric", length=n_keep)
   sigma2_gamma.store <-  array(dim=c(n_q, n_keep))
-  coefs.store <-  array(dim=c(length(grid), n_keep))
-  beta.store <- array(dim=c(n_knots, n_keep))
+  coefs.store <-  array(dim=c(length(x), length(grid), n_keep))
+  beta.store <- array(dim=c(length(x), n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
   fp.sd.store <- array(dim=c(n_q, n_keep))
@@ -28,7 +28,10 @@ splineScalarInternal <- function(chain, y, x, z, groups, degree, n_knots, n.iter
   if (!is.null(inits$beta)) {
     beta <- inits$beta
   } else {
-    beta <- rnorm(n_knots)
+    beta <- matrix(NA, nrow = length(x), ncol = n_knots)
+    for (i in seq(along = x)) {
+      beta[i, ] <- rnorm(n_knots)
+    }
   }
   if (!is.null(inits$gamma)) {
       gamma <- inits$gamma
@@ -44,15 +47,18 @@ splineScalarInternal <- function(chain, y, x, z, groups, degree, n_knots, n.iter
   } else {
     delta <- rnorm(n_k)
   }
-  theta <- seq(5, ncol(x) - 4, length=n_knots - degree)
-  bs_beta <- calc_bs_scalar(1:ncol(x), theta, degree, c(0, ncol(x) + 1))
+  theta <- seq(5, ncol(x[[1]]) - 4, length=n_knots - degree)
+  bs_beta <- vector('list', length = length(x))
+  for (i in seq(along = x)) {
+    bs_beta[[i]] <- calc_bs_scalar(1:ncol(x[[i]]), theta, degree, c(0, ncol(x[[i]]) + 1))
+  }
   sigma2 <- inits$sigma2
   if (length(inits$sigma2_gamma) == n_q) {
     sigma2_gamma <- inits$sigma2_gamma
   } else {
     sigma2_gamma <- rep(inits$sigma2_gamma, n_q)
   }
-    
+  
   llik_init <- lnL_scalar(y=y, x=x, groups=as.matrix(groups), beta=beta, gamma=gamma, delta=delta,
                    z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta)
   # run through each iteration
@@ -80,12 +86,12 @@ splineScalarInternal <- function(chain, y, x, z, groups, degree, n_knots, n.iter
                                                     beta=beta, gamma=gamma,
                                                     delta=delta, bs_beta=bs_beta)
       loglik.store[current_iter] <- llik_all[i]
-      coefs.store[, current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
+      coefs.store[, , current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
                                                 grid=grid, endpoints=endpoints)
       sigma2.store[current_iter] <- sigma2
       sigma2_gamma.store[, current_iter] <- sigma2_gamma
       alpha.store[current_iter] <- alpha
-      beta.store[, current_iter] <- beta
+      beta.store[, , current_iter] <- beta
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
@@ -112,8 +118,8 @@ splineScalarInternal2 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   loglik.store <- vector("numeric", length=n_keep)
   sigma2.store <- vector("numeric", length=n_keep)
   sigma2_gamma.store <-  array(dim=c(n_q, n_keep))
-  coefs.store <-  array(dim=c(length(grid), n_keep))
-  beta.store <- array(dim=c(n_knots, n_keep))
+  coefs.store <-  array(dim=c(length(x), length(grid), n_keep))
+  beta.store <- array(dim=c(length(x), n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
   fp.sd.store <- array(dim=c(n_q, n_keep))
@@ -131,7 +137,10 @@ splineScalarInternal2 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   if (!is.null(inits$beta)) {
     beta <- inits$beta
   } else {
-    beta <- rnorm(n_knots)
+    beta <- matrix(NA, nrow = length(x), ncol = n_knots)
+    for (i in seq(along = x)) {
+      beta[i, ] <- rnorm(n_knots)
+    }
   }
   gamma <- vector("list", length=n_q)
   for (q in 1:n_q) {
@@ -142,8 +151,11 @@ splineScalarInternal2 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   } else {
     delta <- rnorm(n_k)
   }
-  theta <- seq(5, ncol(x) - 4, length=n_knots - degree)
-  bs_beta <- calc_bs_scalar(1:ncol(x), theta, degree, c(0, ncol(x) + 1))
+  theta <- seq(5, ncol(x[[1]]) - 4, length=n_knots - degree)
+  bs_beta <- vector('list', length = length(x))
+  for (i in seq(along = x)) {
+    bs_beta[[i]] <- calc_bs_scalar(1:ncol(x[[i]]), theta, degree, c(0, ncol(x[[i]]) + 1))
+  }
   sigma2 <- inits$sigma2
   if (length(inits$sigma2_gamma) == n_q) {
     sigma2_gamma <- inits$sigma2_gamma
@@ -178,12 +190,12 @@ splineScalarInternal2 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
                                                     beta=beta, gamma=gamma,
                                                     delta=delta, bs_beta=bs_beta)
       loglik.store[current_iter] <- llik_all[i]
-      coefs.store[, current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
+      coefs.store[, , current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
                                                 grid=grid, endpoints=endpoints)
       sigma2.store[current_iter] <- sigma2
       sigma2_gamma.store[, current_iter] <- sigma2_gamma
       alpha.store[current_iter] <- alpha
-      beta.store[, current_iter] <- beta
+      beta.store[, , current_iter] <- beta
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
@@ -210,8 +222,8 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   loglik.store <- vector("numeric", length=n_keep)
   sigma2.store <- vector("numeric", length=n_keep)
   sigma2_gamma.store <-  array(dim=c(n_q, n_keep))
-  coefs.store <-  array(dim=c(length(grid), n_keep))
-  beta.store <- array(dim=c(n_knots, n_keep))
+  coefs.store <-  array(dim=c(length(x), length(grid), n_keep))
+  beta.store <- array(dim=c(length(x), n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
   fp.sd.store <- array(dim=c(n_q, n_keep))
@@ -229,7 +241,10 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   if (!is.null(inits$beta)) {
     beta <- inits$beta
   } else {
-    beta <- rnorm(n_knots)
+    beta <- matrix(NA, nrow = length(x), ncol = n_knots)
+    for (i in seq(along = x)) {
+      beta[i, ] <- rnorm(n_knots)
+    }
   }
   if (!is.null(inits$gamma)) {
     gamma <- inits$gamma
@@ -242,8 +257,11 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
     }
   }
   delta <- rep(0, n_k)
-  theta <- seq(5, ncol(x) - 4, length=n_knots - degree)
-  bs_beta <- calc_bs_scalar(1:ncol(x), theta, degree, c(0, ncol(x) + 1))
+  theta <- seq(5, ncol(x[[1]]) - 4, length=n_knots - degree)
+  bs_beta <- vector('list', length = length(x))
+  for (i in seq(along = x)) {
+    bs_beta[[i]] <- calc_bs_scalar(1:ncol(x[[i]]), theta, degree, c(0, ncol(x[[i]]) + 1))
+  }
   sigma2 <- inits$sigma2
   if (length(inits$sigma2_gamma) == n_q) {
     sigma2_gamma <- inits$sigma2_gamma
@@ -278,12 +296,12 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
                                                     beta=beta, gamma=gamma,
                                                     delta=delta, bs_beta=bs_beta)
       loglik.store[current_iter] <- llik_all[i]
-      coefs.store[, current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
+      coefs.store[, , current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
                                                 grid=grid, endpoints=endpoints)
       sigma2.store[current_iter] <- sigma2
       sigma2_gamma.store[, current_iter] <- sigma2_gamma
       alpha.store[current_iter] <- alpha
-      beta.store[, current_iter] <- beta
+      beta.store[, , current_iter] <- beta
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]
@@ -310,8 +328,8 @@ splineScalarInternal4 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   loglik.store <- vector("numeric", length=n_keep)
   sigma2.store <- vector("numeric", length=n_keep)
   sigma2_gamma.store <-  array(dim=c(n_q, n_keep))
-  coefs.store <-  array(dim=c(length(grid), n_keep))
-  beta.store <- array(dim=c(n_knots, n_keep))
+  coefs.store <-  array(dim=c(length(x), length(grid), n_keep))
+  beta.store <- array(dim=c(length(x), n_knots, n_keep))
   alpha.store <- vector("numeric", length=n_keep)
   delta.store <- array(dim=c(n_k, n_keep))
   fp.sd.store <- array(dim=c(n_q, n_keep))
@@ -329,15 +347,21 @@ splineScalarInternal4 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
   if (!is.null(inits$beta)) {
     beta <- inits$beta
   } else {
-    beta <- rnorm(n_knots)
+    beta <- matrix(NA, nrow = length(x), ncol = n_knots)
+    for (i in seq(along = x)) {
+      beta[i, ] <- rnorm(n_knots)
+    }
   }
   gamma <- vector("list", length=n_q)
   for (q in 1:n_q) {
     gamma[[q]] <- rep(0, n_G_q[q])
   }
   delta <- rep(0, n_k)
-  theta <- seq(5, ncol(x) - 4, length=n_knots - degree)
-  bs_beta <- calc_bs_scalar(1:ncol(x), theta, degree, c(0, ncol(x) + 1))
+  theta <- seq(5, ncol(x[[1]]) - 4, length=n_knots - degree)
+  bs_beta <- vector('list', length = nrow(beta))
+  for (i in seq(along = x)) {
+    bs_beta[[i]] <- calc_bs_scalar(1:ncol(x[[i]]), theta, degree, c(0, ncol(x[[i]]) + 1))
+  }
   sigma2 <- inits$sigma2
   if (length(inits$sigma2_gamma) == n_q) {
     sigma2_gamma <- inits$sigma2_gamma
@@ -372,12 +396,12 @@ splineScalarInternal4 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
                                                     beta=beta, gamma=gamma,
                                                     delta=delta, bs_beta=bs_beta)
       loglik.store[current_iter] <- llik_all[i]
-      coefs.store[, current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
+      coefs.store[, , current_iter] <- coefs_calc_scalar(beta=beta, theta=theta, degree=degree,
                                                 grid=grid, endpoints=endpoints)
       sigma2.store[current_iter] <- sigma2
       sigma2_gamma.store[, current_iter] <- sigma2_gamma
       alpha.store[current_iter] <- alpha
-      beta.store[, current_iter] <- beta
+      beta.store[, , current_iter] <- beta
       delta.store[, current_iter] <- delta
       for (q in 1:n_q) {
         gamma.store[[q]][, current_iter] <- gamma[[q]]

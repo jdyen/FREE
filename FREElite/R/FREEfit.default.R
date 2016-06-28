@@ -50,12 +50,15 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.iters=100, n.burnin=round(n.ite
   } else {
     	if (is.numeric(y)) {
     	  if (is.null(bins)) {
-    	    bins <- 1:ncol(x)
+            bins <- vector('list', length = length(x))
+            for (i in seq(along = x)) {
+       	      bins[[i]] <- 1:ncol(x[[i]])
+            }
     	  }
-          if (!is.matrix(x)) {
-            stop("the predictor data should be a matrix with one row for each site", call.=FALSE)
+          if (!all(sapply(x, is.matrix))) {
+            stop("the predictor data should all be matrices with one row for each site", call.=FALSE)
           }
-  	      if (length(y) != nrow(x)) {
+  	      if (!all(sapply(x, nrow) == length(y))) {
   	        stop("response and predictor data should have one row/observation for each site",
   	             call.=FALSE)
   	      }
@@ -63,7 +66,7 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.iters=100, n.burnin=round(n.ite
             if (is.numeric(z) | is.integer(z)) {
               z <- matrix(z, ncol=1)
             }
-            if (nrow(z) != nrow(x)) {
+            if (!all(nrow(z) == sapply(x, nrow))) {
               stop("response and predictor data should have one row/observation for each site", call.=FALSE)
             }
           }

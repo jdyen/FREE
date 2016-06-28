@@ -25,8 +25,16 @@ n.chains=3, par.run=FALSE, ...){
   } else {
     if (is.numeric(model.response(mf))) {
       y <- model.response(mf)
+      x.use <- vector('list', length = (length(names(mf)) - 1))
+      for (i in 2:length(names(mf))) {
+        x.use[[i - 1]] <- as.matrix(mf[names(mf)[i]])
+      }
+      x <- x.use
       if (is.null(bins)) {
-        bins <- 1:ncol(x)
+        bins <- vector('list', length = length(x))
+        for (i in seq(along = x)) {
+          bins[[i]] <- 1:ncol(x[[i]])
+        }
       }
       model <- FREEfit.default(y=y, x=x, bins=bins, groups=groups, z=z, n.iters=n.iters, n.burnin=n.burnin,
                                n.chains=n.chains, par.run=par.run, ...)

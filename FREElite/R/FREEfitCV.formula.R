@@ -31,11 +31,17 @@ function(formula, data=list(), bins=NULL, groups=NULL, z=NULL, n.cv=10,
   } else {
   	if (is.numeric(model.response(mf))) {
   	  y <- model.response(mf)
-  	  n.bins <- ncol(x) / (length(variable.names(mf)) - 1)
-  	  n.vars <- length(variable.names(mf)) - 1
-  	  if (is.null(bins)) {
-  	    bins <- 1:n.bins
-  	  }
+      x.use <- vector('list', length = (length(names(mf)) - 1))
+      for (i in 2:length(names(mf))) {
+        x.use[[i - 1]] <- as.matrix(mf[names(mf)[i]])
+      }
+      x <- x.use
+      if (is.null(bins)) {
+        bins <- vector('list', length = length(x))
+        for (i in seq(along = x)) {
+          bins[[i]] <- 1:ncol(x[[i]])
+        }
+      }
   	  model <- FREEfitCV.default(y=y, x=x, bins=bins, groups=groups, z=z,
                                  verbose=verbose, n.cv=n.cv, n.iters=n.iters,
                                  n.burnin=n.burnin, n.chains=n.chains,

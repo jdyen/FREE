@@ -9,8 +9,11 @@ FREEscalarCV <- function(n.cv=10, y, x, z, groups, bins,
 {
   pred <- NULL
   n.out <- floor(length(y) / n.cv)
-  theta <- seq(5, ncol(x) - 4, length=n_knots - degree)
-  bs_beta <- calc_bs(1:ncol(x), theta, degree, c(0, ncol(x) + 1))
+  theta <- seq(5, max(sapply(x, ncol)) - 4, length=n_knots - degree)
+  bs_beta <- vector('list', length = length(x))
+  for (k in seq(along = x)) {
+    bs_beta[[k]] <- calc_bs(1:ncol(x[[k]]), theta, degree, c(0, ncol(x[[k]]) + 1))
+  }
   for (i in 1:n.cv) {
     if (verbose) {
       print(paste("starting fold ", i, " of ", n.cv, "...", sep=""))
@@ -29,12 +32,20 @@ FREEscalarCV <- function(n.cv=10, y, x, z, groups, bins,
     for (j in 1:ncol(groups)) {
       groups.use[, j] <- as.integer(as.factor(groups[-subset, j]))
     }
-    mod <- FREEscalar(y=y[-subset], x=x[-subset, ], z=z[-subset, ],
+    x.use <- vector('list', length = length(x))
+    for (k in seq(along = x)) {
+      x.use[[k]] <- x[[k]][-subset, ]
+    }
+    x.pred <- vector('list', length = length(x))
+    for (k in seq(along = x)) {
+      x.pred[[k]] <- x[[k]][subset, ]
+    }
+    mod <- FREEscalar(y=y[-subset], x=x.use, z=z[-subset, ],
                       groups=groups.use, bins=bins,
                       degree=degree, n_knots=n_knots, n.iters=n.iters,
                       n.burnin=n.burnin, n.thin=n.thin, n.chains=n.chains,
                       hypers=hypers, inits=inits, par.run=par.run, ...)
-    pred <- c(pred, fitted_scalar_cv(x=x[subset, ], z=z[subset, ],
+    pred <- c(pred, fitted_scalar_cv(x=x.pred, z=z[subset, ],
                                      beta=mod$beta.mean, delta=mod$delta.mean,
                                      bs_beta=bs_beta))
     if (verbose) {

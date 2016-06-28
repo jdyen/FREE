@@ -1,5 +1,8 @@
 fitted_scalar <- function(x, z, groups, beta, gamma, delta, bs_beta) {
-  fitted <- (x %*% bs_beta) %*% beta
+  fitted <- rep(0, nrow(x[[1]]))
+  for (i in 1:length(x)) {
+    fitted <- fitted + (x[[i]] %*% bs_beta[[i]]) %*% beta[i, ]
+  }
   if (length(delta) > 1) {
     fitted <- fitted + (z %*% delta)
   } else {
@@ -12,13 +15,20 @@ fitted_scalar <- function(x, z, groups, beta, gamma, delta, bs_beta) {
 }
 
 coefs_calc_scalar <- function(beta, theta, degree, grid, endpoints) {
-  bs_beta <- calc_bs_scalar(grid, theta, degree, endpoints)
-  out <- c(bs_beta %*% beta)
+  out <- matrix(NA, nrow = nrow(beta), ncol = length(grid))
+  bs_beta <- vector('list', length = nrow(beta))
+  for (k in 1:nrow(beta)) {
+    bs_beta[[k]] <- calc_bs_scalar(grid, theta, degree, endpoints)
+    out[k, ] <- c(bs_beta[[k]] %*% beta[k, ])
+  }
   return(out)
 }
 
 fitted_scalar_cv <- function(x, z, beta, delta, bs_beta) {
-  fitted <- (x %*% bs_beta) %*% beta
+  fitted <- rep(0, nrow(x[[1]]))
+  for (i in 1:length(x)) {
+    fitted <- fitted + (x[[i]] %*% bs_beta[[i]]) %*% beta[i, ]
+  }
   if (length(delta) > 1) {
     fitted <- fitted + (z %*% delta)
   } else {

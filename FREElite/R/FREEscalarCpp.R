@@ -9,8 +9,8 @@
 #   with slice sampling from non-standard conditional densities.
 # 
 # A general model description is in
-# Yen J.D.L. et al. (in press) Function regression in ecology and evolution: FREE.
-#   Methods in Ecology and Evolution. DOI: xxxx
+# Yen J.D.L. et al. (2015) Function regression in ecology and evolution: FREE.
+#   Methods in Ecology and Evolution. 6:17
 #
 # Arguments:
 #
@@ -61,7 +61,7 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   n_G_q <- apply(groups, 2, function(x) length(unique(x)))
     
   # set up grid for output of coefficients
-  grid <- bins
+  grid <- sort(unique(unlist(bins)))
   endpoints <- c(grid[1] - 1, grid[length(grid)] + 1)
   
   # set up priors and hypers
@@ -103,11 +103,11 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
                            dim=c(nrow(mod[[1]][[1]]), n.keep, n.chains)),
                      1, sd)
   coefs.mean <- apply(array(unlist(lapply(mod, function(x) x[[2]])),
-                            dim=c(nrow(mod[[1]][[2]]), n.keep, n.chains)),
-                      1, mean)
+                            dim=c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]), n.keep, n.chains)),
+                      c(1, 2), mean)
   coefs.sd <- apply(array(unlist(lapply(mod, function(x) x[[2]])),
-                          dim=c(nrow(mod[[1]][[2]]), n.keep, n.chains)),
-                    1, sd)
+                          dim=c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]), n.keep, n.chains)),
+                    c(1, 2), sd)
   gamma.mean <- vector("list", length=n_q)
   gamma.sd <- vector("list", length=n_q)
   for (q in 1:n_q) {
@@ -123,11 +123,11 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   alpha.mean <- mean(unlist(lapply(mod, function(x) x$alpha)))
   alpha.sd <- sd(unlist(lapply(mod, function(x) x$alpha)))
   beta.mean <- apply(array(unlist(lapply(mod, function(x) x$beta)),
-                                dim=c(nrow(mod[[1]]$beta), n.keep, n.chains)),
-                          1, mean)
+                                dim=c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta), n.keep, n.chains)),
+                          c(1, 2), mean)
   beta.sd <- apply(array(unlist(lapply(mod, function(x) x$beta)),
-                              dim=c(nrow(mod[[1]]$beta), n.keep, n.chains)),
-                        1, sd)
+                              dim=c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta), n.keep, n.chains)),
+                        c(1, 2), sd)
   delta.mean <- apply(array(unlist(lapply(mod, function(x) x$delta)),
                             dim=c(nrow(mod[[1]]$delta), n.keep, n.chains)),
                       1, mean)
@@ -154,13 +154,13 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   
   # summarise all outputs from each chain
   if (n.chains > 1) {
-    coefs.chain.var <- apply(array(unlist(lapply(mod, function(x) apply(x$coefs, 1, var))),
-                                   dim=c(nrow(mod[[1]]$coefs), n.chains)),
-                             1, mean)
+    coefs.chain.var <- apply(array(unlist(lapply(mod, function(x) apply(x$coefs, c(1, 2), var))),
+                                   dim=c(nrow(mod[[1]]$coefs), ncol(mod[[1]]$coefs), n.chains)),
+                             c(1, 2), mean)
     gamma.chain.var <- vector("list", length=n_q)
-    coefs.chain.var2 <- n.iters * apply(array(unlist(lapply(mod, function(x) apply(x$coefs, 1, mean))),
-                                             dim=c(nrow(mod[[1]]$coefs), n.chains)),
-                                       1, var)
+    coefs.chain.var2 <- n.iters * apply(array(unlist(lapply(mod, function(x) apply(x$coefs, c(1, 2), mean))),
+                                             dim=c(nrow(mod[[1]]$coefs), ncol(mod[[1]]$coefs), n.chains)),
+                                       c(1, 2), var)
     gamma.chain.var2 <- vector("list", length=n_q)
     for (q in 1:n_q) {
       gamma.chain.var[[q]] <- apply(array(unlist(lapply(mod, function(x) apply(x$gamma[[q]], 1, var))),
@@ -172,9 +172,9 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
     }
     sigma2.chain.var <- mean(array(unlist(lapply(mod, function(x) var(x$sigma2))),
                                    dim=c(n.chains)))
-    beta.chain.var <- apply(array(unlist(lapply(mod, function(x) apply(x$beta, 1, var))),
-                                  dim=c(nrow(mod[[1]]$beta), n.chains)),
-                            1, mean)
+    beta.chain.var <- apply(array(unlist(lapply(mod, function(x) apply(x$beta, c(1, 2), var))),
+                                  dim=c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta), n.chains)),
+                            c(1, 2), mean)
     alpha.chain.var <- mean(array(unlist(lapply(mod, function(x) var(x$alpha))),
                                   dim=c(n.chains)))
     delta.chain.var <- apply(array(unlist(lapply(mod, function(x) apply(x$delta, 1, var))),
@@ -185,9 +185,9 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
                                     1, mean)
     sigma2.chain.var2 <- n.iters * var(array(unlist(lapply(mod, function(x) mean(x$sigma2))),
                                             dim=c(n.chains)))
-    beta.chain.var2 <- n.iters * apply(array(unlist(lapply(mod, function(x) apply(x$beta, 1, mean))),
-                                            dim=c(nrow(mod[[1]]$beta), n.chains)),
-                                      1, var)
+    beta.chain.var2 <- n.iters * apply(array(unlist(lapply(mod, function(x) apply(x$beta, c(1, 2), mean))),
+                                            dim=c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta), n.chains)),
+                                      c(1, 2), var)
     alpha.chain.var2 <- n.iters * var(array(unlist(lapply(mod, function(x) mean(x$alpha))),
                                            dim=c(n.chains)))
     delta.chain.var2 <- n.iters * apply(array(unlist(lapply(mod, function(x) apply(x$delta, 1, mean))),
@@ -231,8 +231,11 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   
   # calculate DIC from mean log likelihood and log likelihood at mean(parameters)
   loglik.mean <- mean(unlist(lapply(mod, function(x) x$loglik)))
-  theta <- seq(5, ncol(x) - 4, length=n_knots - degree)
-  bs_beta <- calc_bs(1:ncol(x), theta, degree, c(0, ncol(x) + 1))
+  theta <- seq(5, max(sapply(x, ncol)) - 4, length=n_knots - degree)
+  bs_beta <- vector('list', length = length(x))
+  for (i in seq(along = bs_beta)) {
+    bs_beta[[i]] <- calc_bs(1:ncol(x[[i]]), theta, degree, c(0, ncol(x[[i]]) + 1))
+  }
   loglik.param.bar <- lnL_scalar(y=y, x=x, groups=groups, beta=beta.mean, gamma=gamma.mean,
                           delta=delta.mean, z=z, alpha=alpha.mean, sigma2=sigma2.mean,
                           bs_beta=bs_beta)

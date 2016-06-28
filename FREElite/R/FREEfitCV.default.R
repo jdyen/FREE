@@ -45,31 +45,44 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, n.iters=10
   } else {
     if (is.numeric(y)) {
       if (is.null(bins)) {
-        bins <- 1:ncol(x)
+       bins <- vector('list', length = length(x))
+        for (i in seq(along = x)) {
+          bins[[i]] <- 1:ncol(x[[i]])
+        }
       }
-      if (!is.matrix(x)) {
+      if (!all(sapply(x, is.matrix))) {
         stop("the predictor data should be a matrix with one row for each site", call.=FALSE)
       }
-      if (length(y) != nrow(x)) {
+      if (!all(sapply(x, nrow) == length(y))) {
         stop("response and predictor data should have one row/observation for each site",
              call.=FALSE)
       }
+      if (is.null(z)) {
+        z <- matrix(0, nrow = length(y), ncol = 2)
+      }
       if (is.matrix(z) | is.numeric(z) | is.integer(z)) {
-        if (is.numeric(z) | is.integer(z)) {
+        if (!is.matrix(z)) {
           z <- matrix(z, ncol=1)
         }
-        if (nrow(z) != nrow(x)) {
+        if (!all(nrow(z) == sapply(x, nrow))) {
           stop("response and predictor data should have one row/observation for each site", call.=FALSE)
         }
       } else {
           stop("scalar predictors z must be either a matrix or a numeric or integer vector", call.=FALSE)
       }
+      if (is.null(groups)) {
+        groups <- matrix(rep(c(1, 2), times = length(y)), ncol = 2)
+        for (i in 1:ncol(groups)) {
+          groups[, i] <- as.integer(groups[, i])
+        }
+      }
       if (is.matrix(groups) | is.integer(groups) | is.numeric(groups)) {
-        if (is.integer(groups)) {
+        if (!is.matrix(groups)) {
           groups <- as.matrix(groups)
         }
-        if (is.numeric(groups)) {
-          warning("a numeric vector has been provided for groups; make sure that this vector is assigning each row of the response to a cluster", call.=FALSE)
+        if (!all(apply(groups, 2, function(x) all((x %% 1) == 0)))) {
+          warning("groups are not integers; make sure that this vector is assigning each row of the response to a cluster",
+                  call. = FALSE)
           groups <- as.matrix(groups)
         }
         if (nrow(groups) != length(y)) {

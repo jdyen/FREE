@@ -1,5 +1,5 @@
-FREEsplineCV <- function(n.cv, y, x, groups, bins, degree=3, n_knots_beta=11,
-                         n_knots_gamma=11, n.iters=100, n.chains=3, n.thin=1,
+FREEsplineCV <- function(n.cv, y, x, groups, bins, degree=3, n_knots=5,
+                         n.iters=100, n.chains=3, n.thin=1,
                          n.burnin=round(n.iters / 5), par.run=FALSE,
                          hypers=list(psi_main=0.1, phi_main=0.1, psi_gamma=0.1,
                                       phi_gamma=0.1, sigma2_beta=10),
@@ -26,8 +26,8 @@ FREEsplineCV <- function(n.cv, y, x, groups, bins, degree=3, n_knots_beta=11,
   return(list(predicted=pred, observed=obs))
 }
 
-cv_inner <- function(i, n.cv, y, x, groups, bins, degree=3, n_knots_beta=11,
-                     n_knots_gamma=11, n.iters, n.chains, n.thin,
+cv_inner <- function(i, n.cv, y, x, groups, bins, degree=3, n_knots=5,
+                     n.iters, n.chains, n.thin,
                      n.burnin, par.run,
                      hypers=list(psi_main=0.1, phi_main=0.1, psi_gamma=0.1,
                                  phi_gamma=0.1, sigma2_beta=10), ...)
@@ -47,7 +47,7 @@ cv_inner <- function(i, n.cv, y, x, groups, bins, degree=3, n_knots_beta=11,
     groups.use <- NULL
   }
   mod <- FREEspline(y=y.use, x=x.use, groups=groups.use, bins=bins, degree=degree,
-                    n_knots_beta=n_knots_beta, n_knots_gamma=n_knots_gamma,
+                    n_knots=n_knots,
                     n.iters=n.iters, n.burnin=n.burnin, n.thin=n.thin,
                     n.chains=n.chains,
                     hypers=hypers, par.run=par.run, ...)

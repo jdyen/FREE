@@ -14,22 +14,26 @@ using namespace Rcpp;
 //
 
 // [[Rcpp::export]]
-double lnL_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
-           NumericVector beta, List gamma, NumericVector delta,
+double lnL_scalar(NumericVector y, List x, NumericMatrix groups,
+           NumericMatrix beta, List gamma, NumericVector delta,
            NumericMatrix z, double alpha, double sigma2,
-           NumericMatrix bs_beta) {
+           List bs_beta) {
   double out;
   
   //Calculate mean value for each observation
   double sum_sq = 0;
   for (int i = 0; i < y.size(); i++) {
     double mu = alpha;
-    for (int j = 0; j < x.ncol(); j++) {
-      double mu_tmp = 0;
-      for (int jj = 0; jj < beta.size(); jj++) {
-        mu_tmp += bs_beta(j, jj) * beta[jj];
+    for (int k = 0; k < beta.nrow(); k++) {
+      NumericMatrix bs_beta_k = bs_beta[k];
+      NumericMatrix x_k = x[k];
+      for (int j = 0; j < x_k.ncol(); j++) {
+        double mu_tmp = 0;
+        for (int jj = 0; jj < beta.ncol(); jj++) {
+          mu_tmp += bs_beta_k(j, jj) * beta(k, jj);
+        }
+        mu += x_k(i, j) * mu_tmp;
       }
-      mu += x(i, j) * mu_tmp;
     }
     for (int k = 1; k < z.ncol(); k++) {
       mu += delta[k] * z(i, k);
@@ -48,10 +52,10 @@ double lnL_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
 }
 
 // [[Rcpp::export]]
-double sample_alpha_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
-                    NumericVector beta, List gamma, NumericVector delta,
+double sample_alpha_scalar(NumericVector y, List x, NumericMatrix groups,
+                    NumericMatrix beta, List gamma, NumericVector delta,
                     NumericMatrix z, double alpha, double sigma2,
-                    NumericMatrix bs_beta, double s2_alpha) {
+                    List bs_beta, double s2_alpha) {
   double out;
   NumericVector params(2);
   
@@ -61,9 +65,13 @@ double sample_alpha_scalar(NumericVector y, NumericMatrix x, NumericMatrix group
   double sum_term4 = 0.0;
   for (int i = 0; i < y.size(); i++) {
     double term = 0.0;
-    for (int j = 0; j < x.ncol(); j++) {
-      for (int p = 0; p < beta.size(); p++) {
-        term += beta[p] * bs_beta(j, p) * x(i, j);
+    for (int k = 0; k < beta.nrow(); k++) {
+      NumericMatrix bs_beta_k = bs_beta[k];
+      NumericMatrix x_k = x[k];
+      for (int j = 0; j < x_k.ncol(); j++) {
+        for (int p = 0; p < beta.ncol(); p++) {
+          term += beta(k, p) * bs_beta_k(j, p) * x_k(i, j);
+        }
       }
     }
     sum_term += term;
@@ -91,10 +99,10 @@ double sample_alpha_scalar(NumericVector y, NumericMatrix x, NumericMatrix group
 }
 
 // [[Rcpp::export]]
-double sample_beta_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
-                   NumericVector beta, List gamma, NumericVector delta,
+double sample_beta_scalar(NumericVector y, List x, NumericMatrix groups,
+                   NumericMatrix beta, List gamma, NumericVector delta,
                    NumericMatrix z, double alpha, double sigma2,
-                   NumericMatrix bs_beta, double s2_beta, int p_id) {
+                   List bs_beta, double s2_beta, int p_id, int k_id) {
   double out;
   NumericVector params(2);
   
@@ -104,10 +112,12 @@ double sample_beta_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups
   double sum_term2b = 0.0;
   double sum_term3 = 0.0;
   double sum_term4 = 0.0;
+  NumericMatrix x_tmp = x(k_id);
+  NumericMatrix bs_beta_tmp = bs_beta(k_id);
   for (int i = 0; i < y.size(); i++) {
     double term = 0.0;
-    for (int j = 0; j < x.ncol(); j++) {
-      term += bs_beta(j, p_id) * x(i, j);
+    for (int j = 0; j < x_tmp.ncol(); j++) {
+      term += bs_beta_tmp(j, p_id) * x_tmp(i, j);
     }
     sum_term += term * term;
     sum_term2 += y[i] * term;
@@ -120,10 +130,22 @@ double sample_beta_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups
       int group_set = groups(i, q);
       sum_term3 += gamma_q[group_set] * term;
     }
-    for (int s = 0; s < beta.size(); s++) {
-      if (s != p_id) {
-        for (int j = 0; j < x.ncol(); j++) {
-          sum_term4 += term * beta(s) * bs_beta(j, s) * x(i, j);
+    for (int k2 = 0; k2 < beta.nrow(); k2++) {
+      NumericMatrix bs_beta_k = bs_beta[k2];
+      NumericMatrix x_k = x[k2];
+      if (k2 != k_id) {
+        for (int s = 0; s < beta.ncol(); s++) {
+          for (int j = 0; j < x_k.ncol(); j++) {
+            sum_term4 += term * beta(k2, s) * bs_beta_k(j, s) * x_k(i, j);
+          }
+        }
+      } else {
+        for (int s = 0; s < beta.ncol(); s++) {
+          if (s != p_id) {
+            for (int j = 0; j < x_k.ncol(); j++) {
+              sum_term4 += term * beta(k2, s) * bs_beta_k(j, s) * x_k(i, j);
+            }
+          }
         }
       }
     }
@@ -134,18 +156,19 @@ double sample_beta_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups
   
   //Calculate params[0]
   params[0] = params[1] * (-1.0 / (2.0 * sigma2)) * (-2.0 * sum_term2 + 2.0 * sum_term2a +
-                                                     2.0 * sum_term2b + 2.0 * sum_term4 + 2.0 * sum_term3);
-  
+                                                     2.0 * sum_term2b + 2.0 * sum_term4 +
+                                                     2.0 * sum_term3);
+
   //Calculate loglik
   out = rnorm(1, params[0], sqrt(params[1]))[0];
   return out;
 }
 
 // [[Rcpp::export]]
-double sample_delta_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
-                    NumericVector beta, List gamma, NumericVector delta,
+double sample_delta_scalar(NumericVector y, List x, NumericMatrix groups,
+                    NumericMatrix beta, List gamma, NumericVector delta,
                     NumericMatrix z, double alpha, double sigma2,
-                    NumericMatrix bs_beta, double s2_delta, int k_id) {
+                    List bs_beta, double s2_delta, int k_id) {
   double out;
   NumericVector params(2);
   
@@ -157,9 +180,13 @@ double sample_delta_scalar(NumericVector y, NumericMatrix x, NumericMatrix group
   double sum_term4 = 0.0;
   for (int i = 0; i < y.size(); i++) {
     double term = 0.0;
-    for (int j = 0; j < x.ncol(); j++) {
-      for (int p = 0; p < beta.size(); p++) {
-        term += beta[p] * bs_beta(j, p) * x(i, j);
+    for (int k = 0; k < beta.nrow(); k++) {
+      NumericMatrix bs_beta_k = bs_beta[k];
+      NumericMatrix x_k = x[k];
+      for (int j = 0; j < x_k.ncol(); j++) {
+        for (int p = 0; p < beta.ncol(); p++) {
+          term += beta(k, p) * bs_beta_k(j, p) * x_k(i, j);
+        }
       }
     }
     sum_term += z(i, k_id) * term;
@@ -192,10 +219,10 @@ double sample_delta_scalar(NumericVector y, NumericMatrix x, NumericMatrix group
 }
 
 // [[Rcpp::export]]
-double sample_gamma_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
-                    NumericVector beta, List gamma, NumericVector delta,
+double sample_gamma_scalar(NumericVector y, List x, NumericMatrix groups,
+                    NumericMatrix beta, List gamma, NumericVector delta,
                     NumericMatrix z, double alpha, double sigma2,
-                    NumericMatrix bs_beta, NumericVector sigma2_gamma,
+                    List bs_beta, NumericVector sigma2_gamma,
                     int q_id, int G_id) {
   double out;
   NumericVector params(2);
@@ -209,9 +236,13 @@ double sample_gamma_scalar(NumericVector y, NumericMatrix x, NumericMatrix group
   for (int i = 0; i < y.size(); i++) {
     if (groups(i, q_id) == G_id) {
       double term = 0.0;
-      for (int j = 0; j < x.ncol(); j++) {
-        for (int p = 0; p < beta.size(); p++) {
-          term += beta[p] * bs_beta(j, p) * x(i, j);
+      for (int k = 0; k < beta.nrow(); k++) {
+        NumericMatrix bs_beta_k = bs_beta[k];
+        NumericMatrix x_k = x[k];
+        for (int j = 0; j < x_k.ncol(); j++) {
+          for (int p = 0; p < beta.ncol(); p++) {
+            term += beta(k, p) * bs_beta_k(j, p) * x_k(i, j);
+          }
         }
       }
       sum_term += 1;
@@ -245,10 +276,10 @@ double sample_gamma_scalar(NumericVector y, NumericMatrix x, NumericMatrix group
 }
 
 // [[Rcpp::export]]
-double sample_sigma2_scalar(NumericVector y, NumericMatrix x, NumericMatrix groups,
-                     NumericVector beta, List gamma, NumericVector delta,
+double sample_sigma2_scalar(NumericVector y, List x, NumericMatrix groups,
+                     NumericMatrix beta, List gamma, NumericVector delta,
                      NumericMatrix z, double alpha, double sigma2,
-                     NumericMatrix bs_beta, double phi1, double psi1) {
+                     List bs_beta, double phi1, double psi1) {
   double out;
   NumericVector params(2);
     
@@ -259,12 +290,16 @@ double sample_sigma2_scalar(NumericVector y, NumericMatrix x, NumericMatrix grou
   double sum_sq = 0;
   for (int i = 0; i < y.size(); i++) {
     double mu = alpha;
-    for (int j = 0; j < x.ncol(); j++) {
-      double mu_tmp = 0;
-      for (int jj = 0; jj < beta.size(); jj++) {
-        mu_tmp += bs_beta(j, jj) * beta[jj];
+    for (int k = 0; k < beta.nrow(); k++) {
+      NumericMatrix bs_beta_k = bs_beta[k];
+      NumericMatrix x_k = x[k];
+      for (int j = 0; j < x_k.ncol(); j++) {
+        double mu_tmp = 0;
+        for (int jj = 0; jj < beta.ncol(); jj++) {
+          mu_tmp += bs_beta_k(j, jj) * beta(k, jj);
+        }
+        mu += x_k(i, j) * mu_tmp;
       }
-      mu += x(i, j) * mu_tmp;
     }
     for (int k = 1; k < z.ncol(); k++) {
       mu += delta[k] * z(i, k);

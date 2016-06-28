@@ -6,12 +6,17 @@ updateBetasScalar <- function(y, x, z, groups, alpha, beta, gamma, delta, sigma2
                         z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta, s2_alpha=s2_alpha)
 
   # update betas
-  for (p in 1:length(beta)) {
-    beta[p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
-                           z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
-                           s2_beta=s2_beta, p_id=(p - 1))
+  for (k in 1:nrow(beta)) {
+    for (p in 1:ncol(beta)) {
+      beta[k, p] <- sample_beta_scalar(y = y, x = x, groups = groups,
+                                       beta = beta, gamma = gamma,
+                                       delta = delta, z = z, alpha = alpha,
+                                       sigma2 = sigma2, bs_beta = bs_beta,
+                                       s2_beta = s2_beta,
+                                       p_id = (p - 1), k_id = (k - 1))
+    }
   }
-  
+
   # update deltas
   for (k in 1:length(delta)) {
     delta[k] <- sample_delta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma,
@@ -56,10 +61,12 @@ updateBetasScalar2 <- function(y, x, z, groups, alpha, beta, gamma, delta, sigma
                         z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta, s2_alpha=s2_alpha)
   
   # update betas
-  for (p in 1:length(beta)) {
-    beta[p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
-                           z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
-                           s2_beta=s2_beta, p_id=(p - 1))
+  for (k in 1:nrow(beta)) {
+    for (p in 1:ncol(beta)) {
+      beta[k, p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
+                                       z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
+                                       s2_beta=s2_beta, p_id=(p - 1), k_id = (k - 1))
+    }
   }
   
   # update deltas
@@ -102,10 +109,12 @@ updateBetasScalar3 <- function(y, x, z, groups, alpha, beta, gamma, delta, sigma
                         z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta, s2_alpha=s2_alpha)
   
   # update betas
-  for (p in 1:length(beta)) {
-    beta[p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
-                           z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
-                           s2_beta=s2_beta, p_id=(p - 1))
+  for (k in 1:nrow(beta)) {
+    for (p in 1:ncol(beta)) {
+      beta[k, p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
+                             z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
+                             s2_beta=s2_beta, p_id=(p - 1), k_id = (k - 1))
+    }
   }
   
   # update deltas
@@ -150,10 +159,12 @@ updateBetasScalar4 <- function(y, x, z, groups, alpha, beta, gamma, delta, sigma
                         z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta, s2_alpha=s2_alpha)
   
   # update betas
-  for (p in 1:length(beta)) {
-    beta[p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
-                           z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
-                           s2_beta=s2_beta, p_id=(p - 1))
+  for (k in 1:nrow(beta)) {
+    for (p in 1:ncol(beta)) {
+      beta[k, p] <- sample_beta_scalar(y=y, x=x, groups=groups, beta=beta, gamma=gamma, delta=delta,
+                             z=z, alpha=alpha, sigma2=sigma2, bs_beta=bs_beta,
+                             s2_beta=s2_beta, p_id=(p - 1), k_id = (k - 1))
+    }
   }
   
   # update deltas
