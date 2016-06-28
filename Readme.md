@@ -26,14 +26,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## Overview
 FREE is a collection of R functions for fitting regression models where response and/or predictor variables are functions, rather than scalar quantities. The emphasis is on easy model fitting and straightforward interfaces, with a focus on ecological and evolutionary applications. All functions in FREE are written in R 3.1.2.
 
-The latest updates to the FREE package have introduced several new models. The FREE package now supports both function-valued response models and function-valued predictor models with one function-valued predictor variable. All new models are implemented using a purpose-built Gibbs sampler. All models now also accommodate clustering variables (similar to random intercepts in a mixed effects model), which can account for clustering of subjects in space or time (e.g., several responses measured on one individual or in one site).
+The latest updates to the FREE package have introduced several new models. The FREE package now supports both function-valued response models and function-valued predictor models with multiple function-valued predictor variables. All new models are implemented using a purpose-built Gibbs sampler. All models now also accommodate clustering variables (similar to random intercepts in a mixed effects model), which can account for clustering of subjects in space or time (e.g., several responses measured on one individual or in one site). Models with function-valued response variables now support unequally spaced observations, with correlated errors inversely proportional to the distance between any two observations.
 
 The latest version of the FREE package (FREElite) no longer includes the fda, gamboost, INLA, stan or BUGS methods. The old version of FREE, which includes these methods, is still available, but is no longer being tested or updated.  FREElite has many fewer dependencies than the full FREE package, and all models are fitted using the same Gibbs sampling approach. Updated plotting methods and outputs provide greater model flexibility, as well as easier model checking (e.g., using Gelman-Rubin statistics and log-likelihood traces).
 
 
 Created 13 February 2014
 
-Updated 15 October 2015
+Updated 28 June 2016
 
 *****
 
