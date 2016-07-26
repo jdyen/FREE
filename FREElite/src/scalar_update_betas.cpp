@@ -2,6 +2,9 @@
 #include <RcppArmadillo.h>
 
 using namespace Rcpp;
+using namespace arma;
+
+
 
 // function to update parameters for spline function regression model (scalar response)
 //
