@@ -5,7 +5,7 @@
 #include <Rcpp.h>
 
 using namespace Rcpp;
-using namespace RcppArmadillo;
+using namespace arma;
 
 // lnL_scalar
 double lnL_scalar(NumericVector y, List x, NumericMatrix groups, NumericMatrix beta, List gamma, NumericVector delta, NumericMatrix z, double alpha, double sigma2, List bs_beta);
