@@ -14,19 +14,19 @@ n, n_j, n_k, n_q, n_G_q, n_p, n_t, bin_id){
   
   for (q in 1:n_q) {
     gamma_tmp <- rep(0, n_t)
-    for (j in 1:(n_G_q[q] - 1)) {
-      for (i in 1:n_t) {
-        gamma[[q]][j, i] <- slice_sample_gamma(gamma[[q]][j, i], c(q, i, j),
-        y, x, groups, beta, gamma,
-        sigma2, rho, b_splines_mat, beta_hyper,
-        n, n_j, n_k, n_q, sigma2_gamma, bin_id)
+    if (n_G_q[q] > 1) {
+      for (j in 1:(n_G_q[q] - 1)) {
+        for (i in 1:n_t) {
+          gamma[[q]][j, i] <- slice_sample_gamma(gamma[[q]][j, i], c(q, i, j),
+                                                 y, x, groups, beta, gamma,
+                                                 sigma2, rho, b_splines_mat, beta_hyper,
+                                                 n, n_j, n_k, n_q, sigma2_gamma, bin_id)
+        }
+        gamma_tmp <- gamma_tmp + c((ginv(b_splines_mat) %*% b_splines_mat) %*% gamma[[q]][j, ])
       }
-      gamma_tmp <- gamma_tmp + c((ginv(b_splines_mat) %*% b_splines_mat) %*% gamma[[q]][j, ])
-      if (n_G_q[q] > 1) {
-        gamma[[q]][n_G_q[q], ] <- -c(gamma_tmp)
-      } else {
-        gamma[[q]][n_G_q[q], ] <- rep(0, n_t)
-      }
+      gamma[[q]][n_G_q[q], ] <- -c(gamma_tmp)
+    } else {
+      gamma[[q]][n_G_q[q], ] <- rep(0, n_t)
     }
   }
   
