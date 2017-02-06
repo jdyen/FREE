@@ -46,6 +46,9 @@ FREEspline <- function(y, x, groups, bins=NULL, degree=3, n_knots=5, n.iters=100
   } else {
     x <- as.matrix(cbind(rep(1, nrow(y)), x))
   }
+  if (is.null(groups)) {
+    groups <- matrix(rep(1, nrow(y)), ncol = 1)
+  }
   n <- nrow(y)
   n_j <- apply(y, 1, function(x) sum(!is.na(x)))
   n_k <- ncol(x)
@@ -58,7 +61,7 @@ FREEspline <- function(y, x, groups, bins=NULL, degree=3, n_knots=5, n.iters=100
   if (is.null(bins)) {
     bin_vals <- sapply(unique(n_j), function(x) seq(0, 1, length=x))
   } else {
-    bins_vals <- bins
+    bin_vals <- bins
   }
   all_bins <- sort(unique(round(unlist(bin_vals), 2)))
   bin_id <- vector("list", length=n)
