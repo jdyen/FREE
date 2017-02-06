@@ -21,7 +21,7 @@ n, n_j, n_q, bin_id) {
   for (i in 1:n) {
     out[i, 1:n_j[i]] <- x[i, ] %*% t(b_splines_mat[bin_id[[i]], ] %*% t(beta))
     for (q in 1:n_q) {
-      out[i, 1:n_j[i]] <- t(b_splines_mat[bin_id[[i]], ] %*% gamma[[q]][groups[i, q], ])
+      out[i, 1:n_j[i]] <- out[i, 1:n_j[i]] + t(b_splines_mat[bin_id[[i]], ] %*% gamma[[q]][groups[i, q], ])
     }
   }
   return(out)
