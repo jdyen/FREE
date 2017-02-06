@@ -46,9 +46,6 @@ FREEspline <- function(y, x, groups, bins=NULL, degree=3, n_knots=5, n.iters=100
   } else {
     x <- as.matrix(cbind(rep(1, nrow(y)), x))
   }
-  if (is.null(groups)) {
-    groups <- matrix(rep(1, nrow(y)), ncol = 1)
-  }
   n <- nrow(y)
   n_j <- apply(y, 1, function(x) sum(!is.na(x)))
   n_k <- ncol(x)

@@ -4,9 +4,11 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.iters=100, n.burnin=round(n.ite
 {
   if (is.matrix(y)) {
     if (is.null(bins)) {
-      bins <- 1:ncol(y)
+      bins_tmp <- 1:ncol(y)
+    } else {
+      bins_tmp <- bins
     }
-    if (ncol(y) != length(bins)) {
+    if (ncol(y) != length(bins_tmp)) {
       stop("response data y should have the same number of columns as there are bins",
            call.=FALSE)
     }
@@ -19,11 +21,12 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.iters=100, n.burnin=round(n.ite
       warning("matrix z is only used for scalar models", call.=FALSE)
     }
     if (is.null(groups)) {
+      groups <- matrix(sample(c(1), size = nrow(y), replace = TRUE), ncol = 1)
       model <- FREEspline(y=y, x=x, groups=groups, bins=bins, n.iters=n.iters,
                           n.burnin=n.burnin, n.chains=n.chains, par.run=par.run,
                           ...)
-      model$bins <- bins
-      model$method <- "FREEmixed"
+      model$bins <- bins_tmp
+      model$method <- "FREEfixed"
     } else {
       if (is.matrix(groups) | is.integer(groups) | is.numeric(groups)) {
         if (is.integer(groups)) {
