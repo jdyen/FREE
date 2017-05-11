@@ -48,9 +48,9 @@ if (!require(devtools)) {
   install.packages("devtools")
 }
 # install the current version of FREE
-devtools::install_github("jdyen/FREE/FREE")
+devtools::install_github("jdyen/FREE")
 # alternative; use if you want to use the old version of the FREE package
-#devtools::install_github("jdyen/FREE/FREE", ref = 'original')
+#devtools::install_github("jdyen/FREE", ref = 'original')
 ```
 
 NOTE: If you use the old version of FREE, you will need to install the INLA package, which is not available through the CRAN. See the [INLA](http://www.r-inla.org) website for details. If you wish to use the WinBUGS methods in the old version of FREE you will need to install WinBUGS 1.4 and the jump add-in. See the [WinBUGS](http://www2.mrc-bsu.cam.ac.uk/bugs/) and [rjMCMC](http://www.winbugs-development.org.uk/rjmcmc.html) websites for details. WinBUGS does not install easily on non-Windows operating systems. Note that installing WinBUGS is not necessary to install the FREE package or to use other methods within the FREE package.
