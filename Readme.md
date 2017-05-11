@@ -67,8 +67,8 @@ The `FREEfit` and `FREEfitCV` functions should determine automatically whether t
 Mathematical and statistical details for function regression models are discussed in:
 Yen JDL, et al. (2015) Function regression in ecology and evolution. Methods in Ecology and Evolution, 6:17-26.
 
-Several applications of FREE to ecological data are:
-Yen JDL, et al. (2017) Balancing generality and specificity in ecological gradient analysis with species abundance distributions and individual size distributions. Global Ecology and Biogeography, 26:318–332.
+Several applications of FREE to ecological data are:   
+Yen JDL, et al. (2017) Balancing generality and specificity in ecological gradient analysis with species abundance distributions and individual size distributions. Global Ecology and Biogeography, 26:318–332.   
 Yen JDL, et al. (2017) How do different aspects of biodiversity change through time? A case study on an Australian bird community. Ecography, 40:642–650.
 
 Models fitted using `FREEfit` are of class FREEfit and have several S3 methods available: `print`, `summary`, `plot`, `coef`, `predict`, `fitted` and `residuals`. Models fitted using `FREEfitCV` are of class FREEfitCV and have several S3 methods available: `print`, `summary`, `plot` and `residuals`. There is also a `plotPretty` function, which displays cleaner plots of fitted model coefficients.
