@@ -253,7 +253,6 @@ splineScalarInternal3 <- function(chain, y, x, z, groups, degree, n_knots, n.ite
     for (q in 1:n_q) {
       gamma[[q]] <- rnorm(n_G_q[q] - 1)
       gamma[[q]] <- c(gamma[[q]], -sum(gamma[[q]][1:(n_G_q[q] - 1)]))
-      fp.sd.store[q, current_iter] <- sd(gamma[[q]])
     }
   }
   delta <- rep(0, n_k)
