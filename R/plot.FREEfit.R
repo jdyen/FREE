@@ -45,7 +45,11 @@ function(x, ...){
       y.max <- max(vals$mean[i, ], na.rm = TRUE)
     }
     if (x$method == "scalar") {
-      bins_tmp <- x$bins[[i]]
+      if (is.list(x$bins)) {
+        bins_tmp <- x$bins[[i]]
+      } else {
+        bins_tmp <- x$bins
+      }
     } else {
       bins_tmp <- x$bins
     }
