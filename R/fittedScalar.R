@@ -32,7 +32,6 @@ fitted_scalar_cv <- function(x, z, beta, delta, bs_beta) {
     }
   } else {
     fit_length <- ifelse(length(delta) > 1, nrow(z), length(z))
-    print(fit_length)
     fitted <- rep(0, fit_length)
   }
   if (length(delta) > 1) {
