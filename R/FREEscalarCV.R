@@ -5,12 +5,12 @@ FREEscalarCV <- function(n.cv=10, y, x, z, groups, bins,
                                      s2_beta=10, s2_delta=10),
                          inits=list(alpha=NULL, beta=NULL, gamma=NULL, delta=NULL,
                                     sigma2=1, sigma2_gamma=1),
-                         par.run=FALSE, verbose=TRUE, ...)
-{
+                         par.run=FALSE, verbose=TRUE, ...) {
   pred <- NULL
   n.out <- floor(length(y) / n.cv)
-  theta <- seq(5, max(sapply(x, ncol)) - 4, length=n_knots - degree)
+  print(x)
   if (!is.null(x)) {
+    theta <- seq(5, max(sapply(x, ncol)) - 4, length=n_knots - degree)
     bs_beta <- vector('list', length = length(x))
     for (k in seq(along = x)) {
       bs_beta[[k]] <- calc_bs(1:ncol(x[[k]]), theta, degree, c(0, ncol(x[[k]]) + 1))
@@ -36,13 +36,18 @@ FREEscalarCV <- function(n.cv=10, y, x, z, groups, bins,
     for (j in 1:ncol(groups)) {
       groups.use[, j] <- as.integer(as.factor(groups[-subset, j]))
     }
-    x.use <- vector('list', length = length(x))
-    for (k in seq(along = x)) {
-      x.use[[k]] <- x[[k]][-subset, ]
-    }
-    x.pred <- vector('list', length = length(x))
-    for (k in seq(along = x)) {
-      x.pred[[k]] <- x[[k]][subset, ]
+    if (!is.null(x)) {
+      x.use <- vector('list', length = length(x))
+      for (k in seq(along = x)) {
+        x.use[[k]] <- x[[k]][-subset, ]
+      }
+      x.pred <- vector('list', length = length(x))
+      for (k in seq(along = x)) {
+        x.pred[[k]] <- x[[k]][subset, ]
+      }
+    } else {
+      x.use <- NULL
+      x.pred <- NULL
     }
     mod <- FREEscalar(y=y[-subset], x=x.use, z=z[-subset, ],
                       groups=groups.use, bins=bins,
