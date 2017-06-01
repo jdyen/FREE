@@ -33,28 +33,55 @@
 #                            sigma2 and sigma2_gamma. These values are NOT checked prior to
 #                            model fitting.
 
-FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
-                       n.burnin=round(n.iters / 5), n.thin=1, n.chains=3,
-                       hypers=list(phi1=0.1, psi1=0.1, phi2=0.1, psi2=0.1, s2_alpha=10,
-                                   s2_beta=10, s2_delta=10),
-                       inits=list(alpha=NULL, beta=NULL, gamma=NULL, delta=NULL,
-                                  sigma2=1, sigma2_gamma=1),
-                       par.run=FALSE)
+FREEscalar <- function(y,
+                       x,
+                       z,
+                       groups,
+                       bins,
+                       degree = 3,
+                       n_knots = 8,
+                       n.iters = 1000,
+                       n.burnin = round(n.iters / 5),
+                       n.thin = 1,
+                       n.chains = 3,
+                       hypers = list(phi1 = 0.1, psi1 = 0.1,
+                                     phi2 = 0.1, psi2 = 0.1,
+                                     s2_alpha = 10,
+                                     s2_beta = 10,
+                                     s2_delta = 10),
+                       inits = list(alpha = NULL, beta = NULL,
+                                    gamma = NULL, delta = NULL,
+                                    sigma2 = 1, sigma2_gamma = 1),
+                       par.run = FALSE)
 {
   # data prep
   n <- length(y)
   mod.type <- 1
   if (is.null(z)) {
+    if (is.null(x)) {
+      stop("at least one of x or z must be provided to FREEscalar",
+           call. = FALSE)
+    }
     mod.type <- 3
-    z <- matrix(rnorm(2 * n), ncol=2)
+    z <- matrix(rnorm(2 * n), ncol = 2)
+  }
+  if (is.null(x)) {
+    x <- vector('list', length = 1)
+    x[[1]] <- matrix(rnorm((5 * n)), ncol = 5)
+    bins <- vector('list', length = length(x))
+    for (i in seq(along = x)) {
+      bins[[i]] <- 1:ncol(x[[i]])
+    }
+    mod.type <- 5
   }
   if (is.null(groups)) {
     mod.type <- mod.type + 1
-    groups <- matrix(sample(1:4, size=(2 * n), replace=TRUE), ncol=2)
-  }  
+    groups <- matrix(sample(1:4, size = (2 * n), replace = TRUE),
+                     ncol = 2)
+  }
   groups <- groups - 1
   if (is.null(ncol(z))) {
-    z <- matrix(z, ncol=1)
+    z <- matrix(z, ncol = 1)
   }
   n_k <- ncol(z)
   n_q <- ncol(groups)
@@ -78,73 +105,98 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
                        splineScalarInternal,
                        splineScalarInternal2,
                        splineScalarInternal3,
-                       splineScalarInternal4)
+                       splineScalarInternal4,
+                       splineScalarInternal5,
+                       splineScalarInternal6)
   if ((Sys.info()["sysname"] == "Darwin") & (par.run)) {
-    mod <- mclapply(1:n.chains, spline_mod, y, x, z,
-                    groups, degree, n_knots,
-                    n.iters, n.burnin, n.thin, inits, n, n_q, n_G_q, n_k,
-                    grid, endpoints, phi1, psi1, phi2, psi2, s2_alpha,
-                    s2_beta, s2_delta,
-                    mc.cores=ifelse(n.chains < 4, n.chains, 4))
+    mod <- mclapply(1:n.chains,
+                    spline_mod,
+                    y, x, z,
+                    groups,
+                    degree, n_knots,
+                    n.iters, n.burnin, n.thin,
+                    inits,
+                    n, n_q, n_G_q, n_k,
+                    grid, endpoints,
+                    phi1, psi1, phi2, psi2,
+                    s2_alpha, s2_beta, s2_delta,
+                    mc.cores = ifelse(n.chains < 4, n.chains, 4))
   } else {
-    mod <- lapply(1:n.chains, spline_mod, y, x, z,
-                  groups, degree, n_knots,
-                  n.iters, n.burnin, n.thin, inits, n, n_q, n_G_q, n_k,
-                  grid, endpoints, phi1, psi1, phi2, psi2, s2_alpha,
-                  s2_beta, s2_delta)
+    mod <- lapply(1:n.chains,
+                  spline_mod,
+                  y, x, z,
+                  groups,
+                  degree, n_knots,
+                  n.iters, n.burnin, n.thin,
+                  inits,
+                  n, n_q, n_G_q, n_k,
+                  grid, endpoints,
+                  phi1, psi1, phi2, psi2,
+                  s2_alpha, s2_beta, s2_delta)
   }
   
   # summarise all outputs from all chains
   n.keep <- ncol(mod[[1]][[1]])
   fitted.mean <- apply(array(unlist(lapply(mod, function(x) x[[1]])),
-                             dim=c(nrow(mod[[1]][[1]]), n.keep, n.chains)),
+                             dim = c(nrow(mod[[1]][[1]]), n.keep, n.chains)),
                        1, mean)
   fitted.sd <- apply(array(unlist(lapply(mod, function(x) x[[1]])),
-                           dim=c(nrow(mod[[1]][[1]]), n.keep, n.chains)),
+                           dim = c(nrow(mod[[1]][[1]]), n.keep, n.chains)),
                      1, sd)
   coefs.mean <- apply(array(unlist(lapply(mod, function(x) x[[2]])),
-                            dim=c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]), n.keep, n.chains)),
+                            dim = c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]),
+                                    n.keep, n.chains)),
                       c(1, 2), mean)
   coefs.sd <- apply(array(unlist(lapply(mod, function(x) x[[2]])),
-                          dim=c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]), n.keep, n.chains)),
+                          dim = c(nrow(mod[[1]][[2]]), ncol(mod[[1]][[2]]),
+                                  n.keep, n.chains)),
                     c(1, 2), sd)
-  gamma.mean <- vector("list", length=n_q)
-  gamma.sd <- vector("list", length=n_q)
+  gamma.mean <- vector("list", length = n_q)
+  gamma.sd <- vector("list", length = n_q)
   for (q in 1:n_q) {
     gamma.mean[[q]] <- apply(array(unlist(lapply(mod, function(x) x[[4]][[q]])),
-                                         dim=c(nrow(mod[[1]][[4]][[q]]), n.keep, n.chains)),
-                                   1, mean)
+                                   dim = c(nrow(mod[[1]][[4]][[q]]),
+                                           n.keep, n.chains)),
+                             1, mean)
     gamma.sd[[q]] <- apply(array(unlist(lapply(mod, function(x) x[[4]][[q]])),
-                                       dim=c(nrow(mod[[1]][[4]][[q]]), n.keep, n.chains)),
-                                 1, sd)
+                                 dim = c(nrow(mod[[1]][[4]][[q]]),
+                                         n.keep, n.chains)),
+                           1, sd)
   }
   sigma2.mean <- mean(unlist(lapply(mod, function(x) x$sigma2)))
   sigma2.sd <- sd(unlist(lapply(mod, function(x) x$sigma2)))
   alpha.mean <- mean(unlist(lapply(mod, function(x) x$alpha)))
   alpha.sd <- sd(unlist(lapply(mod, function(x) x$alpha)))
   beta.mean <- apply(array(unlist(lapply(mod, function(x) x$beta)),
-                                dim=c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta), n.keep, n.chains)),
-                          c(1, 2), mean)
+                           dim = c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta),
+                                   n.keep, n.chains)),
+                     c(1, 2), mean)
   beta.sd <- apply(array(unlist(lapply(mod, function(x) x$beta)),
-                              dim=c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta), n.keep, n.chains)),
-                        c(1, 2), sd)
+                         dim = c(nrow(mod[[1]]$beta), ncol(mod[[1]]$beta),
+                                 n.keep, n.chains)),
+                   c(1, 2), sd)
   delta.mean <- apply(array(unlist(lapply(mod, function(x) x$delta)),
-                            dim=c(nrow(mod[[1]]$delta), n.keep, n.chains)),
+                            dim = c(nrow(mod[[1]]$delta),
+                                    n.keep, n.chains)),
                       1, mean)
   delta.sd <- apply(array(unlist(lapply(mod, function(x) x$delta)),
-                          dim=c(nrow(mod[[1]]$delta), n.keep, n.chains)),
+                          dim = c(nrow(mod[[1]]$delta), n.keep, n.chains)),
                     1, sd)
   fp.sd.mean <- apply(array(unlist(lapply(mod, function(x) x$fp.sd.store)),
-                            dim=c(nrow(mod[[1]]$fp.sd.store), n.keep, n.chains)),
+                            dim = c(nrow(mod[[1]]$fp.sd.store),
+                                    n.keep, n.chains)),
                       1, mean)
   fp.sd.sd <- apply(array(unlist(lapply(mod, function(x) x$fp.sd.store)),
-                          dim=c(nrow(mod[[1]]$fp.sd.store), n.keep, n.chains)),
+                          dim = c(nrow(mod[[1]]$fp.sd.store),
+                                  n.keep, n.chains)),
                     1, sd)
   sigma2_gamma.mean <- apply(array(unlist(lapply(mod, function(x) x$sigma2_gamma)),
-                                   dim=c(nrow(mod[[1]]$sigma2_gamma), n.keep, n.chains)),
+                                   dim = c(nrow(mod[[1]]$sigma2_gamma),
+                                           n.keep, n.chains)),
                              1, mean)
   sigma2_gamma.sd <- apply(array(unlist(lapply(mod, function(x) x$sigma2_gamma)),
-                                 dim=c(nrow(mod[[1]]$sigma2_gamma), n.keep, n.chains)),
+                                 dim = c(nrow(mod[[1]]$sigma2_gamma),
+                                         n.keep, n.chains)),
                            1, sd)
   llik_all <- lapply(mod, function(x) x$llik_all)
   gamma_all <- lapply(mod, function(x) x$gamma_all)
@@ -154,14 +206,24 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
   
   # summarise all outputs from each chain
   if (n.chains > 1) {
-    coefs.chain.var <- apply(array(unlist(lapply(mod, function(x) apply(x$coefs, c(1, 2), var))),
-                                   dim=c(nrow(mod[[1]]$coefs), ncol(mod[[1]]$coefs), n.chains)),
+    coefs.chain.var <- apply(array(unlist(lapply(mod,
+                                                 function(x) apply(x$coefs,
+                                                                   c(1, 2),
+                                                                   var))),
+                                   dim = c(nrow(mod[[1]]$coefs),
+                                           ncol(mod[[1]]$coefs),
+                                           n.chains)),
                              c(1, 2), mean)
-    gamma.chain.var <- vector("list", length=n_q)
-    coefs.chain.var2 <- n.iters * apply(array(unlist(lapply(mod, function(x) apply(x$coefs, c(1, 2), mean))),
-                                             dim=c(nrow(mod[[1]]$coefs), ncol(mod[[1]]$coefs), n.chains)),
-                                       c(1, 2), var)
-    gamma.chain.var2 <- vector("list", length=n_q)
+    gamma.chain.var <- vector("list", length = n_q)
+    coefs.chain.var2 <- n.iters * apply(array(unlist(lapply(mod,
+                                                            function(x) apply(x$coefs,
+                                                                              c(1, 2),
+                                                                              mean))),
+                                              dim = c(nrow(mod[[1]]$coefs),
+                                                      ncol(mod[[1]]$coefs),
+                                                      n.chains)),
+                                        c(1, 2), var)
+    gamma.chain.var2 <- vector("list", length = n_q)
     for (q in 1:n_q) {
       gamma.chain.var[[q]] <- apply(array(unlist(lapply(mod, function(x) apply(x$gamma[[q]], 1, var))),
                                           dim=c(nrow(mod[[1]]$gamma[[q]]), n.chains)),
@@ -268,17 +330,45 @@ FREEscalar <- function(y, x, z, groups, bins, degree=3, n_knots=8, n.iters=1000,
     delta.mean <- NULL
     delta.sd <- NULL
   }
-  r2 <- cor(c(fitted.mean), c(y)) * cor(c(fitted.mean), c(y), use="complete")
-  return(list(fitted=fitted.mean, fitted.sd=fitted.sd, observed=y,
-              coefs.mean=coefs.mean, coefs.sd=coefs.sd,
-              r2=r2, family=family, DIC=DIC, rhats=rhats,
-              sigma2.mean=sigma2.mean, sigma2.sd=sigma2.sd,
-              sigma2_gamma.mean=sigma2_gamma.mean, 
-              sigma2_gamma.sd=sigma2_gamma.sd,
-              alpha.mean=alpha.mean, alpha.sd=alpha.sd,
-              beta.mean=beta.mean, beta.sd=beta.sd,
-              gamma.mean=gamma.mean, gamma.sd=gamma.sd,
-              delta.mean=delta.mean, delta.sd=delta.sd,
-              llik_all=llik_all, fp.sd.mean=fp.sd.mean,
-              fp.sd.sd=fp.sd.sd))
+  if (mod.type == 5) {
+    # groups and z but no x
+    beta.mean <- NULL
+    beta.sd <- NULL
+    coefs.mean <- NULL
+    coefs.sd <- NULL
+  }
+  if (mod.type == 6) {
+    # no x and no groups
+    gamma.mean <- NULL
+    gamma.sd <- NULL
+    sigma2_gamma.mean <- NULL
+    sigma2_gamma.sd <- NULL
+    fp.sd.mean <- NULL
+    fp.sd.sd <- NULL
+    beta.mean <- NULL
+    beta.sd <- NULL
+    coefs.mean <- NULL
+    coefs.sd <- NULL
+  }
+  r2 <- cor(c(fitted.mean), c(y)) * cor(c(fitted.mean), c(y), use = "complete")
+  return(list(fitted = fitted.mean, fitted.sd = fitted.sd,
+              observed = y,
+              coefs.mean = coefs.mean,
+              coefs.sd = coefs.sd,
+              r2 = r2, family = family,
+              DIC = DIC, rhats = rhats,
+              sigma2.mean = sigma2.mean,
+              sigma2.sd = sigma2.sd,
+              sigma2_gamma.mean = sigma2_gamma.mean, 
+              sigma2_gamma.sd = sigma2_gamma.sd,
+              alpha.mean = alpha.mean,
+              alpha.sd = alpha.sd,
+              beta.mean = beta.mean,
+              beta.sd = beta.sd,
+              gamma.mean = gamma.mean,
+              gamma.sd = gamma.sd,
+              delta.mean = delta.mean,
+              delta.sd = delta.sd,
+              llik_all = llik_all, fp.sd.mean = fp.sd.mean,
+              fp.sd.sd = fp.sd.sd))
 }
