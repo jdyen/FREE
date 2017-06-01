@@ -8,7 +8,6 @@ FREEscalarCV <- function(n.cv=10, y, x, z, groups, bins,
                          par.run=FALSE, verbose=TRUE, ...) {
   pred <- NULL
   n.out <- floor(length(y) / n.cv)
-  print(x)
   if (!is.null(x)) {
     theta <- seq(5, max(sapply(x, ncol)) - 4, length=n_knots - degree)
     bs_beta <- vector('list', length = length(x))
