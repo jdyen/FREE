@@ -25,6 +25,10 @@ coefs_calc_scalar <- function(beta, theta, degree, grid, endpoints) {
 }
 
 fitted_scalar_cv <- function(x, z, beta, delta, bs_beta) {
+  print(x)
+  print(z)
+  print(beta)
+  print(delta)
   if (!is.null(bs_beta)) {
     fitted <- rep(0, nrow(x[[1]]))
     for (i in 1:length(x)) {
