@@ -44,18 +44,23 @@ function(y, x, bins=NULL, groups=NULL, z=NULL, n.cv=10, verbose=TRUE, n.iters=10
   	}
   } else {
     if (is.numeric(y)) {
-      if (is.null(bins)) {
-       bins <- vector('list', length = length(x))
+      if (is.null(bins) & !is.null(x)) {
+        bins <- vector('list', length = length(x))
         for (i in seq(along = x)) {
           bins[[i]] <- 1:ncol(x[[i]])
         }
+      } else {
+        bins <- NULL
       }
-      if (!all(sapply(x, is.matrix))) {
-        stop("the predictor data should be a matrix with one row for each site", call.=FALSE)
-      }
-      if (!all(sapply(x, nrow) == length(y))) {
-        stop("response and predictor data should have one row/observation for each site",
-             call.=FALSE)
+      if (!is.null(x)) {
+        if (!all(sapply(x, is.matrix))) {
+          stop("the predictor data should all be matrices with one row for each site",
+               call. = FALSE)
+        }
+        if (!all(sapply(x, nrow) == length(y))) {
+          stop("response and predictor data should have one row/observation for each site",
+               call. = FALSE)
+        }
       }
       if (is.null(z)) {
         z <- matrix(0, nrow = length(y), ncol = 2)

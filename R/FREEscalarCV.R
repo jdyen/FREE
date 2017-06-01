@@ -10,9 +10,13 @@ FREEscalarCV <- function(n.cv=10, y, x, z, groups, bins,
   pred <- NULL
   n.out <- floor(length(y) / n.cv)
   theta <- seq(5, max(sapply(x, ncol)) - 4, length=n_knots - degree)
-  bs_beta <- vector('list', length = length(x))
-  for (k in seq(along = x)) {
-    bs_beta[[k]] <- calc_bs(1:ncol(x[[k]]), theta, degree, c(0, ncol(x[[k]]) + 1))
+  if (!is.null(x)) {
+    bs_beta <- vector('list', length = length(x))
+    for (k in seq(along = x)) {
+      bs_beta[[k]] <- calc_bs(1:ncol(x[[k]]), theta, degree, c(0, ncol(x[[k]]) + 1))
+    }
+  } else {
+    bs_beta <- NULL
   }
   for (i in 1:n.cv) {
     if (verbose) {

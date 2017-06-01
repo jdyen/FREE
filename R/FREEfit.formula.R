@@ -14,7 +14,7 @@ FREEfit.formula <- function(formula,
          call. = FALSE)
   }
   x <- model.matrix(attr(mf, "terms"), data = mf)
-  if (length(grep("Intercept", colnames(x))) == 1) {
+  if ((length(grep("Intercept", colnames(x))) == 1) & (ncol(x) > 1)) {
      x <- x[, -1]
   } else {
     x <- x
@@ -41,7 +41,7 @@ FREEfit.formula <- function(formula,
   } else {
     if (is.numeric(model.response(mf))) {
       y <- model.response(mf)
-      if (length(names(mf) > 1)) {
+      if (length(names(mf)) > 1) {
         x.use <- vector('list', length = (length(names(mf)) - 1))
         for (i in 2:length(names(mf))) {
           x.use[[i - 1]] <- as.matrix(mf[names(mf)[i]])
