@@ -33,7 +33,7 @@ The latest version of the FREE package no longer includes the fda, gamboost, INL
 
 Created 13 February 2014
 
-Updated 11 May 2017
+Updated 12 March 2018
 
 *****
 
@@ -70,6 +70,7 @@ Yen JDL, et al. (2015) Function regression in ecology and evolution. Methods in 
 Several applications of FREE to ecological data are:   
 Yen JDL, et al. (2017) Balancing generality and specificity in ecological gradient analysis with species abundance distributions and individual size distributions. Global Ecology and Biogeography, 26:318–332.   
 Yen JDL, et al. (2017) How do different aspects of biodiversity change through time? A case study on an Australian bird community. Ecography, 40:642–650.
+Yen JDL, et al. (in press) Linking species richness and size diversity in birds and fishes. Ecography, DOI: 10.1111/ecog.03582.
 
 Models fitted using `FREEfit` are of class FREEfit and have several S3 methods available: `print`, `summary`, `plot`, `coef`, `predict`, `fitted` and `residuals`. Models fitted using `FREEfitCV` are of class FREEfitCV and have several S3 methods available: `print`, `summary`, `plot` and `residuals`. There is also a `plotPretty` function, which displays cleaner plots of fitted model coefficients.
 
