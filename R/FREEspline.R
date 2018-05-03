@@ -79,7 +79,7 @@ FREEspline <- function(y, x, groups, bins=NULL, degree=3, n_knots=5, n.iters=100
   y <- ifelse(is.na(y), 0, y)
   
   # run through each chain
-  if ((Sys.info()["sysname"] == "Darwin") & (par.run)) {
+  if ((Sys.info()["sysname"] != "Windows") & (par.run)) {
     mod <- mclapply(1:n.chains, splineSliceInternal, y, x, groups, all_bins, degree, n_knots,
                     n.iters, n.burnin, n.thin, inits, n, n_j, n_k, n_p, n_q,
                     n_G_q, n_t, grid, endpoints, sigma2_hyper_a, sigma2_hyper_b,
