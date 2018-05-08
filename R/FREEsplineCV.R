@@ -12,7 +12,7 @@ FREEsplineCV <- function(n.cv, y, x, groups, bins, degree=3, n_knots=5,
     }
     mod[[i]] <- cv_inner(i, n.cv=n.cv, y=y, x=x,
                          groups=groups, bins=bins, degree=degree,
-                         n_knots_beta=n_knots_beta, n_knots_gamma=n_knots_gamma,
+                         n_knots=n_knots,
                          n.iters=n.iters, n.chains=n.chains, n.thin=n.thin,
                          n.burnin=n.burnin, par.run=par.run,
                          hypers=hypers, ...)
