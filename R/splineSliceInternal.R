@@ -51,8 +51,6 @@ bin_id)
   } else {
     sigma2_gamma <- rep(inits$sigma2_gamma, n_q)
   }
-  
-  print(bin_id)
 
   llik_init <- lnL(y, x, groups, beta, gamma,
   sigma2, rho, b_splines_mat,

@@ -46,7 +46,7 @@ cv_inner <- function(i, n.cv, y, x, groups, bins, degree=3, n_knots=5,
   } else {
     groups.use <- NULL
   }
-  mod <- FREEspline(y=y.use, x=x.use, groups=groups.use, bins=bins, degree=degree,
+  mod <- FREEspline(y=y.use, x=x.use, groups=groups.use, bins=NULL, degree=degree,
                     n_knots=n_knots,
                     n.iters=n.iters, n.burnin=n.burnin, n.thin=n.thin,
                     n.chains=n.chains,
